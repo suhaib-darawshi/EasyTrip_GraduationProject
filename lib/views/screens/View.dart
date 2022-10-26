@@ -1,3 +1,4 @@
+import 'package:demo/views/widgets/MostPopular.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/travelBlog.dart';
@@ -56,7 +57,7 @@ class HomeView extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(child: Placeholder(), flex: 1)
+          Expanded(child: MostPopular(), flex: 1)
         ],
       ),
     );
