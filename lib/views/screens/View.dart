@@ -1,4 +1,5 @@
 import 'package:demo/views/widgets/MostPopular.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/travelBlog.dart';
@@ -18,14 +19,16 @@ class HomeView extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-          )
-        ],
+            IconButton(
+                onPressed: (() {
+                  if (context.locale == Locale('en')) {
+                    context.setLocale(Locale('ar'));
+                  } else {
+                    context.setLocale(Locale('en'));
+                  }
+                }),
+                icon: Icon(Icons.language))
+          ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
