@@ -1,4 +1,4 @@
-import 'package:demo/date_repo/data_provider.dart';
+import 'package:demo/provider/app_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,10 @@ class LoginScreen extends StatelessWidget {
                   context.setLocale(Locale('en'));
                 }
               }),
-              icon: Icon(Icons.language))
+              icon: const Icon(
+                Icons.language,
+                color: Colors.blue,
+              ))
         ],
         backgroundColor: Colors.white,
         elevation: 0,
@@ -29,80 +32,76 @@ class LoginScreen extends StatelessWidget {
       body: Consumer<AppProvider>(
         builder: (context, provider, child) {
           return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
                     width: 300.w,
+                    height: MediaQuery.of(context).size.height/2,
                     alignment: Alignment.center,
                     child: Image.asset(
                       'assets/imgs/demologo.PNG',
                       fit: BoxFit.fitWidth,
                     ),
                   ),
-                ),
-                Expanded(
-                    child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.person_rounded,
-                            color: Colors.black,
-                          ),
-                          labelText: "Email".tr(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.person_rounded,
+                          color: Colors.black,
                         ),
-                        controller: provider.emailController,
+                        labelText: "Email".tr(),
                       ),
+                      controller: provider.emailController,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          icon: Icon(
-                            Icons.lock_open,
-                            color: Colors.black,
-                          ),
-                          labelText: "Password".tr(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.lock_open,
+                          color: Colors.black,
                         ),
-                        controller: provider.passwordController,
+                        labelText: "Password".tr(),
                       ),
+                      controller: provider.passwordController,
                     ),
-                    ElevatedButton(
-                        onPressed: () {
-                          int t = provider.logIn();
-                          if (t == 1) {
-                            Navigator.of(context).pushReplacementNamed('Home');
-                          } else {
-                            showDialog(
+                  ),
+                  ElevatedButton(
+                      onPressed: () async {
+                        String resp = await provider.logIn();
+                        if (resp == "ACCESSED") {
+                          Navigator.of(context).pushReplacementNamed("Home");
+                        } else {
+                          provider.clearTextFields();
+                          showDialog(
                               context: context,
                               builder: (context) {
-                                return AlertD();
-                              },
-                            );
-                          }
-                        },
-                        child: Text("Sign_in".tr())),
-                    Row(
-                      children: [
-                        Text("Dont_have_an_account_?".tr()),
-                        SizedBox(
-                          width: 20.w,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed("sign_up");
-                            },
-                            child: Text("Sign_Up".tr()))
-                      ],
-                    )
-                  ],
-                ))
-              ],
+                                return AlertD(resp);
+                              });
+                        }
+                      },
+                      child: Text("Sign_in".tr())),
+                  Row(
+                    children: [
+                      Text("Dont_have_an_account_?".tr()),
+                      SizedBox(
+                        width: 20.w,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("sign_up");
+                          },
+                          child: Text("Sign_Up".tr()))
+                    ],
+                  )
+                ],
+              ),
             ),
           );
         },

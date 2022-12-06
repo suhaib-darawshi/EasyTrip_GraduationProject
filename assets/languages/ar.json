@@ -3,5 +3,11 @@
     "Password":"الرقم السري",
     "Email":"البريد الالكتروني",
     "Dont_have_an_account_?":"لا تمتلك حسابا ؟",
-    "Sign_Up":"سجل الان"
+    "Sign_Up":"سجل الان",
+    "Travel_Blog":"قائمة الرحلات",
+    "Most_Popular":"الرحلات الشائعة",
+    "View_All":"عرض الكل",
+    "First_Name":"الاسم الاول",
+    "Last_Name":"اسم العائلة",
+    "Phone_Number":"رقم الهاتف"
 }

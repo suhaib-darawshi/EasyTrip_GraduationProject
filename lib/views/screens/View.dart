@@ -1,6 +1,7 @@
 import 'package:demo/views/widgets/MostPopular.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/travelBlog.dart';
 
@@ -27,17 +28,17 @@ class HomeView extends StatelessWidget {
                     context.setLocale(Locale('en'));
                   }
                 }),
-                icon: Icon(Icons.language))
+                icon: const Icon(Icons.language,color: Colors.blue,))
           ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 15),
+            padding:  EdgeInsets.only(left: 15.h),
             child: Text(
-              "Travel Blog",
-              style: TextStyle(fontSize: 36),
+              "Travel_Blog".tr(),
+              style: TextStyle(fontSize: 36.h),
             ),
           ),
           Expanded(
@@ -45,22 +46,22 @@ class HomeView extends StatelessWidget {
             flex: 2,
           ),
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding:  EdgeInsets.all(15.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Most Popular",
-                  style: TextStyle(fontSize: 20),
+                  "Most_Popular".tr(),
+                  style: TextStyle(fontSize: 20.h),
                 ),
                 Text(
-                  "View All",
-                  style: TextStyle(fontSize: 16, color: Colors.deepOrange),
+                  "View_All".tr(),
+                  style: TextStyle(fontSize: 16.h, color: Colors.deepOrange),
                 )
               ],
             ),
           ),
-          Expanded(child: MostPopular(), flex: 1)
+          Expanded(flex: 1, child: MostPopular())
         ],
       ),
     );

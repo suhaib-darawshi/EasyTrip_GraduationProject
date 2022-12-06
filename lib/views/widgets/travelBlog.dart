@@ -1,33 +1,38 @@
 import 'package:demo/views/screens/DetailPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/trip.dart';
+import '../../provider/app_provider.dart';
 
 class TravelBlog extends StatelessWidget {
-  final List<Trip> l = Trip.generateTrips;
   final pageController = PageController(viewportFraction: 0.9);
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
       controller: pageController,
-      itemCount: l.length,
+      itemCount: Provider.of<AppProvider>(context).defaultTrips.length,
       itemBuilder: (context, index) {
-        var t = l[index];
+        Trip t = Provider.of<AppProvider>(context, listen: false)
+            .defaultTrips[index];
         return InkWell(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return DetailPage(trip: t,);
+              return DetailPage(
+                trip: t,
+              );
             }));
           },
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 20, right: 20, top: 10),
+                padding: EdgeInsets.only(bottom: 20.h, right: 20.w, top: 10.h),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: Image.asset(
-                    t.url,
+                  child: Image.network(
+                    "http://10.0.2.2:8083/${t.url}",
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -35,8 +40,8 @@ class TravelBlog extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: 80,
-                left: 15,
+                bottom: 80.h,
+                left: 15.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -45,7 +50,7 @@ class TravelBlog extends StatelessWidget {
                       child: Text(
                         t.location,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                            fontWeight: FontWeight.bold, fontSize: 20.h),
                       ),
                     ),
                     Material(
@@ -53,7 +58,7 @@ class TravelBlog extends StatelessWidget {
                       child: Text(
                         t.name,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
+                            fontWeight: FontWeight.bold, fontSize: 30.h),
                       ),
                     )
                   ],
@@ -61,18 +66,18 @@ class TravelBlog extends StatelessWidget {
               ),
               Positioned(
                 bottom: 0,
-                right: 30,
+                right: 30.w,
                 child: Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.w,
+                  height: 60.h,
                   decoration: BoxDecoration(
                     color: Colors.deepOrange,
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(30.h),
                   ),
                   child: Icon(
                     Icons.arrow_forward,
                     color: Colors.white,
-                    size: 30,
+                    size: 30.h,
                   ),
                 ),
               )
