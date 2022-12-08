@@ -9,5 +9,12 @@
     "View_All":"View All",
     "First_Name":"First Name",
     "Last_Name":"Last_Name",
-    "Phone_Number":"Phone Number"
+    "Phone_Number":"Phone Number",
+    "save_edit":"Save Edit",
+    "Search":"Search",
+    "Account_Information":"Account Information",
+    "Edit_Information":"Edit Information",
+    "History":"History",
+    "Trips you liked":"Trips you liked",
+    "Log_Out":"Log Out"
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 class User {
   String? id;
   String? first_name;
@@ -8,6 +10,7 @@ class User {
   String? password;
   String? phoneNumber;
   String? role;
+  List? liked_trips;
   User({
     this.id,
     this.first_name,
@@ -16,6 +19,7 @@ class User {
     this.password,
     this.phoneNumber,
     this.role,
+    this.liked_trips,
   });
 
   User copyWith({
@@ -26,6 +30,7 @@ class User {
     String? password,
     String? phoneNumber,
     String? role,
+    List? liked_trips,
   }) {
     return User(
       id: id ?? this.id,
@@ -35,6 +40,7 @@ class User {
       password: password ?? this.password,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       role: role ?? this.role,
+      
     );
   }
 
@@ -47,6 +53,7 @@ class User {
       'password': password,
       'phoneNumber': phoneNumber,
       'role': role,
+      'liked_trips': liked_trips.toString(),
     };
   }
 
@@ -59,6 +66,7 @@ class User {
       password: map['password'],
       phoneNumber: map['phoneNumber'],
       role: map['role'],
+      liked_trips: map['liked_trips']??[],
     );
   }
 
@@ -68,7 +76,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(id: $id, first_name: $first_name, last_name: $last_name, email: $email, password: $password, phoneNumber: $phoneNumber, role: $role)';
+    return 'User(id: $id, first_name: $first_name, last_name: $last_name, email: $email, password: $password, phoneNumber: $phoneNumber, role: $role, liked_trips: $liked_trips)';
   }
 
   @override
@@ -82,7 +90,8 @@ class User {
       other.email == email &&
       other.password == password &&
       other.phoneNumber == phoneNumber &&
-      other.role == role;
+      other.role == role &&
+      listEquals(other.liked_trips, liked_trips);
   }
 
   @override
@@ -93,6 +102,7 @@ class User {
       email.hashCode ^
       password.hashCode ^
       phoneNumber.hashCode ^
-      role.hashCode;
+      role.hashCode ^
+      liked_trips.hashCode;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:demo/views/widgets/MostPopular.dart';
+import 'package:demo/User_Interface/widgets/MostPopular.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,22 +15,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-            IconButton(
-                onPressed: (() {
-                  if (context.locale == Locale('en')) {
-                    context.setLocale(Locale('ar'));
-                  } else {
-                    context.setLocale(Locale('en'));
-                  }
-                }),
-                icon: const Icon(Icons.language,color: Colors.blue,))
-          ],
-      ),
+      
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,8 +27,8 @@ class HomeView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: TravelBlog(),
             flex: 2,
+            child: TravelBlog(),
           ),
           Padding(
             padding:  EdgeInsets.all(15.h),

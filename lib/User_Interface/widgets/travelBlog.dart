@@ -1,4 +1,4 @@
-import 'package:demo/views/screens/DetailPage.dart';
+import 'package:demo/User_Interface/screens/DetailPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +19,7 @@ class TravelBlog extends StatelessWidget {
             .defaultTrips[index];
         return InkWell(
           onTap: () {
+            Provider.of<AppProvider>(context,listen: false ).setCurrentTrip(t);
             Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return DetailPage(
                 trip: t,
@@ -32,7 +33,7 @@ class TravelBlog extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Image.network(
-                    "http://10.0.2.2:8083/${t.url}",
+                    t.url,
                     fit: BoxFit.cover,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,

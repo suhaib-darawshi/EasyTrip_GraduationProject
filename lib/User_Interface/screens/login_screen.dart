@@ -15,10 +15,10 @@ class LoginScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: (() {
-                if (context.locale == Locale('en')) {
-                  context.setLocale(Locale('ar'));
+                if (context.locale == const Locale('en')) {
+                  context.setLocale(const Locale('ar'));
                 } else {
-                  context.setLocale(Locale('en'));
+                  context.setLocale(const Locale('en'));
                 }
               }),
               icon: const Icon(
@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
                       decoration: InputDecoration(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.person_rounded,
                           color: Colors.black,
                         ),
@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                     child: TextFormField(
                       obscureText: true,
                       decoration: InputDecoration(
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.lock_open,
                           color: Colors.black,
                         ),
@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () async {
                         String resp = await provider.logIn();
                         if (resp == "ACCESSED") {
-                          Navigator.of(context).pushReplacementNamed("Home");
+                          Navigator.of(context).pushReplacementNamed("HomeScreen");
                         } else {
                           provider.clearTextFields();
                           showDialog(

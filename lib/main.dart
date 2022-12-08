@@ -1,12 +1,16 @@
 import 'package:demo/provider/app_provider.dart';
-import 'package:demo/views/screens/View.dart';
-import 'package:demo/views/screens/login_screen.dart';
-import 'package:demo/views/screens/sign_up_screen.dart';
-import 'package:demo/views/screens/updateinformation.dart';
+import 'package:demo/User_Interface/screens/HomeScreen.dart';
+import 'package:demo/User_Interface/screens/View.dart';
+import 'package:demo/User_Interface/screens/login_screen.dart';
+import 'package:demo/User_Interface/screens/searchScreen.dart';
+import 'package:demo/User_Interface/screens/sign_up_screen.dart';
+import 'package:demo/User_Interface/screens/updateinformation.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
+import 'User_Interface/screens/FilteredTripPage.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +50,10 @@ class Builded extends StatelessWidget {
           routes: {
             'Home': (context) => HomeView(),
             'sign_up':(context) => SignUp(),
-            'update_user_page':(context) => UpdateUserPage()
+            'update_user_page':(context) => UpdateUserPage(),
+            'HomeScreen':(context) => HomeScreen(),
+            "LogIn":(context) => LoginScreen(),
+            "FilteredTripScreen":(context) => FilteredTripScreen()
           },
           home: LoginScreen(),
         );

@@ -9,5 +9,12 @@
     "View_All":"عرض الكل",
     "First_Name":"الاسم الاول",
     "Last_Name":"اسم العائلة",
-    "Phone_Number":"رقم الهاتف"
+    "Phone_Number":"رقم الهاتف",
+    "save_edit":"حفظ التعديلات",
+    "Search":"ابحث",
+    "Account_Information":"معلومات الحساب",
+    "Edit_Information":"تعديل البيانات",
+    "History":"السجل",
+    "Trips you liked":"رحلات قد اعجبتك",
+    "Log_Out":"سجل الخروج"
 }

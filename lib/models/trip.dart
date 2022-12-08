@@ -8,16 +8,15 @@ class Trip {
   String location;
   String url;
   String description;
-  List<String> liked_users;
+  bool isLiked = false;
   Trip({
     required this.id,
     required this.name,
     required this.location,
     required this.url,
     required this.description,
-    required this.liked_users,
+    required this.isLiked,
   });
-  
 
   Trip copyWith({
     String? id,
@@ -25,7 +24,7 @@ class Trip {
     String? location,
     String? url,
     String? description,
-    List<String>? liked_users,
+    bool? isLiked,
   }) {
     return Trip(
       id: id ?? this.id,
@@ -33,7 +32,7 @@ class Trip {
       location: location ?? this.location,
       url: url ?? this.url,
       description: description ?? this.description,
-      liked_users: liked_users ?? this.liked_users,
+      isLiked: isLiked ?? this.isLiked,
     );
   }
 
@@ -44,7 +43,7 @@ class Trip {
       'location': location,
       'url': url,
       'description': description,
-      'liked_users': liked_users,
+      'isLiked': isLiked,
     };
   }
 
@@ -53,9 +52,9 @@ class Trip {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       location: map['location'] ?? '',
-      url: map['url'] ?? '',
+      url: 'http://10.0.2.2:8083/'+map['url'] ,
       description: map['description'] ?? '',
-      liked_users: List<String>.from(map['liked_users']),
+      isLiked: map['isLiked'] ?? false,
     );
   }
 
@@ -65,7 +64,7 @@ class Trip {
 
   @override
   String toString() {
-    return 'Trip(id: $id, name: $name, location: $location, url: $url, description: $description, liked_users: $liked_users)';
+    return 'Trip(id: $id, name: $name, location: $location, url: $url, description: $description, isLiked: $isLiked)';
   }
 
   @override
@@ -78,7 +77,7 @@ class Trip {
       other.location == location &&
       other.url == url &&
       other.description == description &&
-      listEquals(other.liked_users, liked_users);
+      other.isLiked == isLiked;
   }
 
   @override
@@ -88,6 +87,6 @@ class Trip {
       location.hashCode ^
       url.hashCode ^
       description.hashCode ^
-      liked_users.hashCode;
+      isLiked.hashCode;
   }
 }

@@ -1,23 +1,26 @@
-import 'package:demo/provider/app_provider.dart';
-import 'package:demo/views/screens/DetailPage.dart';
+import 'package:flutter/Material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/trip.dart';
+import '../../provider/app_provider.dart';
+import '../screens/DetailPage.dart';
 
-class MostPopular extends StatelessWidget {
-  
+class TripWidget extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-      scrollDirection: Axis.horizontal,
+    return Expanded(
+      child: ListView.separated(
+      padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.h),
+      
       itemCount: Provider.of<AppProvider>(context).advancedTrip.length,
       itemBuilder: (context, index) {
         Trip t = Provider.of<AppProvider>(context,listen: false).advancedTrip[index];
         return InkWell(
           onTap: () {
+            Provider.of<AppProvider>(context,listen: false ).setCurrentTrip(t);
             Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
               return DetailPage(trip: t);
             })));
@@ -27,15 +30,15 @@ class MostPopular extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
-                  "http://10.0.2.2:8083/${t.url}",
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.height,
+                  t.url,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height/1.8,
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                bottom: 20,
-                left: 15,
+                bottom: 20.h,
+                left: 15.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -44,7 +47,7 @@ class MostPopular extends StatelessWidget {
                       child: Text(
                         t.location,
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 20.w, fontWeight: FontWeight.bold),
                       ),
                     ),
                     Material(
@@ -52,7 +55,7 @@ class MostPopular extends StatelessWidget {
                       child: Text(
                         t.name,
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 20.w, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
@@ -63,8 +66,9 @@ class MostPopular extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) => SizedBox(
-        width: 15,
+        height: 15.h,
       ),
+    )
     );
   }
 }
