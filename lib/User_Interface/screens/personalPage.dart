@@ -11,6 +11,9 @@ class PersonalPage extends StatelessWidget {
         ListTile(
           title: Text("Account_Information".tr()),
           trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {
+            Navigator.of(context).pushNamed("AccountInformation");
+          },
         ),
         ListTile(
           title: Text("Edit_Information".tr()),

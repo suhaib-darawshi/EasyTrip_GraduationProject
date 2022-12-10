@@ -43,6 +43,9 @@ class SignUp extends StatelessWidget {
                       Icons.abc,
                       color: Colors.black,
                     ),
+                    border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                     labelText: "First_Name".tr(),
                   ),
                   controller: provider.firstnameController,
@@ -56,6 +59,9 @@ class SignUp extends StatelessWidget {
                       Icons.abc,
                       color: Colors.black,
                     ),
+                    border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                     labelText: "Last_Name".tr(),
                   ),
                   controller: provider.lastnameController,
@@ -70,6 +76,9 @@ class SignUp extends StatelessWidget {
                       Icons.email,
                       color: Colors.black,
                     ),
+                    border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                     labelText: "Email".tr(),
                   ),
                   controller: provider.emailController,
@@ -84,6 +93,9 @@ class SignUp extends StatelessWidget {
                       Icons.lock_open,
                       color: Colors.black,
                     ),
+                    border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                     labelText: "Password".tr(),
                   ),
                   controller: provider.passwordController,
@@ -98,6 +110,9 @@ class SignUp extends StatelessWidget {
                       Icons.phone,
                       color: Colors.black,
                     ),
+                    border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                        ),
                     labelText: "Phone_Number".tr(),
                   ),
                   controller: provider.phoneNumberController,

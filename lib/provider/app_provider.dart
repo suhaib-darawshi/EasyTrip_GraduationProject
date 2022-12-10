@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:demo/models/trip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:string_validator/string_validator.dart';
 
 import '../models/user.dart';
 
@@ -25,14 +26,39 @@ class AppProvider extends ChangeNotifier {
     currentTrip = t;
     notifyListeners();
   }
+  String? passwordValidation(String password) {
+    if (password == null || password.isEmpty) {
+      return "Required field";
+    } else if (password.length <= 6) {
+      return 'Error, the password must be larger than 6 letters';
+    }
+  }
 
+  String? requiredValidation(String content) {
+    if (content == null || content.isEmpty) {
+      return "Required field";
+    }
+  }
+
+  String? phoneValidation(String content) {
+    if (!isNumeric(content)) {
+      return "InCorrect phone number syntax";
+    }
+  }
+  String? emailValidation(String email) {
+    if (email == null || email.isEmpty) {
+      return 'RequiredField';
+    } else if (!isEmail(email)) {
+      return 'Enter A valid Email';
+    }
+  }
   getCurrentTrip() {
     return currentTrip;
   }
 
   likeTrip(Trip t) async {
     if (user.liked_trips!.contains(t.id)) {
-      log("asd");
+      
       currentTrip.isLiked = false;
       user.liked_trips!.remove(t.id);
       final res = await http.put(
@@ -48,6 +74,16 @@ class AppProvider extends ChangeNotifier {
             "password": user.password!,
             "phoneNumber": user.phoneNumber!,
             "liked_trips": user.liked_trips!
+          }));
+      final res2 = await http.put(
+          Uri.parse("${server}rest/public-trip-controller/like-trip"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, dynamic>{
+            "userid": user.id!,
+            "tripid": t.id,
+            "method":"dislike"
           }));
     } else {
       log("dsa");
@@ -66,6 +102,16 @@ class AppProvider extends ChangeNotifier {
             "password": user.password!,
             "phoneNumber": user.phoneNumber!,
             "liked_trips": user.liked_trips!
+          }));
+          final res2 = await http.put(
+          Uri.parse("${server}rest/public-trip-controller/like-trip"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, dynamic>{
+            "userid": user.id!,
+            "tripid": t.id,
+            "method":"like"
           }));
     }
     setCurrentTrip(t);
@@ -107,7 +153,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   getUserInformation() async {
-    final res = await http.post(Uri.parse('${server}rest/get-info'),
+    final res = await http.post(Uri.parse('${server}rest/public-user-controller/get-info'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

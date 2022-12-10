@@ -6,11 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/AlertDialog.dart';
+import '../widgets/CustomFormField.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         actions: [
           IconButton(
@@ -31,49 +33,55 @@ class LoginScreen extends StatelessWidget {
       ),
       body: Consumer<AppProvider>(
         builder: (context, provider, child) {
-          return Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 300.w,
-                    height: MediaQuery.of(context).size.height/2,
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/imgs/demologo.PNG',
-                      fit: BoxFit.fitWidth,
-                    ),
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  
+                  height: MediaQuery.of(context).size.height/4,
+                  alignment: Alignment.center,
+                  child: Image.asset(
+                    'assets/imgs/demologo.PNG',
+                    alignment: Alignment.topCenter,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/3,
+                    fit: BoxFit.cover,
                   ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CustomTextField(
+                    icon: const Icon(Icons.email),
+                        validation: provider.emailValidation,
+                        label: 'Email',
+                        controller: provider.emailController),
+                ),
+                  //  SizedBox(
+                  //   height: 20.h,
+                  // ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        icon: const Icon(
-                          Icons.person_rounded,
-                          color: Colors.black,
-                        ),
-                        labelText: "Email".tr(),
-                      ),
-                      controller: provider.emailController,
-                    ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: CustomTextField(
+                      icon: const Icon(Icons.lock_open_sharp),
+                        validation: provider.passwordValidation,
+                        textInputType: TextInputType.emailAddress,
+                        isPassword: true,
+                        label: 'password',
+                        controller: provider.passwordController),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        icon: const Icon(
-                          Icons.lock_open,
-                          color: Colors.black,
-                        ),
-                        labelText: "Password".tr(),
-                      ),
-                      controller: provider.passwordController,
+                Container(
+                  width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width / 8,
                     ),
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
+                  child: TextButton(
+                        style: TextButton.styleFrom(
+                          shape: const StadiumBorder(),
+                          backgroundColor: Colors.blue,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                        ),
+                        onPressed:  () async {
                         String resp = await provider.logIn();
                         if (resp == "ACCESSED") {
                           Navigator.of(context).pushReplacementNamed("HomeScreen");
@@ -86,22 +94,42 @@ class LoginScreen extends StatelessWidget {
                               });
                         }
                       },
-                      child: Text("Sign_in".tr())),
-                  Row(
-                    children: [
-                      Text("Dont_have_an_account_?".tr()),
-                      SizedBox(
-                        width: 20.w,
+                        child:  Text(
+                          "Sign_in".tr(),
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed("sign_up");
-                          },
-                          child: Text("Sign_Up".tr()))
-                    ],
-                  )
-                ],
-              ),
+                ),
+                SizedBox(height: 30.h,),
+                // ElevatedButton(
+                //     onPressed: () async {
+                //       String resp = await provider.logIn();
+                //       if (resp == "ACCESSED") {
+                //         Navigator.of(context).pushReplacementNamed("HomeScreen");
+                //       } else {
+                //         provider.clearTextFields();
+                //         showDialog(
+                //             context: context,
+                //             builder: (context) {
+                //               return AlertD(resp);
+                //             });
+                //       }
+                //     },
+                //     child: Text("Sign_in".tr())),
+                Row(
+                  children: [
+                    Text("Dont_have_an_account_?".tr(),style: TextStyle(fontSize: 22),),
+                    SizedBox(
+                      width: 20.w,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("sign_up");
+                        },
+                        child: Text("Sign_Up".tr()))
+                  ],
+                )
+              ],
             ),
           );
         },

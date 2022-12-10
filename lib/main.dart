@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'User_Interface/screens/FilteredTripPage.dart';
+import 'User_Interface/screens/account_information.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +54,8 @@ class Builded extends StatelessWidget {
             'update_user_page':(context) => UpdateUserPage(),
             'HomeScreen':(context) => HomeScreen(),
             "LogIn":(context) => LoginScreen(),
-            "FilteredTripScreen":(context) => FilteredTripScreen()
+            "FilteredTripScreen":(context) => FilteredTripScreen(),
+            "AccountInformation":(context) => AccountInformation()
           },
           home: LoginScreen(),
         );

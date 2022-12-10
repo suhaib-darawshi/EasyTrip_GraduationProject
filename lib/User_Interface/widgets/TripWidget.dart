@@ -21,23 +21,28 @@ class TripWidget extends StatelessWidget {
         return InkWell(
           onTap: () {
             Provider.of<AppProvider>(context,listen: false ).setCurrentTrip(t);
-            Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-              return DetailPage(trip: t);
-            })));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return DetailPage(
+                trip: t,
+              );
+            }));
           },
           child: Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Image.network(
-                  t.url,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: MediaQuery.of(context).size.height/1.8,
-                  fit: BoxFit.cover,
+              Padding(
+                padding: EdgeInsets.only(bottom:20),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.network(
+                    t.url,
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height*0.5,
+                  ),
                 ),
               ),
               Positioned(
-                bottom: 20.h,
+                bottom: 50.h,
                 left: 15.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +52,7 @@ class TripWidget extends StatelessWidget {
                       child: Text(
                         t.location,
                         style: TextStyle(
-                            fontSize: 20.w, fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold, fontSize: 20.h),
                       ),
                     ),
                     Material(
@@ -55,10 +60,27 @@ class TripWidget extends StatelessWidget {
                       child: Text(
                         t.name,
                         style: TextStyle(
-                            fontSize: 20.w, fontWeight: FontWeight.bold),
+                            fontWeight: FontWeight.bold, fontSize: 30.h),
                       ),
                     )
                   ],
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 30.w,
+                child: Container(
+                  width: 60.w,
+                  height: 60.h,
+                  decoration: BoxDecoration(
+                    color: Colors.deepOrange,
+                    borderRadius: BorderRadius.circular(30.h),
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
+                    size: 30.h,
+                  ),
                 ),
               )
             ],
