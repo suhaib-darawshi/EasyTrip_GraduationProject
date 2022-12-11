@@ -12,7 +12,6 @@ class AppProvider extends ChangeNotifier {
   String server = "http://10.0.2.2:8083/";
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -144,7 +143,7 @@ class AppProvider extends ChangeNotifier {
           "id": user.id!,
           "first_name": firstnameController.text,
           "last_name": lastnameController.text,
-          "email": emailController.text,
+          "email": emailController.text.toLowerCase(),
           "password": passwordController.text,
           "phoneNumber": phoneNumberController.text
         }));
@@ -177,7 +176,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   logIn() async {
-    String em = emailController.text;
+    String em = emailController.text.toLowerCase();
     String pass = passwordController.text;
     final res = await http.post(Uri.parse("${server}rest/public-user-controller/login"),
         headers: <String, String>{
@@ -201,7 +200,7 @@ class AppProvider extends ChangeNotifier {
         body: jsonEncode(<String, String>{
           "first_name": firstnameController.text,
           "last_name": lastnameController.text,
-          "email": emailController.text,
+          "email": emailController.text.toLowerCase(),
           "password": passwordController.text,
           "phoneNumber": phoneNumberController.text
         }));

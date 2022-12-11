@@ -1,3 +1,4 @@
+import 'package:demo/App_Router/App_Router.dart';
 import 'package:demo/provider/app_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -84,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                         onPressed:  () async {
                         String resp = await provider.logIn();
                         if (resp == "ACCESSED") {
-                          Navigator.of(context).pushReplacementNamed("HomeScreen");
+                          AppRouter.router.pushReplace("HomeScreen");
                         } else {
                           provider.clearTextFields();
                           showDialog(
@@ -124,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed("sign_up");
+                          AppRouter.router.push("sign_up");
                         },
                         child: Text("Sign_Up".tr()))
                   ],

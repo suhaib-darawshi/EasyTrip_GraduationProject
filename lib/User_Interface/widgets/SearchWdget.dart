@@ -1,3 +1,5 @@
+import 'package:demo/App_Router/App_Router.dart';
+import 'package:demo/User_Interface/widgets/CustomTripWidget.dart';
 import 'package:demo/models/trip.dart';
 import 'package:demo/provider/app_provider.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +35,9 @@ class SearchWidget extends SearchDelegate {
             element.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return ListView.separated(
+        padding: EdgeInsets.all(10),
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(Provider.of<AppProvider>(context, listen: false)
-                .defaultTrips[index]
-                .name),
-          );
+          return CustomTripWidget(results[index]);
         },
         separatorBuilder: ((context, index) {
           return Padding(
@@ -48,7 +47,7 @@ class SearchWidget extends SearchDelegate {
             ),
           );
         }),
-        itemCount: Provider.of<AppProvider>(context).defaultTrips.length);
+        itemCount: results.length);
   }
 
   @override
@@ -62,6 +61,11 @@ class SearchWidget extends SearchDelegate {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(results[index].name),
+            onTap: () {
+              Provider.of<AppProvider>(context, listen: false)
+                  .setCurrentTrip(results[index]);
+              AppRouter.router.push("DetailPage");
+            },
           );
         },
         separatorBuilder: ((context, index) {

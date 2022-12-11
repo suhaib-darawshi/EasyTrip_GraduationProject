@@ -1,3 +1,5 @@
+import 'package:demo/App_Router/App_Router.dart';
+import 'package:demo/User_Interface/screens/DetailPage.dart';
 import 'package:demo/provider/app_provider.dart';
 import 'package:demo/User_Interface/screens/HomeScreen.dart';
 import 'package:demo/User_Interface/screens/View.dart';
@@ -27,10 +29,13 @@ class Material extends StatelessWidget {
       supportedLocales: [Locale('en'), Locale('ar')],
       path: 'assets/languages',
       fallbackLocale: Locale('en'),
-      child: ChangeNotifierProvider<AppProvider>(
-        create: (context) {
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create:  (context) {
           return AppProvider();
-        },
+        },)
+        ],
+        
         child: Builded(),
       ),
     );
@@ -48,6 +53,7 @@ class Builded extends StatelessWidget {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           debugShowCheckedModeBanner: false,
+          navigatorKey: AppRouter.router.navigatorKey,
           routes: {
             'Home': (context) => HomeView(),
             'sign_up':(context) => SignUp(),
@@ -55,7 +61,8 @@ class Builded extends StatelessWidget {
             'HomeScreen':(context) => HomeScreen(),
             "LogIn":(context) => LoginScreen(),
             "FilteredTripScreen":(context) => FilteredTripScreen(),
-            "AccountInformation":(context) => AccountInformation()
+            "AccountInformation":(context) => AccountInformation(),
+            "DetailPage":(context) => DetailPage()
           },
           home: LoginScreen(),
         );

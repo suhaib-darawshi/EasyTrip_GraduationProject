@@ -32,9 +32,12 @@ class FilteredTripScreen extends StatelessWidget {
           },
         ),
       ),
+      backgroundColor: Colors.grey.shade100,
       body: Column(
         children: [
-          SizedBox(height: 20.h,),
+          SizedBox(
+            height: 20.h,
+          ),
           TripWidget(),
         ],
       ),

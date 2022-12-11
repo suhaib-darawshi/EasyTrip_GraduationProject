@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../App_Router/App_Router.dart';
+
 class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class SignUp extends StatelessWidget {
               }),
               icon: const Icon(Icons.language))
         ],
+        leading: IconButton(onPressed: ()=>AppRouter.router.pop(), icon: const Icon(Icons.arrow_back_ios,color: Colors.blue,)),
         backgroundColor: Colors.black,
       ),
       body: Consumer<AppProvider>(builder: (context, provider, x) {
@@ -121,7 +124,7 @@ class SignUp extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {
                     provider.signUp();
-                    Navigator.of(context).pop();
+                    
                   },
                   child: Text("Sign_Up".tr()))
             ],

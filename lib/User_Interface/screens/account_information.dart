@@ -46,24 +46,32 @@ class AccountInformation extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      width: MediaQuery.of(context).size.width / 2,
+                      width: (MediaQuery.of(context).size.width-40) / 2.2,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("First_Name".tr(),style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
-                          Text("Last_Name".tr(),style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
-                          Text("Email".tr(),style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
-                          Text("Phone_Number".tr(),style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
+                          Text("First_Name".tr(),style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 30.h,),
+                          Text("Last_Name".tr(),style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 30.h,),
+                          Text("Email".tr(),style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 30.h,),
+                          Text("Phone_Number".tr(),style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
                         ],
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 2,
+                      width: (MediaQuery.of(context).size.width-40)/ 2.2,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(user.first_name!,style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
-                          Text(user.last_name!,style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
-                          Text(user.email!,style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
-                          Text(user.phoneNumber!,style: TextStyle(fontSize: 30.h,fontWeight: FontWeight.bold),),
+                          Text(user.first_name!,style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 30.h,),
+                          Text(user.last_name!,style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 30.h,),
+                          Text(user.email!,style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 30.h,),
+                          Text(user.phoneNumber!,style: TextStyle(fontSize: 20.h,fontWeight: FontWeight.bold),),
                         ],
                       ),
                       )

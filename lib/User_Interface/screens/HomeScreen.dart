@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         elevation: 1.5,
         currentIndex: Provider.of<AppProvider>(context).homeScreenIndex,
@@ -83,17 +83,17 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.blue,
               )),
         ],
-        leading: Builder(
-          builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.menu,color: Colors.black,),
-              onPressed: () {
-                
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          }
-        ),
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        }),
       ),
       body: screens[Provider.of<AppProvider>(context).getBarIndex()],
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../App_Router/App_Router.dart';
 import '../../models/trip.dart';
 import '../../provider/app_provider.dart';
 
@@ -19,12 +20,8 @@ class TravelBlog extends StatelessWidget {
             .defaultTrips[index];
         return InkWell(
           onTap: () {
-            Provider.of<AppProvider>(context,listen: false ).setCurrentTrip(t);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return DetailPage(
-                trip: t,
-              );
-            }));
+            Provider.of<AppProvider>(context, listen: false).setCurrentTrip(t);
+            AppRouter.router.push("DetailPage");
           },
           child: Stack(
             children: [
