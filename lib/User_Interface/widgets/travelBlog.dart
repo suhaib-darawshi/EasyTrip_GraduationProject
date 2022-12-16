@@ -19,8 +19,9 @@ class TravelBlog extends StatelessWidget {
         Trip t = Provider.of<AppProvider>(context, listen: false)
             .defaultTrips[index];
         return InkWell(
-          onTap: () {
-            Provider.of<AppProvider>(context, listen: false).setCurrentTrip(t);
+          onTap: () async {
+            await Provider.of<AppProvider>(context, listen: false)
+                .setCurrentTrip(t);
             AppRouter.router.push("DetailPage");
           },
           child: Stack(
@@ -48,7 +49,9 @@ class TravelBlog extends StatelessWidget {
                       child: Text(
                         t.location,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20.h),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.h,
+                            color: Colors.white),
                       ),
                     ),
                     Material(
@@ -56,7 +59,9 @@ class TravelBlog extends StatelessWidget {
                       child: Text(
                         t.name,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30.h),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.h,
+                            color: Colors.white),
                       ),
                     )
                   ],

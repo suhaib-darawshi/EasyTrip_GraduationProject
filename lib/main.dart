@@ -13,12 +13,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'User_Interface/screens/FilteredTripPage.dart';
+import 'User_Interface/screens/History.dart';
 import 'User_Interface/screens/account_information.dart';
+import 'date_repo/database_handler.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  
+  await SQL.sql.initDatabase();
+
   runApp(Material());
 }
 
@@ -31,11 +34,12 @@ class Material extends StatelessWidget {
       fallbackLocale: Locale('en'),
       child: MultiProvider(
         providers: [
-          ChangeNotifierProvider(create:  (context) {
-          return AppProvider();
-        },)
+          ChangeNotifierProvider(
+            create: (context) {
+              return AppProvider();
+            },
+          )
         ],
-        
         child: Builded(),
       ),
     );
@@ -53,16 +57,20 @@ class Builded extends StatelessWidget {
           supportedLocales: context.supportedLocales,
           locale: context.locale,
           debugShowCheckedModeBanner: false,
+          theme: Provider.of<AppProvider>(context).isDark
+              ? ThemeData.dark()
+              : ThemeData.light(),
           navigatorKey: AppRouter.router.navigatorKey,
           routes: {
             'Home': (context) => HomeView(),
-            'sign_up':(context) => SignUp(),
-            'update_user_page':(context) => UpdateUserPage(),
-            'HomeScreen':(context) => HomeScreen(),
-            "LogIn":(context) => LoginScreen(),
-            "FilteredTripScreen":(context) => FilteredTripScreen(),
-            "AccountInformation":(context) => AccountInformation(),
-            "DetailPage":(context) => DetailPage()
+            'sign_up': (context) => SignUp(),
+            'update_user_page': (context) => UpdateUserPage(),
+            'HomeScreen': (context) => HomeScreen(),
+            "LogIn": (context) => LoginScreen(),
+            "FilteredTripScreen": (context) => FilteredTripScreen(),
+            "AccountInformation": (context) => AccountInformation(),
+            "DetailPage": (context) => DetailPage(),
+            "History": (context) => HistoryScreen()
           },
           home: LoginScreen(),
         );

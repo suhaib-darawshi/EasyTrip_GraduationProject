@@ -9,23 +9,23 @@ import '../../provider/app_provider.dart';
 import '../screens/DetailPage.dart';
 import 'CustomTripWidget.dart';
 
-class TripWidget extends StatelessWidget {
+class FavoritesTripsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: ListView.separated(
       padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.h),
-      itemCount: Provider.of<AppProvider>(context).advancedTrip.length,
+      itemCount: Provider.of<AppProvider>(context).likedTrips.length,
       itemBuilder: (context, index) {
-        Trip t = Provider.of<AppProvider>(context, listen: false)
-            .advancedTrip[index];
+        Trip t =
+            Provider.of<AppProvider>(context, listen: false).likedTrips[index];
         return InkWell(
-          onTap: () {
-            Provider.of<AppProvider>(context, listen: false).setCurrentTrip(t);
-            AppRouter.router.push("DetailPage");
-          },
-          child: CustomTripWidget(t)
-        );
+            onTap: () {
+              Provider.of<AppProvider>(context, listen: false)
+                  .setCurrentTrip(t);
+              AppRouter.router.push("DetailPage");
+            },
+            child: CustomTripWidget(t));
       },
       separatorBuilder: (context, index) => SizedBox(
         height: 15.h,

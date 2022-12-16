@@ -19,8 +19,9 @@ class MostPopular extends StatelessWidget {
         Trip t = Provider.of<AppProvider>(context, listen: false)
             .advancedTrip[index];
         return InkWell(
-          onTap: () {
-            Provider.of<AppProvider>(context, listen: false).setCurrentTrip(t);
+          onTap: () async {
+            await Provider.of<AppProvider>(context, listen: false)
+                .setCurrentTrip(t);
             AppRouter.router.push("DetailPage");
           },
           child: Stack(
@@ -45,7 +46,9 @@ class MostPopular extends StatelessWidget {
                       child: Text(
                         t.location,
                         style: TextStyle(
-                            fontSize: 20.w, fontWeight: FontWeight.bold),
+                            fontSize: 20.w,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                     Material(
@@ -53,7 +56,9 @@ class MostPopular extends StatelessWidget {
                       child: Text(
                         t.name,
                         style: TextStyle(
-                            fontSize: 20.w, fontWeight: FontWeight.bold),
+                            fontSize: 20.w,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     )
                   ],

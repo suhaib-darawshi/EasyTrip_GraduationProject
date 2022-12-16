@@ -8,7 +8,7 @@
     "Most_Popular":"Most Popular",
     "View_All":"View All",
     "First_Name":"First Name",
-    "Last_Name":"Last_Name",
+    "Last_Name":"Last Name",
     "Phone_Number":"Phone Number",
     "save_edit":"Save Edit",
     "Search":"Search",
@@ -17,5 +17,14 @@
     "History":"History",
     "Trips you liked":"Trips you liked",
     "Log_Out":"Log Out",
-    "Privacy":"Privacy"
+    "Privacy":"Privacy",
+    "BookMark":"BookMark",
+    "Edit_Profile":"Edit Profile",
+    "CONTENT":"CONTENT",
+    "Favorites":"Favorites",
+    "BookMarked":"BookMarked",
+    "PREFERENCES":"PREFERENCES",
+    "Language":"Language",
+    "DarkMode":"DarkMode",
+    "EditPicture":"Edit Picture"
 }

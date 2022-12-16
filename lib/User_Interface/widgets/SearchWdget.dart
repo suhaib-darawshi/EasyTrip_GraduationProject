@@ -14,7 +14,7 @@ class SearchWidget extends SearchDelegate {
           onPressed: () {
             query = '';
           },
-          icon: Icon(Icons.clear))
+          icon: const Icon(Icons.clear))
     ];
   }
 
@@ -24,7 +24,7 @@ class SearchWidget extends SearchDelegate {
         onPressed: () {
           close(context, query);
         },
-        icon: Icon(Icons.arrow_back_ios));
+        icon: const Icon(Icons.arrow_back_ios));
   }
 
   @override
@@ -35,13 +35,13 @@ class SearchWidget extends SearchDelegate {
             element.name.toLowerCase().contains(query.toLowerCase()))
         .toList();
     return ListView.separated(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         itemBuilder: (context, index) {
           return CustomTripWidget(results[index]);
         },
         separatorBuilder: ((context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
             child: Divider(
               color: Colors.black,
             ),
@@ -61,16 +61,16 @@ class SearchWidget extends SearchDelegate {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(results[index].name),
-            onTap: () {
-              Provider.of<AppProvider>(context, listen: false)
+            onTap: () async{
+              await Provider.of<AppProvider>(context, listen: false)
                   .setCurrentTrip(results[index]);
               AppRouter.router.push("DetailPage");
             },
           );
         },
         separatorBuilder: ((context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+          return const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
             child: Divider(
               color: Colors.black,
             ),

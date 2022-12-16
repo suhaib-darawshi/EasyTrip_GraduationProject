@@ -21,10 +21,21 @@ class SignUp extends StatelessWidget {
                   context.setLocale(const Locale('en'));
                 }
               }),
-              icon: const Icon(Icons.language))
+              icon: const Icon(
+                Icons.language,
+                color: Colors.blue,
+              ))
         ],
-        leading: IconButton(onPressed: ()=>AppRouter.router.pop(), icon: const Icon(Icons.arrow_back_ios,color: Colors.blue,)),
-        backgroundColor: Colors.black,
+        leading: IconButton(
+            onPressed: () => AppRouter.router.pop(),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.blue,
+            )),
+        backgroundColor: Provider.of<AppProvider>(context).isDark
+            ? Colors.black
+            : Colors.white,
+        elevation: 0,
       ),
       body: Consumer<AppProvider>(builder: (context, provider, x) {
         return SingleChildScrollView(
@@ -34,21 +45,26 @@ class SignUp extends StatelessWidget {
                 width: 300.w,
                 alignment: Alignment.center,
                 child: Image.asset(
-                  'assets/imgs/demologo.PNG',
+                  Provider.of<AppProvider>(context).isDark
+                      ? 'assets/imgs/demologodark.PNG'
+                      : 'assets/imgs/demologo.PNG',
                   fit: BoxFit.fitWidth,
                 ),
+              ),
+              SizedBox(
+                height: 35.h,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.abc,
-                      color: Colors.black,
+                      color: provider.isDark ? Colors.white : Colors.black,
                     ),
                     border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                     labelText: "First_Name".tr(),
                   ),
                   controller: provider.firstnameController,
@@ -58,13 +74,13 @@ class SignUp extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.abc,
-                      color: Colors.black,
+                      color: provider.isDark ? Colors.white : Colors.black,
                     ),
                     border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                     labelText: "Last_Name".tr(),
                   ),
                   controller: provider.lastnameController,
@@ -75,13 +91,13 @@ class SignUp extends StatelessWidget {
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.email,
-                      color: Colors.black,
+                      color: provider.isDark ? Colors.white : Colors.black,
                     ),
                     border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                     labelText: "Email".tr(),
                   ),
                   controller: provider.emailController,
@@ -92,13 +108,13 @@ class SignUp extends StatelessWidget {
                 child: TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.lock_open,
-                      color: Colors.black,
+                      color: provider.isDark ? Colors.white : Colors.black,
                     ),
                     border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                     labelText: "Password".tr(),
                   ),
                   controller: provider.passwordController,
@@ -109,13 +125,13 @@ class SignUp extends StatelessWidget {
                 child: TextFormField(
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.phone,
-                      color: Colors.black,
+                      color: provider.isDark ? Colors.white : Colors.black,
                     ),
                     border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                     labelText: "Phone_Number".tr(),
                   ),
                   controller: provider.phoneNumberController,
@@ -124,13 +140,26 @@ class SignUp extends StatelessWidget {
               ElevatedButton(
                   onPressed: () {
                     provider.signUp();
-                    
                   },
-                  child: Text("Sign_Up".tr()))
+                  style: TextButton.styleFrom(
+                      backgroundColor:
+                          provider.isDark ? Colors.black : Colors.white,
+                      elevation: 0),
+                  child: Text(
+                    "Sign_Up".tr(),
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 23,
+                        backgroundColor:
+                            provider.isDark ? Colors.black : Colors.white),
+                  ))
             ],
           ),
         );
       }),
+      backgroundColor: Provider.of<AppProvider>(context).isDark
+          ? Colors.black
+          : Colors.white,
     );
   }
 }

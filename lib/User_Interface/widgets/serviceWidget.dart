@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomListTile extends StatelessWidget {
   final String text;
@@ -14,23 +15,25 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: const EdgeInsets.all(15),
+      width: 300.w,
+      height: 70.h,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40), color: Colors.black87),
+          borderRadius: BorderRadius.circular(40), color: Colors.white),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
           child: ListTile(
-            iconColor: Colors.white,
+            iconColor: Colors.black,
             leading: icon,
             trailing: const Icon(
               Icons.arrow_forward_ios,
-              color: Colors.white,
+              color: Colors.black,
             ),
             title: Text(
               text,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
             ),
             onTap: () => function(),
           ),

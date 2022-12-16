@@ -13,33 +13,15 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Provider.of<AppProvider>(context).isDark
+          ? Colors.black
+          : Colors.grey.shade200,
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: SearchWidget());
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.amber),
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Row(
-                    children: [
-                      Text("Search".tr()),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      Icon(
-                        Icons.search,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                )),
             Expanded(
               child: ListView.separated(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   itemBuilder: (context, index) {
                     return CustomTripWidget(
                         Provider.of<AppProvider>(context, listen: false)

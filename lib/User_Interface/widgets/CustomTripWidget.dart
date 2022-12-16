@@ -12,8 +12,11 @@ class CustomTripWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       return Card(
+        color: Provider.of<AppProvider>(context).isDark
+            ? Colors.grey.shade900
+            : Colors.white,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: MediaQuery.of(context).size.height * 0.16,
           margin: EdgeInsets.all(8.h),
           width: double.infinity,
           child: Row(
@@ -31,11 +34,11 @@ class CustomTripWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 30,
                     width: MediaQuery.of(context).size.width - 170,
-                    child: Stack(
-                      fit: StackFit.expand,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           trip.name,
@@ -46,40 +49,37 @@ class CustomTripWidget extends StatelessWidget {
                           textAlign: TextAlign.left,
                         ),
                         trip.isLiked
-                            ? Positioned(
-                                top: 0,
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .setCurrentTrip(trip);
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .likeTrip(trip);
-                                  },
-                                  child: const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  ),
+                            ? InkWell(
+                                onTap: () {
+                                  Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .setCurrentTrip(trip);
+                                  Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .likeTrip(trip);
+                                },
+                                child: const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
                                 ),
                               )
-                            : Positioned(
-                                top: 0,
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .setCurrentTrip(trip);
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .likeTrip(trip);
-                                  },
-                                  child: const Icon(Icons.favorite_border),
-                                ))
+                            : InkWell(
+                                onTap: () async {
+                                  await Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .setCurrentTrip(trip);
+                                  await Provider.of<AppProvider>(context,
+                                          listen: false)
+                                      .likeTrip(trip);
+                                },
+                                child: const Icon(Icons.favorite_border),
+                              )
                       ],
                     ),
+                  ),
+                  Text(
+                    "By: ${trip.company.name}",
+                    style: TextStyle(fontSize: 18),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,

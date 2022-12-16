@@ -7,10 +7,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'personalPage.dart';
+import '../widgets/SearchWdget.dart';
+
+import 'personal_page.dart';
 
 class HomeScreen extends StatelessWidget {
-  List screens = [HomeView(), SearchScreen(), PersonalPage()];
+  List screens = [HomeView(), SearchScreen(), PersonalScreen()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +32,11 @@ class HomeScreen extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         elevation: 1.5,
+        backgroundColor: Provider.of<AppProvider>(context).isDark
+            ? ((Provider.of<AppProvider>(context).getBarIndex() == 0)
+                ? Colors.black
+                : Colors.black)
+            : Colors.white,
         currentIndex: Provider.of<AppProvider>(context).homeScreenIndex,
         onTap: (value) {
           Provider.of<AppProvider>(context, listen: false)
@@ -42,7 +49,9 @@ class HomeScreen extends StatelessWidget {
                 Icons.home,
                 color: (Provider.of<AppProvider>(context).getBarIndex() == 0)
                     ? Colors.blue
-                    : Colors.black,
+                    : (Provider.of<AppProvider>(context).isDark
+                        ? Colors.white
+                        : Colors.black),
               ),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
@@ -51,7 +60,9 @@ class HomeScreen extends StatelessWidget {
               Icons.search_sharp,
               color: (Provider.of<AppProvider>(context).getBarIndex() == 1)
                   ? Colors.blue
-                  : Colors.black,
+                  : (Provider.of<AppProvider>(context).isDark
+                      ? Colors.white
+                      : Colors.black),
             ),
           ),
           BottomNavigationBarItem(
@@ -60,16 +71,31 @@ class HomeScreen extends StatelessWidget {
               Icons.person,
               color: (Provider.of<AppProvider>(context).getBarIndex() == 2)
                   ? Colors.blue
-                  : Colors.black,
+                  : (Provider.of<AppProvider>(context).isDark
+                      ? Colors.white
+                      : Colors.black),
             ),
           ),
         ],
       ),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Provider.of<AppProvider>(context).isDark
+            ? Colors.black
+            : Colors.white,
         elevation: 0,
         actions: [
+          Provider.of<AppProvider>(context).getBarIndex() == 1
+              ? IconButton(
+                  onPressed: () {
+                    showSearch(context: context, delegate: SearchWidget());
+                  },
+                  icon: Icon(
+                    Icons.search,
+                    color: Colors.black,
+                  ),
+                )
+              : Padding(padding: EdgeInsets.zero),
           IconButton(
               onPressed: (() {
                 if (context.locale == const Locale('en')) {
@@ -85,9 +111,11 @@ class HomeScreen extends StatelessWidget {
         ],
         leading: Builder(builder: (context) {
           return IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.menu,
-              color: Colors.black,
+              color: Provider.of<AppProvider>(context).isDark
+                  ? Colors.blue
+                  : Colors.black,
             ),
             onPressed: () {
               Scaffold.of(context).openDrawer();

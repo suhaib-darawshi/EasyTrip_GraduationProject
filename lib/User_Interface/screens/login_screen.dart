@@ -13,7 +13,6 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         actions: [
           IconButton(
@@ -29,9 +28,14 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.blue,
               ))
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: Provider.of<AppProvider>(context).isDark
+            ? Colors.black
+            : Colors.white,
         elevation: 0,
       ),
+      backgroundColor: Provider.of<AppProvider>(context).isDark
+          ? Colors.black
+          : Colors.white,
       body: Consumer<AppProvider>(
         builder: (context, provider, child) {
           return SingleChildScrollView(
@@ -39,69 +43,92 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  
-                  height: MediaQuery.of(context).size.height/4,
+                  height: MediaQuery.of(context).size.height / 4,
                   alignment: Alignment.center,
                   child: Image.asset(
-                    'assets/imgs/demologo.PNG',
+                    Provider.of<AppProvider>(context).isDark
+                        ? 'assets/imgs/demologodark.PNG'
+                        : 'assets/imgs/demologo.PNG',
                     alignment: Alignment.topCenter,
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/3,
+                    height: MediaQuery.of(context).size.height / 3,
                     fit: BoxFit.cover,
                   ),
                 ),
+                SizedBox(
+                  height: 30.h,
+                ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: CustomTextField(
-                    icon: const Icon(Icons.email),
-                        validation: provider.emailValidation,
-                        label: 'Email',
-                        controller: provider.emailController),
+                      icon: const Icon(Icons.email),
+                      validation: provider.emailValidation,
+                      label: 'Email',
+                      controller: provider.emailController),
                 ),
-                  //  SizedBox(
-                  //   height: 20.h,
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: CustomTextField(
+                //  SizedBox(
+                //   height: 20.h,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: CustomTextField(
                       icon: const Icon(Icons.lock_open_sharp),
-                        validation: provider.passwordValidation,
-                        textInputType: TextInputType.emailAddress,
-                        isPassword: true,
-                        label: 'password',
-                        controller: provider.passwordController),
-                  ),
-                Container(
-                  width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 8,
-                    ),
-                  child: TextButton(
-                        style: TextButton.styleFrom(
-                          shape: const StadiumBorder(),
-                          backgroundColor: Colors.blue,
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        onPressed:  () async {
-                        String resp = await provider.logIn();
-                        if (resp == "ACCESSED") {
-                          AppRouter.router.pushReplace("HomeScreen");
-                        } else {
-                          provider.clearTextFields();
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertD(resp);
-                              });
-                        }
-                      },
-                        child:  Text(
-                          "Sign_in".tr(),
-                          style: TextStyle(fontSize: 20, color: Colors.white),
-                        ),
-                      ),
+                      validation: provider.passwordValidation,
+                      textInputType: TextInputType.emailAddress,
+                      isPassword: true,
+                      label: 'password',
+                      controller: provider.passwordController),
                 ),
-                SizedBox(height: 30.h,),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 8,
+                  ),
+                  decoration: BoxDecoration(
+                      color: Provider.of<AppProvider>(context).isDark
+                          ? Colors.blue
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(width: 1, color: Colors.blue)),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      backgroundColor: Provider.of<AppProvider>(context).isDark
+                          ? Colors.blue
+                          : Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    onPressed: () async {
+                      String resp = await provider.logIn();
+                      if (resp == "ACCESSED") {
+                        AppRouter.router.pushReplace("HomeScreen");
+                      } else {
+                        provider.clearTextFields();
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertD(resp);
+                            });
+                      }
+                    },
+                    child: Text(
+                      "Sign_in".tr(),
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Provider.of<AppProvider>(context).isDark
+                            ? Colors.white
+                            : Colors.blue,
+                        backgroundColor:
+                            Provider.of<AppProvider>(context).isDark
+                                ? Colors.blue
+                                : Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
                 // ElevatedButton(
                 //     onPressed: () async {
                 //       String resp = await provider.logIn();
@@ -119,15 +146,37 @@ class LoginScreen extends StatelessWidget {
                 //     child: Text("Sign_in".tr())),
                 Row(
                   children: [
-                    Text("Dont_have_an_account_?".tr(),style: TextStyle(fontSize: 22),),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Text(
+                        "Dont_have_an_account_?".tr(),
+                        style: TextStyle(fontSize: 19),
+                      ),
+                    ),
                     SizedBox(
                       width: 20.w,
                     ),
                     ElevatedButton(
+                        style: TextButton.styleFrom(
+                            backgroundColor:
+                                Provider.of<AppProvider>(context).isDark
+                                    ? Colors.black
+                                    : Colors.white,
+                            elevation: 0),
                         onPressed: () {
                           AppRouter.router.push("sign_up");
                         },
-                        child: Text("Sign_Up".tr()))
+                        child: Text(
+                          "Sign_Up".tr(),
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 23.w,
+                            backgroundColor:
+                                Provider.of<AppProvider>(context).isDark
+                                    ? Colors.black
+                                    : Colors.white,
+                          ),
+                        ))
                   ],
                 )
               ],
