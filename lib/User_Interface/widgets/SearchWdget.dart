@@ -61,7 +61,7 @@ class SearchWidget extends SearchDelegate {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(results[index].name),
-            onTap: () async{
+            onTap: () async {
               await Provider.of<AppProvider>(context, listen: false)
                   .setCurrentTrip(results[index]);
               AppRouter.router.push("DetailPage");
@@ -69,10 +69,12 @@ class SearchWidget extends SearchDelegate {
           );
         },
         separatorBuilder: ((context, index) {
-          return const Padding(
+          return Padding(
             padding: EdgeInsets.symmetric(horizontal: 15),
             child: Divider(
-              color: Colors.black,
+              color: Provider.of<AppProvider>(context).isDark
+                  ? Colors.white
+                  : Colors.black,
             ),
           );
         }),

@@ -15,16 +15,18 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Provider.of<AppProvider>(context).isDark
+            ? Colors.black
+            : Colors.white,
         elevation: 0,
         actions: [
           IconButton(
               onPressed: (() {
-                if (context.locale == const Locale('en')) {
-                  context.setLocale(const Locale('ar'));
-                } else {
-                  context.setLocale(const Locale('en'));
-                }
+                Provider.of<AppProvider>(context, listen: false)
+                    .setLocaleFromButton();
+                context.setLocale(
+                    Provider.of<AppProvider>(context, listen: false)
+                        .getLocale());
               }),
               icon: const Icon(
                 Icons.language,
@@ -38,31 +40,33 @@ class HistoryScreen extends StatelessWidget {
           },
         ),
       ),
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Provider.of<AppProvider>(context).isDark
+          ? Colors.black
+          : Colors.grey.shade100,
       body: Column(
         children: [
           SizedBox(
             height: 20.h,
           ),
           Expanded(
-        child: ListView.separated(
-      padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.h),
-      itemCount: Provider.of<AppProvider>(context).history.length,
-      itemBuilder: (context, index) {
-        Trip t =
-            Provider.of<AppProvider>(context, listen: false).history[index];
-        return InkWell(
-            onTap: () async{
-              await Provider.of<AppProvider>(context, listen: false)
-                  .setCurrentTrip(t);
-              AppRouter.router.push("DetailPage");
+              child: ListView.separated(
+            padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.h),
+            itemCount: Provider.of<AppProvider>(context).history.length,
+            itemBuilder: (context, index) {
+              Trip t = Provider.of<AppProvider>(context, listen: false)
+                  .history[index];
+              return InkWell(
+                  onTap: () async {
+                    await Provider.of<AppProvider>(context, listen: false)
+                        .setCurrentTrip(t);
+                    AppRouter.router.push("DetailPage");
+                  },
+                  child: CustomTripWidget(t));
             },
-            child: CustomTripWidget(t));
-      },
-      separatorBuilder: (context, index) => SizedBox(
-        height: 15.h,
-      ),
-    ))
+            separatorBuilder: (context, index) => SizedBox(
+              height: 15.h,
+            ),
+          ))
         ],
       ),
     );

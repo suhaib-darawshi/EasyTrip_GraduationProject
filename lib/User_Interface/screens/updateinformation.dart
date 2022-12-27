@@ -20,11 +20,11 @@ class UpdateUserPage extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: (() {
-                  if (context.locale == const Locale('en')) {
-                    context.setLocale(const Locale('ar'));
-                  } else {
-                    context.setLocale(const Locale('en'));
-                  }
+                  Provider.of<AppProvider>(context, listen: false)
+                    .setLocaleFromButton();
+                context.setLocale(
+                    Provider.of<AppProvider>(context, listen: false)
+                        .getLocale());
                 }),
                 icon: const Icon(
                   Icons.language,

@@ -1,13 +1,15 @@
-import 'package:demo/provider/app_provider.dart';
+import 'package:demo/provider/CompanyProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../App_Router/App_Router.dart';
+import '../../provider/app_provider.dart';
 
-class SignUp extends StatelessWidget {
+class CompanySignUp extends StatelessWidget {
+  const CompanySignUp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +17,10 @@ class SignUp extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: (() {
-                Provider.of<AppProvider>(context, listen: false)
+                Provider.of<CompanyProvider>(context, listen: false)
                     .setLocaleFromButton();
                 context.setLocale(
-                    Provider.of<AppProvider>(context, listen: false)
+                    Provider.of<CompanyProvider>(context, listen: false)
                         .getLocale());
               }),
               icon: const Icon(
@@ -32,22 +34,22 @@ class SignUp extends StatelessWidget {
               Icons.arrow_back_ios,
               color: Colors.blue,
             )),
-        backgroundColor: Provider.of<AppProvider>(context).isDark
+        backgroundColor: Provider.of<CompanyProvider>(context).isDark
             ? Colors.black
             : Colors.white,
         elevation: 0,
       ),
-      body: Consumer<AppProvider>(builder: (context, provider, x) {
-        return SingleChildScrollView(
-          child: Form(
-            key: provider.signupKey,
+      body: Consumer<CompanyProvider>(builder: (context, provider, x) {
+        return Form(
+          key: provider.signUpKey,
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   width: 300.w,
                   alignment: Alignment.center,
                   child: Image.asset(
-                    Provider.of<AppProvider>(context).isDark
+                    provider.isDark
                         ? 'assets/imgs/demologodark.PNG'
                         : 'assets/imgs/demologo.PNG',
                     fit: BoxFit.fitWidth,
@@ -59,6 +61,8 @@ class SignUp extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    validator: (value) =>
+                        provider.requiredValidation(value ?? ''),
                     decoration: InputDecoration(
                       icon: Icon(
                         Icons.abc,
@@ -67,15 +71,15 @@ class SignUp extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      labelText: "First_Name".tr(),
+                      labelText: "Company_Name".tr(),
                     ),
-                    validator: (v) => provider.requiredValidation(v ?? ''),
-                    controller: provider.firstnameController,
+                    controller: provider.CompanyNameController,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    validator: (value) => provider.emailValidation(value ?? ''),
                     decoration: InputDecoration(
                       icon: Icon(
                         Icons.abc,
@@ -84,15 +88,16 @@ class SignUp extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      labelText: "Last_Name".tr(),
+                      labelText: "Company Email".tr(),
                     ),
-                    validator: (v) => provider.requiredValidation(v ?? ''),
-                    controller: provider.lastnameController,
+                    controller: provider.CompanyEmailController,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    validator: (value) =>
+                        provider.requiredValidation(value ?? ''),
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       icon: Icon(
@@ -102,15 +107,16 @@ class SignUp extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                       ),
-                      labelText: "Email".tr(),
+                      labelText: "Address".tr(),
                     ),
-                    validator: (v) => provider.emailValidation(v ?? ''),
-                    controller: provider.emailController,
+                    controller: provider.CompanyAddressController,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    validator: (value) =>
+                        provider.passwordValidation(value ?? ''),
                     obscureText: true,
                     decoration: InputDecoration(
                       icon: Icon(
@@ -122,13 +128,13 @@ class SignUp extends StatelessWidget {
                       ),
                       labelText: "Password".tr(),
                     ),
-                    validator: (v) => provider.passwordValidation(v ?? ''),
-                    controller: provider.passwordController,
+                    controller: provider.CompanyPasswordController,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    validator: (value) => provider.phoneValidation(value ?? ''),
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       icon: Icon(
@@ -140,13 +146,12 @@ class SignUp extends StatelessWidget {
                       ),
                       labelText: "Phone_Number".tr(),
                     ),
-                    validator: (v) => provider.phoneValidation(v ?? ''),
-                    controller: provider.phoneNumberController,
+                    controller: provider.CompanyPhoneController,
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      provider.signUp();
+                    onPressed: () async {
+                      await provider.signUp();
                     },
                     style: TextButton.styleFrom(
                         backgroundColor:

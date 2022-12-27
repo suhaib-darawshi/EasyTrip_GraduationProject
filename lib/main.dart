@@ -1,5 +1,7 @@
 import 'package:demo/App_Router/App_Router.dart';
+import 'package:demo/CompanyInterface/screens/CompanyHomePage.dart';
 import 'package:demo/User_Interface/screens/DetailPage.dart';
+import 'package:demo/provider/CompanyProvider.dart';
 import 'package:demo/provider/app_provider.dart';
 import 'package:demo/User_Interface/screens/HomeScreen.dart';
 import 'package:demo/User_Interface/screens/View.dart';
@@ -12,9 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import 'CompanyInterface/screens/CompanySignUp.dart';
+import 'CompanyInterface/screens/addTripScreen.dart';
+import 'CompanyInterface/widgets/CompanyTripEditScreen.dart';
 import 'User_Interface/screens/FilteredTripPage.dart';
 import 'User_Interface/screens/History.dart';
 import 'User_Interface/screens/account_information.dart';
+import 'User_Interface/screens/welcomeScreen.dart';
 import 'date_repo/database_handler.dart';
 
 void main(List<String> args) async {
@@ -38,6 +44,9 @@ class Material extends StatelessWidget {
             create: (context) {
               return AppProvider();
             },
+          ),
+          ChangeNotifierProvider(
+            create: (context) => CompanyProvider(),
           )
         ],
         child: Builded(),
@@ -70,9 +79,13 @@ class Builded extends StatelessWidget {
             "FilteredTripScreen": (context) => FilteredTripScreen(),
             "AccountInformation": (context) => AccountInformation(),
             "DetailPage": (context) => DetailPage(),
-            "History": (context) => HistoryScreen()
+            "History": (context) => HistoryScreen(),
+            "CompanySignUp": (context) => CompanySignUp(),
+            'companyHomePage': (context) => CompanyHomePage(),
+            "AddTrip":(context) => AddTrip(),
+            "CEditTripScreen":(context) => CEditTripScreen()
           },
-          home: LoginScreen(),
+          home: WelcomeScreen(),
         );
       },
     );

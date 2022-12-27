@@ -1,4 +1,5 @@
 import 'package:demo/App_Router/App_Router.dart';
+import 'package:demo/provider/CompanyProvider.dart';
 import 'package:demo/provider/app_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,11 +18,11 @@ class LoginScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: (() {
-                if (context.locale == const Locale('en')) {
-                  context.setLocale(const Locale('ar'));
-                } else {
-                  context.setLocale(const Locale('en'));
-                }
+                Provider.of<AppProvider>(context, listen: false)
+                    .setLocaleFromButton();
+                context.setLocale(
+                    Provider.of<AppProvider>(context, listen: false)
+                        .getLocale());
               }),
               icon: const Icon(
                 Icons.language,
@@ -64,7 +65,10 @@ class LoginScreen extends StatelessWidget {
                       icon: const Icon(Icons.email),
                       validation: provider.emailValidation,
                       label: 'Email',
-                      controller: provider.emailController),
+                      controller: provider.asCompany
+                          ? Provider.of<CompanyProvider>(context)
+                              .CompanyEmailController
+                          : provider.emailController),
                 ),
                 //  SizedBox(
                 //   height: 20.h,
@@ -77,7 +81,10 @@ class LoginScreen extends StatelessWidget {
                       textInputType: TextInputType.emailAddress,
                       isPassword: true,
                       label: 'password',
-                      controller: provider.passwordController),
+                      controller: provider.asCompany
+                          ? Provider.of<CompanyProvider>(context)
+                              .CompanyPasswordController
+                          : provider.passwordController),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
@@ -99,16 +106,33 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
                     onPressed: () async {
-                      String resp = await provider.logIn();
-                      if (resp == "ACCESSED") {
-                        AppRouter.router.pushReplace("HomeScreen");
+                      if (!provider.asCompany) {
+                        String resp = await provider.logIn();
+                        if (resp == "ACCESSED") {
+                          AppRouter.router.pushReplace("HomeScreen");
+                        } else {
+                          provider.clearTextFields();
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertD(resp);
+                              });
+                        }
                       } else {
-                        provider.clearTextFields();
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertD(resp);
-                            });
+                        String resp = await Provider.of<CompanyProvider>(
+                                context,
+                                listen: false)
+                            .signIn();
+                        if (resp == "ACCESSED") {
+                          AppRouter.router.pushReplace("companyHomePage");
+                        } else {
+                          provider.clearTextFields();
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertD(resp);
+                              });
+                        }
                       }
                     },
                     child: Text(
@@ -164,7 +188,9 @@ class LoginScreen extends StatelessWidget {
                                     : Colors.white,
                             elevation: 0),
                         onPressed: () {
-                          AppRouter.router.push("sign_up");
+                          provider.asCompany
+                              ? AppRouter.router.push("CompanySignUp")
+                              : AppRouter.router.push("sign_up");
                         },
                         child: Text(
                           "Sign_Up".tr(),

@@ -26,5 +26,18 @@
     "PREFERENCES":"PREFERENCES",
     "Language":"Language",
     "DarkMode":"DarkMode",
-    "EditPicture":"Edit Picture"
+    "EditPicture":"Edit Picture",
+    "Company_Name":"Company Name",
+    "Company Email":"Company Email",
+    "Address":"Address",
+    "Trip title":"Trip Title",
+    "Pick Image":"Pick Image",
+    "Trip Location":"Trip Location",
+    "Trip Description":"Trip Description",
+    "Trip Price":"Trip Price",
+    "Add Trip":"Add Trip",
+    "View Details":"View Details",
+    "Information":"Company Information",
+    "Description":"Description",
+    "Trip Information":"Trip Details"
 }

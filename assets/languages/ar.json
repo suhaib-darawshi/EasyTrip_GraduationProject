@@ -26,5 +26,18 @@
     "PREFERENCES":"التفضيلات",
     "Language":"اللغة",
     "DarkMode":"الوضع الليلي",
-    "EditPicture":"تغيير الصورة"
+    "EditPicture":"تغيير الصورة",
+    "Company_Name":"اسم الشركة",
+    "Company Email":"البريد الالكتروني للشركة",
+    "Address":"موقع الشركة",
+    "Trip title":"عنوان الرحلة",
+    "Pick Image":"اختر صورة",
+    "Trip Location":"موقع الرحلة",
+    "Trip Description":"وصف الرحلة",
+    "Trip Price":"التكلفة",
+    "Add Trip":"اضف الرحلة",
+    "View Details":"عرض التفاصيل",
+    "Information":"بيانات الشركة",
+    "Description":"وصف الرحلة",
+    "Trip Information":"معلومات الرحلة"
 }

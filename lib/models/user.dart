@@ -59,7 +59,7 @@ class User {
     };
   }
 
-  Map<String, dynamic> toDBMap({bool logged=false}) {
+  Map<String, dynamic> toDBMap({bool logged = false}) {
     return {
       'id': id,
       'first_name': first_name,
@@ -67,7 +67,7 @@ class User {
       'email': email,
       'password': password,
       'phoneNumber': phoneNumber,
-      'logged':logged?1:0
+      'logged': logged ? 1 : 0
     };
   }
 

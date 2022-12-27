@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:demo/date_repo/database_handler.dart';
 import 'package:demo/models/trip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:string_validator/string_validator.dart';
-
 import '../models/user.dart';
-import 'dart:convert';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
 
@@ -27,7 +24,6 @@ class AppProvider extends ChangeNotifier {
       'liked_trips': ["liked_trips"],
       'image': "image",
     });
-    getTrips();
   }
   String server = "http://10.0.2.2:8083/";
   TextEditingController emailController = TextEditingController();
@@ -42,8 +38,27 @@ class AppProvider extends ChangeNotifier {
   late Trip currentTrip;
   late User user;
   bool isLogged = false;
-  bool isDark = true;
+  bool isDark = false;
+  bool asCompany = false;
   int homeScreenIndex = 0;
+  final List<Locale> languages = [const Locale('en'), const Locale('ar')];
+  int local = 0;
+  GlobalKey<FormState> signinKey = GlobalKey();
+  GlobalKey<FormState> signupKey = GlobalKey();
+  Locale getLocale() {
+    return languages[local];
+  }
+
+  setLocale(int x) {
+    local = x % languages.length;
+    notifyListeners();
+  }
+
+  setLocaleFromButton() {
+    local = (local + 1) % languages.length;
+    notifyListeners();
+  }
+
   setCurrentTrip(Trip t) async {
     await SQL.sql.insert(t, user.id!);
     currentTrip = t;
@@ -234,25 +249,38 @@ class AppProvider extends ChangeNotifier {
 
   getHistory() async {
     List l = (await SQL.sql.getAllTrips(user.id!));
-
+    List t = [];
+    history = [];
+    List<Trip> tem = [];
+    for (var element in l) {
+      t = defaultTrips.where((e) => e.id == element['id']).toList();
+      if (t.length > 0) {
+        tem.add(t[0]);
+      }
+    }
+    history = tem.reversed.toList();
+    notifyListeners();
     // log(l[0]['company']);
     // history = l.map((e) => Trip.fromDBMap(e)).toList();
   }
 
   signUp() async {
-    final res = await http.post(
-        Uri.parse("${server}rest/public-user-controller"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(<String, String>{
-          "first_name": firstnameController.text,
-          "last_name": lastnameController.text,
-          "email": emailController.text.toLowerCase(),
-          "password": passwordController.text,
-          "phoneNumber": phoneNumberController.text
-        }));
-    log(res.body);
+    if (signupKey.currentState!.validate()) {
+      final res = await http.post(
+          Uri.parse("${server}rest/public-user-controller"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode(<String, String>{
+            "first_name": firstnameController.text,
+            "last_name": lastnameController.text,
+            "email": emailController.text.toLowerCase(),
+            "password": passwordController.text,
+            "phoneNumber": phoneNumberController.text,
+            'image': 'not send'
+          }));
+      log(res.body);
+    }
   }
 
   getTrips() async {
@@ -265,6 +293,7 @@ class AppProvider extends ChangeNotifier {
     }
     advancedTrip = defaultTrips;
     getLikedTrips();
+    await getHistory();
     notifyListeners();
   }
 
