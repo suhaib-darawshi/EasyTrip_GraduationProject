@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import 'CompanyInterface/screens/CompanySignUp.dart';
 import 'CompanyInterface/screens/addTripScreen.dart';
+import 'CompanyInterface/screens/addTripSecondScreen.dart';
 import 'CompanyInterface/widgets/CompanyTripEditScreen.dart';
 import 'User_Interface/screens/FilteredTripPage.dart';
 import 'User_Interface/screens/History.dart';
@@ -82,8 +83,9 @@ class Builded extends StatelessWidget {
             "History": (context) => HistoryScreen(),
             "CompanySignUp": (context) => CompanySignUp(),
             'companyHomePage': (context) => CompanyHomePage(),
-            "AddTrip":(context) => AddTrip(),
-            "CEditTripScreen":(context) => CEditTripScreen()
+            "AddTrip": (context) => AddTrip(),
+            "CEditTripScreen": (context) => CEditTripScreen(),
+            'AddTripScreen2': (context) => AddTripScreen2()
           },
           home: WelcomeScreen(),
         );

@@ -63,7 +63,7 @@ class CEditTripScreen extends StatelessWidget {
                       bottom: 5,
                       left: 20,
                       child: Text(
-                        '7 days',
+                        '${trip.duration.toString()} days',
                         style: TextStyle(
                             fontSize: 30.h,
                             fontWeight: FontWeight.bold,
@@ -76,7 +76,7 @@ class CEditTripScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            '750',
+                            trip.price,
                             style: TextStyle(
                                 fontSize: 30.h,
                                 fontWeight: FontWeight.bold,
@@ -176,7 +176,7 @@ class CEditTripScreen extends StatelessWidget {
                                 Expanded(
                                     flex: 3,
                                     child: Text(
-                                      trip.company.email,
+                                      trip.companyid.email,
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
@@ -203,7 +203,7 @@ class CEditTripScreen extends StatelessWidget {
                                 Expanded(
                                     flex: 3,
                                     child: Text(
-                                      trip.company.phone,
+                                      trip.companyid.phone,
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
@@ -230,7 +230,7 @@ class CEditTripScreen extends StatelessWidget {
                                 Expanded(
                                     flex: 3,
                                     child: Text(
-                                      trip.company.name,
+                                      trip.companyid.name,
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
@@ -322,7 +322,7 @@ class CEditTripScreen extends StatelessWidget {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'trip.hotel',
+                                          trip.hotel,
                                           style: TextStyle(
                                               fontSize: 20.w,
                                               fontWeight: FontWeight.bold),
@@ -334,7 +334,7 @@ class CEditTripScreen extends StatelessWidget {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              "3-",
+                                              trip.hotelRank[0],
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold),
@@ -370,7 +370,7 @@ class CEditTripScreen extends StatelessWidget {
                                 Expanded(
                                     flex: 3,
                                     child: Text(
-                                      'trip.flight',
+                                      trip.flight,
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),

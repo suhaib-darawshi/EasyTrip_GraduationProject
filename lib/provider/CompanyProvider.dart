@@ -7,6 +7,7 @@ import 'package:demo/models/companyModel.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:string_validator/string_validator.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../models/trip.dart';
 
@@ -24,7 +25,14 @@ class CompanyProvider extends ChangeNotifier {
   TextEditingController tripLocationController = TextEditingController();
   TextEditingController tripDescriptionController = TextEditingController();
   TextEditingController tripPriceController = TextEditingController();
+  TextEditingController tripHotelController = TextEditingController();
+  TextEditingController tripFlightController = TextEditingController();
+  TextEditingController tripLimitController = TextEditingController();
 
+  DateRangePickerController dateController = DateRangePickerController();
+  List<String> hotelRanks = ['3-Stars', '5-Stars', '7-Stars'];
+  String? hotelRank;
+  int duration = 0;
   bool isDark = false;
   final List<Locale> languages = [const Locale('en'), const Locale('ar')];
   int local = 0;
@@ -32,6 +40,37 @@ class CompanyProvider extends ChangeNotifier {
   late Company user;
   List<Trip> companyTrips = [];
   File? imageFile;
+  DateTime? begin;
+  bool foodReserved = false;
+  bool carRented = false;
+
+  foodCkeckBox() {
+    foodReserved = !foodReserved;
+    notifyListeners();
+  }
+
+  carCheckBox() {
+    carRented = !carRented;
+    notifyListeners();
+  }
+
+  incDuration() {
+    duration++;
+    notifyListeners();
+  }
+
+  decDuration() {
+    if (duration > 0) {
+      duration--;
+      notifyListeners();
+    }
+  }
+
+  ChangeHotelRank(value) {
+    hotelRank = value;
+    notifyListeners();
+  }
+
   pickImageForCategory() async {
     XFile? pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -62,7 +101,7 @@ class CompanyProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  lockTrip()  {
+  lockTrip() {
     currentTrip.available = !currentTrip.available;
     notifyListeners();
   }
@@ -122,18 +161,39 @@ class CompanyProvider extends ChangeNotifier {
   }
 
   addTrip() async {
-    if (addTripKey.currentState!.validate()) {}
+    // if (addTripKey.currentState!.validate()) {}
+
+    Map<String, String> map = {
+      'name': tripNameContrller.text,
+      'location': tripLocationController.text,
+      'description': tripDescriptionController.text,
+      'companyid': user.id!,
+      'hotel': tripHotelController.text,
+      'hotelRank': hotelRank!,
+      'flight': tripFlightController.text,
+      'begin': begin.toString(),
+      'BookLimit': tripLimitController.text,
+      'duration': duration.toString(),
+      'price': tripPriceController.text,
+      'carProvided': carRented.toString(),
+      'foodDeserved': foodReserved.toString(),
+      'end': begin!.add(Duration(days: duration)).toString()
+    };
+    final res = await API.apiHandler.addTrip(imageFile!, map);
+    log(res);
   }
 
   signIn() async {
-    log("message");
-    final res = await API.apiHandler.SignInCompany(
-        CompanyEmailController.text.toLowerCase(),
-        CompanyPasswordController.text);
-    if (res == 'ACCESSED') {
-      await getInfo();
+    if (signinKey.currentState!.validate()) {
+      log("message");
+      final res = await API.apiHandler.SignInCompany(
+          CompanyEmailController.text.toLowerCase(),
+          CompanyPasswordController.text);
+      if (res == 'ACCESSED') {
+        await getInfo();
+      }
+      return res;
     }
-    return res;
   }
 
   getInfo() async {
@@ -146,7 +206,7 @@ class CompanyProvider extends ChangeNotifier {
   getRelatedTrips() async {
     final tr = await API.apiHandler.getCompanyTrips(user.id!);
     List maps = jsonDecode(tr);
-
+    log(maps.toString());
     companyTrips = maps.map((e) => Trip.fromMap(e)).toList();
     notifyListeners();
     log(companyTrips.length.toString());

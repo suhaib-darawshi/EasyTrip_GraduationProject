@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AlertD extends StatelessWidget {
+  
   String message;
   AlertD(this.message, {super.key});
   @override

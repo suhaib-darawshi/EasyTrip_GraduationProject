@@ -84,13 +84,16 @@ class AppProvider extends ChangeNotifier {
     }
   }
 
-  String? phoneValidation(String content) {
+  String? phoneValidation(String? content) {
+    if (content == null || content.isEmpty) {
+      return 'required';
+    }
     if (!isNumeric(content)) {
       return "InCorrect phone number syntax";
     }
   }
 
-  String? emailValidation(String email) {
+  String? emailValidation(String? email) {
     if (email == null || email.isEmpty) {
       return 'RequiredField';
     } else if (!isEmail(email)) {
@@ -224,23 +227,25 @@ class AppProvider extends ChangeNotifier {
   }
 
   logIn() async {
-    String em = emailController.text.toLowerCase();
-    String pass = passwordController.text;
-    final res =
-        await http.post(Uri.parse("${server}rest/public-user-controller/login"),
-            headers: <String, String>{
-              'Content-Type': 'application/json; charset=UTF-8',
-            },
-            body: jsonEncode(<String, String>{'email': em, 'password': pass}));
+    if (signinKey.currentState!.validate()) {
+      String em = emailController.text.toLowerCase();
+      String pass = passwordController.text;
+      final res = await http.post(
+          Uri.parse("${server}rest/public-user-controller/login"),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{'email': em, 'password': pass}));
 
-    if (res.body == "ACCESSED") {
-      isLogged = true;
-      await getUserInformation();
-      await getTrips();
+      if (res.body == "ACCESSED") {
+        isLogged = true;
+        await getUserInformation();
+        await getTrips();
 
-      // await getHistory();
+        // await getHistory();
+      }
+      return res.body;
     }
-    return res.body;
   }
 
   logOut() {
@@ -287,6 +292,7 @@ class AppProvider extends ChangeNotifier {
     final res =
         await http.get(Uri.parse("${server}rest/public-trip-controller"));
     List dummy = jsonDecode(res.body);
+    log(dummy.toString());
     defaultTrips = dummy.map((e) => Trip.fromMap(e)).toList();
     for (var element in defaultTrips) {
       element.isLiked = user.liked_trips!.contains(element.id);

@@ -9,16 +9,15 @@ class Company {
   String phone;
   String email;
   String? password;
-  Company({
-    this.id,
-    required this.name,
-    required this.address,
-    this.rank,
-    required this.logo,
-    required this.phone,
-    required this.email,
-     this.password
-  });
+  Company(
+      {this.id,
+      required this.name,
+      required this.address,
+      this.rank,
+      required this.logo,
+      required this.phone,
+      required this.email,
+      this.password});
 
   Map<String, dynamic> toMap() {
     return {

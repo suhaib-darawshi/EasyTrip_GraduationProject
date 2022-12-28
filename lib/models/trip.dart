@@ -11,7 +11,7 @@ class Trip {
   String location;
   String url;
   String description;
-  Company company;
+  Company companyid;
   bool isLiked;
   int liked_count;
   bool isBooked;
@@ -24,26 +24,27 @@ class Trip {
   bool foodDeserved;
   DateTime? begin;
   DateTime? end;
-  Trip({
-    required this.id,
-    required this.name,
-    required this.location,
-    required this.url,
-    required this.description,
-    required this.company,
-    this.isLiked = false,
-    required this.liked_count,
-    this.isBooked = false,
-    this.available = true,
-    this.hotel = 'not provided',
-    this.hotelRank='not provided',
-    this.flight = 'not provided',
-    this.price = 'not available',
-    this.carProvided = false,
-    this.foodDeserved = false,
-    this.begin,
-    this.end,
-  });
+  int duration;
+  Trip(
+      {required this.id,
+      required this.name,
+      required this.location,
+      required this.url,
+      required this.description,
+      required this.companyid,
+      this.isLiked = false,
+      required this.liked_count,
+      this.isBooked = false,
+      this.available = true,
+      this.hotel = 'not provided',
+      this.hotelRank = 'not provided',
+      this.flight = 'not provided',
+      this.price = 'not available',
+      this.carProvided = false,
+      this.foodDeserved = false,
+      this.begin,
+      this.end,
+      this.duration = 3});
 
   Map<String, dynamic> toMap() {
     return {
@@ -52,7 +53,7 @@ class Trip {
       'location': location,
       'url': url,
       'description': description,
-      'company': company.toMap(),
+      'company': companyid.toMap(),
       'isLiked': isLiked,
       'liked_count': liked_count,
       'isBooked': isBooked,
@@ -63,8 +64,9 @@ class Trip {
       'price': price,
       'carProvided': carProvided,
       'foodDeserved': foodDeserved,
-      'begin': begin?.millisecondsSinceEpoch,
-      'end': end?.millisecondsSinceEpoch,
+      'begin': begin,
+      'end': end,
+      'duration': duration
     };
   }
 
@@ -75,11 +77,10 @@ class Trip {
       'location': location,
       'url': url,
       'description': description,
-      'company': company.toString(),
+      'company': companyid.id,
       'isLiked': isLiked ? 1 : 0,
       'liked_count': liked_count,
       'isBookedMarked': isBooked ? 1 : 0,
-      'available': available
     };
   }
 
@@ -88,23 +89,25 @@ class Trip {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       location: map['location'] ?? '',
-      url: "http://10.0.2.2:8083/"+map['url'] ,
+      url: "http://10.0.2.2:8083/" + map['url'],
       description: map['description'] ?? '',
-      company: Company.fromMap(map['company']),
+      companyid: Company.fromMap(map['companyid']),
       isLiked: map['isLiked'] ?? false,
-      liked_count: map['liked_count']?.toInt() ?? 0,
+      liked_count: int.parse(map['liked_count'].toString()),
       isBooked: map['isBooked'] ?? false,
       available: map['available'] ?? true,
-      hotel: map['hotel'] ?? '',
-      hotelRank: map['hotelRank'] ?? '',
-      flight: map['flight'] ?? '',
-      price: map['price'] ?? '',
+      hotel: map['hotel'] ?? 'not provided',
+      hotelRank: map['hotelRank'] ?? 'not provided',
+      flight: map['flight'] ?? 'not provided',
+      price: map['price'] ?? 'not provided',
       carProvided: map['carProvided'] ?? false,
       foodDeserved: map['foodDeserved'] ?? false,
-      begin: map['begin'] != null ? DateTime.fromMillisecondsSinceEpoch(map['begin']) : null,
-      end: map['end'] != null ? DateTime.fromMillisecondsSinceEpoch(map['end']) : null,
+      duration: map['duration'],
+      begin: map['begin'] != null ? DateTime.parse(map['begin']) : null,
+      end: map['end'] != null ? DateTime.parse(map['end']) : null,
     );
   }
+
   factory Trip.fromDBMap(Map<String, dynamic> map) {
     return Trip(
         id: map['id'] ?? '',
@@ -112,7 +115,7 @@ class Trip {
         location: map['location'] ?? '',
         url: "http://localhost:8083/" + map['url'],
         description: map['description'] ?? '',
-        company: Company.fromMap(jsonDecode(map['company'])),
+        companyid: Company.fromMap(jsonDecode(map['company'])),
         isLiked: map['isLiked'] == 1,
         liked_count: map['liked_count']?.toInt() ?? 0,
         isBooked: map['isBooked'] == 1,

@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:demo/models/companyModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:async/async.dart';
 
 class API {
   API._();
@@ -51,5 +54,24 @@ class API {
         body: jsonEncode({'id': id}));
 
     return res.body;
+  }
+
+  upload(File file) async {}
+
+  addTrip(File file, Map<String, String> map) async {
+    var stream = new http.ByteStream(DelegatingStream.typed(file.openRead()));
+    // get file length
+
+    var length = await file.length();
+    var uri =
+        Uri.parse("http://10.0.2.2:8083/rest/company-controller/createTrip");
+    var req = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile('file', stream, length,
+        filename: 'basename(file.path)');
+    req.files.add(multipartFile);
+    req.fields.addAll(map);
+
+    var resp = await req.send();
+    return resp.stream.bytesToString();
   }
 }

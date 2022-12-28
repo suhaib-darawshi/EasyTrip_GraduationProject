@@ -20,7 +20,7 @@ class TravelBlog extends StatelessWidget {
             .defaultTrips[index];
         return InkWell(
           onTap: () async {
-            await Provider.of<AppProvider>(context, listen: false)
+             await Provider.of<AppProvider>(context, listen: false)
                 .setCurrentTrip(t);
             AppRouter.router.push("DetailPage");
           },

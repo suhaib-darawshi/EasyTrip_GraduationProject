@@ -78,9 +78,9 @@ class AddTrip extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      provider.addTrip();
+                      AppRouter.router.push('AddTripScreen2');
                     },
-                    child: Text("Add Trip".tr()))
+                    child: Text("Next".tr()))
               ],
             ),
           ),

@@ -62,7 +62,7 @@ class CompanyViewTripWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "By: ${trip.company.name}",
+                    "By: ${trip.companyid.name}",
                     style: TextStyle(fontSize: 18),
                   ),
                   Row(

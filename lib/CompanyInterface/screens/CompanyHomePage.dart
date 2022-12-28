@@ -67,6 +67,7 @@ class CompanyHomePage extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          Provider.of<CompanyProvider>(context, listen: false).imageFile = null;
           AppRouter.router.push("AddTrip");
         },
         child: Icon(
