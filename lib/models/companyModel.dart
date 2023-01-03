@@ -21,7 +21,7 @@ class Company {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      '_id': id,
       'name': name,
       'address': address,
       'rank': rank,
@@ -38,7 +38,7 @@ class Company {
       name: map['name'] ?? '',
       address: map['address'] ?? '',
       rank: double.parse(map['rank'] ?? '0'),
-      logo: map['logo'] ?? '',
+      logo: "http://10.0.2.2:8083/${map['logo']}",
       phone: map['phone'] ?? '',
       email: map['email'] ?? '',
       password: map['password'],

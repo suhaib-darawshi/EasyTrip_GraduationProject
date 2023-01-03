@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:demo/api/api_helper.dart';
 import 'package:demo/date_repo/database_handler.dart';
 import 'package:demo/models/trip.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:string_validator/string_validator.dart';
 import '../models/user.dart';
 import 'package:path/path.dart';
 import 'package:async/async.dart';
+import 'package:demo/date_repo/enum.dart';
 
 class AppProvider extends ChangeNotifier {
   AppProvider() {
@@ -31,6 +33,7 @@ class AppProvider extends ChangeNotifier {
   TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController authKeyController = TextEditingController();
   List<Trip> defaultTrips = [];
   List<Trip> advancedTrip = [];
   List<Trip> likedTrips = [];
@@ -45,6 +48,9 @@ class AppProvider extends ChangeNotifier {
   int local = 0;
   GlobalKey<FormState> signinKey = GlobalKey();
   GlobalKey<FormState> signupKey = GlobalKey();
+  GlobalKey<FormState> confirmPageKey = GlobalKey();
+  int? confirmKey;
+
   Locale getLocale() {
     return languages[local];
   }
@@ -98,6 +104,19 @@ class AppProvider extends ChangeNotifier {
       return 'RequiredField';
     } else if (!isEmail(email)) {
       return 'Enter A valid Email';
+    }
+  }
+
+  String? verifValidation(String? key) {
+    if (key == null || key.isEmpty) {
+      return 'required field';
+    }
+    if (!isNumeric(key) || key.length != 6) {
+      return 'should be a 6-digit Number';
+    }
+    if (key != confirmKey.toString()) {
+      log(confirmKey.toString());
+      return 'Invalid key';
     }
   }
 
@@ -210,7 +229,7 @@ class AppProvider extends ChangeNotifier {
         body: jsonEncode(<String, String>{'email': emailController.text}));
 
     user = User.fromMap(jsonDecode(res.body));
-    log(user.toString());
+
     firstnameController.text = user.first_name!;
     lastnameController.text = user.last_name!;
     emailController.text = user.email!;
@@ -269,22 +288,52 @@ class AppProvider extends ChangeNotifier {
     // history = l.map((e) => Trip.fromDBMap(e)).toList();
   }
 
+  createUser() async {
+    if (confirmPageKey.currentState!.validate()) {
+      final res = await API.apiHandler.createUser(<String, String>{
+        "first_name": firstnameController.text,
+        "last_name": lastnameController.text,
+        "email": emailController.text.toLowerCase(),
+        "password": passwordController.text,
+        "phoneNumber": phoneNumberController.text,
+        'image': 'not send'
+      });
+      await getUserInformation();
+      await getTrips();
+      return true;
+    }
+    return false;
+  }
+
   signUp() async {
     if (signupKey.currentState!.validate()) {
-      final res = await http.post(
-          Uri.parse("${server}rest/public-user-controller"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: jsonEncode(<String, String>{
-            "first_name": firstnameController.text,
-            "last_name": lastnameController.text,
-            "email": emailController.text.toLowerCase(),
-            "password": passwordController.text,
-            "phoneNumber": phoneNumberController.text,
-            'image': 'not send'
-          }));
-      log(res.body);
+      final String res = await API.apiHandler.UserSignUp(<String, String>{
+        "first_name": firstnameController.text,
+        "last_name": lastnameController.text,
+        "email": emailController.text.toLowerCase(),
+        "password": passwordController.text,
+        "phoneNumber": phoneNumberController.text,
+        'image': 'not send'
+      });
+      if (res.toLowerCase() == ("Email already signed up".toLowerCase())) {
+        return false;
+      }
+      confirmKey = int.parse(res);
+      return true;
+
+      // final res = await http.post(
+      //     Uri.parse("${server}rest/public-user-controller"),
+      //     headers: <String, String>{
+      //       'Content-Type': 'application/json; charset=UTF-8'
+      //     },
+      //     body: jsonEncode(<String, String>{
+      //       "first_name": firstnameController.text,
+      //       "last_name": lastnameController.text,
+      //       "email": emailController.text.toLowerCase(),
+      //       "password": passwordController.text,
+      //       "phoneNumber": phoneNumberController.text,
+      //       'image': 'not send'
+      //     }));
     }
   }
 
@@ -292,10 +341,11 @@ class AppProvider extends ChangeNotifier {
     final res =
         await http.get(Uri.parse("${server}rest/public-trip-controller"));
     List dummy = jsonDecode(res.body);
-    log(dummy.toString());
+
     defaultTrips = dummy.map((e) => Trip.fromMap(e)).toList();
     for (var element in defaultTrips) {
       element.isLiked = user.liked_trips!.contains(element.id);
+      element.categories = element.getCategories(element.categories ?? []);
     }
     advancedTrip = defaultTrips;
     getLikedTrips();

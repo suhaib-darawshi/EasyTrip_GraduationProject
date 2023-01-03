@@ -145,8 +145,28 @@ class SignUp extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                    onPressed: () {
-                      provider.signUp();
+                    onPressed: () async {
+                      bool x = await provider.signUp();
+                      if (x) {
+                        provider.authKeyController.clear();
+                        AppRouter.router.push('ConfirmSignUpScreen');
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Wrong Email".tr()),
+                              content: Text('Email already signed up!'.tr()),
+                              actions: [
+                                CupertinoDialogAction(
+                                  child: Text("Try Again".tr()),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     style: TextButton.styleFrom(
                         backgroundColor:

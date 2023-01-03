@@ -113,8 +113,8 @@ class CEditTripScreen extends StatelessWidget {
                                   size: 40.h, color: (Colors.black))
                               : Icon(Icons.lock_outline_sharp,
                                   size: 40.h, color: Colors.red),
-                          onTap: () {
-                            provider.lockTrip();
+                          onTap: () async{
+                            await provider.lockTrip();
                           },
                         ),
                         Text(provider.currentTrip.liked_count.toString())

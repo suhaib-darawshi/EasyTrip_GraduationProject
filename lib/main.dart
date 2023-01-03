@@ -1,5 +1,4 @@
 import 'package:demo/App_Router/App_Router.dart';
-import 'package:demo/CompanyInterface/screens/CompanyHomePage.dart';
 import 'package:demo/User_Interface/screens/DetailPage.dart';
 import 'package:demo/provider/CompanyProvider.dart';
 import 'package:demo/provider/app_provider.dart';
@@ -15,9 +14,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'CompanyInterface/screens/CompanySignUp.dart';
+import 'CompanyInterface/screens/HomeScreen.dart';
+import 'CompanyInterface/screens/addCategoriesScreen.dart';
 import 'CompanyInterface/screens/addTripScreen.dart';
 import 'CompanyInterface/screens/addTripSecondScreen.dart';
 import 'CompanyInterface/widgets/CompanyTripEditScreen.dart';
+import 'User_Interface/screens/ConfirmScreen.dart';
 import 'User_Interface/screens/FilteredTripPage.dart';
 import 'User_Interface/screens/History.dart';
 import 'User_Interface/screens/account_information.dart';
@@ -82,10 +84,13 @@ class Builded extends StatelessWidget {
             "DetailPage": (context) => DetailPage(),
             "History": (context) => HistoryScreen(),
             "CompanySignUp": (context) => CompanySignUp(),
-            'companyHomePage': (context) => CompanyHomePage(),
+            'companyHomePage': (context) => CHomeScreen(),
             "AddTrip": (context) => AddTrip(),
             "CEditTripScreen": (context) => CEditTripScreen(),
-            'AddTripScreen2': (context) => AddTripScreen2()
+            'AddTripScreen2': (context) => AddTripScreen2(),
+            "AddCategoriesScreen": (context) => AddCategoriesScreen(),
+            "WelcomeScreen":(context) => WelcomeScreen(),
+            "ConfirmSignUpScreen":(context) => ConfirmSignUpScreen()
           },
           home: WelcomeScreen(),
         );

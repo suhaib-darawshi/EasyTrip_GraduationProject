@@ -76,6 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                 child: ElevatedButton(
                     style: TextButton.styleFrom(shape: StadiumBorder()),
                     onPressed: () {
+                      provider.asCompany = false;
                       AppRouter.router.pushReplace("LogIn");
                     },
                     child: Text("Sign In as User")),

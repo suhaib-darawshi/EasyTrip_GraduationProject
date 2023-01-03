@@ -39,5 +39,21 @@
     "View Details":"View Details",
     "Information":"Company Information",
     "Description":"Description",
-    "Trip Information":"Trip Details"
+    "Trip Information":"Trip Details",
+    "Next":"Next",
+    "Please Fill the Information":"Please Fill the Information",
+    "Hotel Name (optional)":"Hotel Name (optional)",
+    "choose":"choose",
+    "Flight Company":"Flight Company",
+    "Book Limit":"Book Limit",
+    "Choose Date":"Trip Date:",
+    "Food Reserved :":"Food Reserved :",
+    "E-mail :":"E-mail :",
+    "Phone :":"Phone :",
+    "Company Location :":"Company Location :",
+    "Hotel :":"Hotel :",
+    "All Trips":"All Trips",
+    "Active Trips":"Active Trips",
+    "non-active Trips":"non-active Trips",
+    "Car Rented :":"Car Rented :"
 }

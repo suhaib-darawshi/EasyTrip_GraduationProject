@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:demo/date_repo/enum.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 
 import 'package:demo/models/companyModel.dart';
 
@@ -25,6 +25,29 @@ class Trip {
   DateTime? begin;
   DateTime? end;
   int duration;
+  List? categories = [];
+  getCategories(List l) {
+    List<Category> c = [
+      Category.ancient,
+      Category.beach,
+      Category.cheap,
+      Category.desert,
+      Category.developedCity,
+      Category.expensive,
+      Category.greenLand,
+      Category.mountant,
+      Category.religous,
+      Category.scientific
+    ];
+    List<Category> res = [];
+    for (var x = 0; x < l.length; x++) {
+      if (l[x]) {
+        res.add(c[x]);
+      }
+    }
+    return res;
+  }
+
   Trip(
       {required this.id,
       required this.name,
@@ -44,7 +67,8 @@ class Trip {
       this.foodDeserved = false,
       this.begin,
       this.end,
-      this.duration = 3});
+      this.duration = 3,
+      this.categories});
 
   Map<String, dynamic> toMap() {
     return {
@@ -53,7 +77,7 @@ class Trip {
       'location': location,
       'url': url,
       'description': description,
-      'company': companyid.toMap(),
+      'companyid': companyid.id,
       'isLiked': isLiked,
       'liked_count': liked_count,
       'isBooked': isBooked,
@@ -66,7 +90,8 @@ class Trip {
       'foodDeserved': foodDeserved,
       'begin': begin,
       'end': end,
-      'duration': duration
+      'duration': duration,
+      'categories': categories
     };
   }
 
@@ -91,18 +116,20 @@ class Trip {
       location: map['location'] ?? '',
       url: "http://10.0.2.2:8083/" + map['url'],
       description: map['description'] ?? '',
-      companyid: Company.fromMap(map['companyid']),
+      companyid: Company.fromMap(map['company']),
       isLiked: map['isLiked'] ?? false,
       liked_count: int.parse(map['liked_count'].toString()),
       isBooked: map['isBooked'] ?? false,
       available: map['available'] ?? true,
       hotel: map['hotel'] ?? 'not provided',
-      hotelRank: map['hotelRank'] ?? 'not provided',
+      hotelRank:
+          map['hotelRank'].toString().isEmpty ? "0" : map['hotelRank'] ?? '0',
       flight: map['flight'] ?? 'not provided',
       price: map['price'] ?? 'not provided',
       carProvided: map['carProvided'] ?? false,
       foodDeserved: map['foodDeserved'] ?? false,
       duration: map['duration'],
+      categories: map['categories'],
       begin: map['begin'] != null ? DateTime.parse(map['begin']) : null,
       end: map['end'] != null ? DateTime.parse(map['end']) : null,
     );
@@ -113,7 +140,7 @@ class Trip {
         id: map['id'] ?? '',
         name: map['name'] ?? '',
         location: map['location'] ?? '',
-        url: "http://localhost:8083/" + map['url'],
+        url: "http://10.0.2.2:8083/" + map['url'],
         description: map['description'] ?? '',
         companyid: Company.fromMap(jsonDecode(map['company'])),
         isLiked: map['isLiked'] == 1,

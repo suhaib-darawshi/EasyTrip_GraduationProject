@@ -196,7 +196,7 @@ class PersonalScreen extends StatelessWidget {
                       onPressed: () {
                         Provider.of<AppProvider>(context, listen: false)
                             .logOut();
-                        AppRouter.router.pushReplace("LogIn");
+                        AppRouter.router.pushReplace("WelcomeScreen");
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.blue.shade600,

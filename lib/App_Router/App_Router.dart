@@ -16,7 +16,7 @@ class AppRouter {
   pushReplace(String name) {
     navigatorKey.currentState!.pushReplacementNamed(name);
   }
-
+  
   pop() {
     navigatorKey.currentState!.pop();
   }

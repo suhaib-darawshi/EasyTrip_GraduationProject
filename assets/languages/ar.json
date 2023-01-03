@@ -39,5 +39,21 @@
     "View Details":"عرض التفاصيل",
     "Information":"بيانات الشركة",
     "Description":"وصف الرحلة",
-    "Trip Information":"معلومات الرحلة"
+    "Trip Information":"معلومات الرحلة",
+    "Next":"التالي",
+    "Please Fill the Information":"رجاءا قم بتعبئة البيانات",
+    "Hotel Name (optional)":"اسم الفندق (اختياري)",
+    "choose":"اختر",
+    "Flight Company":"شركة الطيران",
+    "Book Limit":"عدد التذاكر",
+    "Choose Date":":تاريخ الرحلة",
+    "Food Reserved :":"طعام مكفول :",
+    "Car Rented :":" :سيارة مؤمنة",
+    "E-mail :":" :الايميل",
+    "Phone :":"رقم الهاتف :",
+    "Company Location :":"موقع الشركة",
+    "Hotel :":"الفندق",
+    "All Trips":"رحلاتك",
+    "Active Trips":"رحلات مفعلة",
+    "non-active Trips":"رحلات معطلة"
 }
