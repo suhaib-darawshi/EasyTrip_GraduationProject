@@ -13,13 +13,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import 'CompanyInterface/screens/CConfirmSignUpScreen.dart';
+import 'CompanyInterface/screens/CeditInfo.dart';
+import 'CompanyInterface/screens/CompanyPersonalPage.dart';
 import 'CompanyInterface/screens/CompanySignUp.dart';
 import 'CompanyInterface/screens/HomeScreen.dart';
 import 'CompanyInterface/screens/addCategoriesScreen.dart';
 import 'CompanyInterface/screens/addTripScreen.dart';
 import 'CompanyInterface/screens/addTripSecondScreen.dart';
 import 'CompanyInterface/widgets/CompanyTripEditScreen.dart';
+import 'User_Interface/screens/BookedMarkedScreen.dart';
 import 'User_Interface/screens/ConfirmScreen.dart';
+import 'User_Interface/screens/ContactUs.dart';
 import 'User_Interface/screens/FilteredTripPage.dart';
 import 'User_Interface/screens/History.dart';
 import 'User_Interface/screens/account_information.dart';
@@ -89,8 +94,14 @@ class Builded extends StatelessWidget {
             "CEditTripScreen": (context) => CEditTripScreen(),
             'AddTripScreen2': (context) => AddTripScreen2(),
             "AddCategoriesScreen": (context) => AddCategoriesScreen(),
-            "WelcomeScreen":(context) => WelcomeScreen(),
-            "ConfirmSignUpScreen":(context) => ConfirmSignUpScreen()
+            "WelcomeScreen": (context) => WelcomeScreen(),
+            "ConfirmSignUpScreen": (context) => ConfirmSignUpScreen(),
+            "CCofirmSignUpScreen": (context) => CCofirmSignUpScreen(),
+            "BookedMarkedScreen": (context) => BookedMarkedScreen(),
+            "CPersonalPage": (context) => CPersonalPage(),
+            "CompanyEditInformationScreen": (context) =>
+                CompanyEditInformationScreen(),
+            "ContactUs": (context) => ContactUs()
           },
           home: WelcomeScreen(),
         );

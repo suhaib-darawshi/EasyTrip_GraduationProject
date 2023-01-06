@@ -1,5 +1,6 @@
 import 'package:demo/provider/CompanyProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -151,7 +152,27 @@ class CompanySignUp extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () async {
-                      await provider.signUp();
+                      bool x = await provider.signUp();
+                      if (x) {
+                        provider.authKeyController.clear();
+                        AppRouter.router.push('CCofirmSignUpScreen');
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Wrong Email".tr()),
+                              content: Text('Email already signed up!'.tr()),
+                              actions: [
+                                CupertinoDialogAction(
+                                  child: Text("Try Again".tr()),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     style: TextButton.styleFrom(
                         backgroundColor:

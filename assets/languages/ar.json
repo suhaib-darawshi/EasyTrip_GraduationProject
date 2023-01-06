@@ -55,5 +55,11 @@
     "Hotel :":"الفندق",
     "All Trips":"رحلاتك",
     "Active Trips":"رحلات مفعلة",
-    "non-active Trips":"رحلات معطلة"
+    "non-active Trips":"رحلات معطلة",
+    "Filter by category":"صنف الرحلات :",
+    "Statistics":"احصائيات",
+    "Contact Us":"تواصل معنا",
+    "Type message":"اكتب رسالتك",
+    "Rate this Trip":"اضف تقييم",
+    "submit":"قيم"
 }

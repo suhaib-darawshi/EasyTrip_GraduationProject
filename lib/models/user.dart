@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:demo/models/message.dart';
 import 'package:flutter/foundation.dart';
 
 class User {
@@ -11,18 +12,21 @@ class User {
   String? phoneNumber;
   String? role;
   List? liked_trips;
+  List? booked_trips;
   String? image;
-  User({
-    this.id,
-    this.first_name,
-    this.last_name,
-    this.email,
-    this.password,
-    this.phoneNumber,
-    this.role,
-    this.liked_trips,
-    this.image,
-  });
+  List chat;
+  User(
+      {this.id,
+      this.first_name,
+      this.last_name,
+      this.email,
+      this.password,
+      this.phoneNumber,
+      this.role,
+      this.liked_trips,
+      this.image,
+      this.booked_trips,
+      this.chat = const []});
 
   User copyWith({
     String? id,
@@ -45,6 +49,10 @@ class User {
     );
   }
 
+  List<Message> getChat(List l) {
+    return l.map((e) => Message.fromMap(e)).toList();
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -56,6 +64,8 @@ class User {
       'role': role,
       'liked_trips': liked_trips?.toString(),
       'image': image,
+      'booked_trips': booked_trips?.toString(),
+      'chat': chat.toString()
     };
   }
 
@@ -73,16 +83,17 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'],
-      first_name: map['first_name'],
-      last_name: map['last_name'],
-      email: map['email'],
-      password: map['password'],
-      phoneNumber: map['phoneNumber'],
-      role: map['role'],
-      liked_trips: map['liked_trips'] ?? [],
-      image: "http://10.0.2.2:8083/" + map['image'],
-    );
+        id: map['id'],
+        first_name: map['first_name'],
+        last_name: map['last_name'],
+        email: map['email'],
+        password: map['password'],
+        phoneNumber: map['phoneNumber'],
+        role: map['role'],
+        liked_trips: map['liked_trips'] ?? [],
+        image: "http://10.0.2.2:8083/" + map['image'],
+        booked_trips: map['booked_trips'] ?? [],
+        chat: (map['chat'] as List).map((e) => Message.fromMap(e)).toList());
   }
 
   String toJson() => json.encode(toMap());

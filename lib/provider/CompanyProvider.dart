@@ -18,6 +18,7 @@ class CompanyProvider extends ChangeNotifier {
   GlobalKey<FormState> addTripKey = GlobalKey();
   GlobalKey<FormState> addTripKey2 = GlobalKey();
   GlobalKey<FormState> signinKey = GlobalKey();
+  GlobalKey<FormState> confirmPageKey = GlobalKey();
 
   TextEditingController CompanyNameController = TextEditingController();
   TextEditingController CompanyAddressController = TextEditingController();
@@ -31,6 +32,7 @@ class CompanyProvider extends ChangeNotifier {
   TextEditingController tripHotelController = TextEditingController();
   TextEditingController tripFlightController = TextEditingController();
   TextEditingController tripLimitController = TextEditingController();
+  TextEditingController authKeyController = TextEditingController();
 
   DateRangePickerController dateController = DateRangePickerController();
   List<String> hotelRanks = ['3-Stars', '5-Stars', '7-Stars'];
@@ -46,6 +48,7 @@ class CompanyProvider extends ChangeNotifier {
   DateTime? begin;
   bool foodReserved = false;
   bool carRented = false;
+  late int confirmKey;
   CompanyProvider() {
     initCategories = defaultCategories;
     log(initCategories.toString());
@@ -128,6 +131,19 @@ class CompanyProvider extends ChangeNotifier {
   setCurrentTrip(Trip t) async {
     currentTrip = t;
     notifyListeners();
+  }
+
+  String? verifValidation(String? key) {
+    if (key == null || key.isEmpty) {
+      return 'required field';
+    }
+    if (!isNumeric(key) || key.length != 6) {
+      return 'should be a 6-digit Number';
+    }
+    if (key != confirmKey.toString()) {
+      log(confirmKey.toString());
+      return 'Invalid key';
+    }
   }
 
   logOut() {}
@@ -217,7 +233,7 @@ class CompanyProvider extends ChangeNotifier {
 
   signUp() async {
     if (signUpKey.currentState!.validate()) {
-      await API.apiHandler.signUpCompany(Company.fromMap({
+      final res = await API.apiHandler.companySignUp(<String, String>{
         'name': CompanyNameController.text,
         'address': CompanyAddressController.text,
         'rank': '0',
@@ -225,7 +241,27 @@ class CompanyProvider extends ChangeNotifier {
         'phone': CompanyPhoneController.text,
         'email': CompanyEmailController.text.toLowerCase(),
         'password': CompanyPasswordController.text,
-      }));
+      });
+      if (res.toLowerCase() == ("Email already signed up".toLowerCase())) {
+        return false;
+      }
+      confirmKey = int.parse(res);
+      return true;
+    }
+  }
+
+  createAccount() async {
+    if (confirmPageKey.currentState!.validate()) {
+      await API.apiHandler.createAccountCompany(<String, String>{
+        'name': CompanyNameController.text,
+        'address': CompanyAddressController.text,
+        'rank': '0',
+        'phone': CompanyPhoneController.text,
+        'email': CompanyEmailController.text.toLowerCase(),
+        'password': CompanyPasswordController.text,
+      });
+      await getInfo();
+      return true;
     }
   }
 
@@ -286,5 +322,41 @@ class CompanyProvider extends ChangeNotifier {
     companyTrips = maps.map((e) => Trip.fromMap(e)).toList();
     updateTrips();
     notifyListeners();
+  }
+
+  fillControllers() {
+    CompanyNameController.text = user.name;
+    CompanyAddressController.text = user.address;
+    CompanyPasswordController.text = user.password!;
+    CompanyPhoneController.text = user.phone;
+    CompanyEmailController.text = user.email;
+  }
+
+  updateInfo() async {
+    String res = await API.apiHandler.companyUpdateInfo(<String, String>{
+      "id": user.id!,
+      "address": CompanyAddressController.text,
+      "name": CompanyNameController.text,
+      'password': CompanyPasswordController.text,
+      'phone': CompanyPhoneController.text,
+      'email': CompanyEmailController.text
+    });
+    await getInfo();
+    return res;
+  }
+
+  File? logoFile;
+  pickLogo() async {
+    XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      logoFile = File(pickedFile.path);
+      await uploadLogo();
+      await getInfo();
+    }
+  }
+
+  uploadLogo() async {
+    await API.apiHandler.uploadLogo(logoFile!, user.id!);
   }
 }

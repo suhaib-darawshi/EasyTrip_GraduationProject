@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:demo/models/companyModel.dart';
 import 'package:demo/models/trip.dart';
+import 'package:demo/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:async/async.dart';
@@ -22,7 +23,18 @@ class API {
 
     return res.body;
   }
-  createUser(Map<String,String>map)async{
+
+  rateTrip(Map<String, dynamic> map) async {
+    final res = await http.post(
+        Uri.parse("${server}rest/public-trip-controller/RateTrip"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+    return res.body.toString();
+  }
+
+  createUser(Map<String, String> map) async {
     final res = await http.post(
         Uri.parse("${server}rest/public-user-controller"),
         headers: <String, String>{
@@ -31,17 +43,6 @@ class API {
         body: jsonEncode(map));
     log(res.body.toString());
     return res.body;
-  }
-  signUpCompany(Company company) async {
-    Map<String, dynamic> map = company.toMap();
-    map.remove('id');
-    map.remove('logo');
-    map.remove('rank');
-    final res = await http.post(Uri.parse("${server}rest/company-controller"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(map));
   }
 
   getInfoCompany(String email) async {
@@ -82,6 +83,54 @@ class API {
     return resp.stream.bytesToString();
   }
 
+  uploadUserPicture(File file, String id) async {
+    var stream = new http.ByteStream(DelegatingStream.typed(file.openRead()));
+    // get file length
+    var length = await file.length();
+    var uri =
+        Uri.parse("http://10.0.2.2:8083/rest/public-user-controller/file");
+    var req = http.MultipartRequest("POST", uri);
+    var multipartFile = http.MultipartFile('file', stream, length,
+        filename: basename(file.path));
+    req.files.add(multipartFile);
+    req.fields.addAll({'id': id});
+    var resp = await req.send();
+  }
+
+  contactUs(Map<String, dynamic> map) async {
+    final res = await http.post(
+        Uri.parse('${server}rest/public-user-controller/contact'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+  }
+
+  companyUpdateInfo(Map<String, String> map) async {
+    final res = await http.put(
+        Uri.parse("http://10.0.2.2:8083/rest/company-controller"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+    return res.body;
+  }
+
+  uploadLogo(File file, String id) async {
+    // get file length
+    var stream = new http.ByteStream(DelegatingStream.typed(file.openRead()));
+    var length = await file.length();
+    var uri = Uri.parse("http://10.0.2.2:8083/rest/company-controller/upLogo");
+    var req = http.MultipartRequest("PUT", uri);
+    var multipartFile = http.MultipartFile('file', stream, length,
+        filename: 'basename(file.path)');
+    req.files.add(multipartFile);
+    req.fields.addAll(<String, String>{'id': id});
+    var resp = await req.send();
+
+    return resp.stream.bytesToString();
+  }
+
   addTrip(File file, Map<String, dynamic> map) async {
     final String url = await upload(file);
     map['url'] = url;
@@ -115,5 +164,34 @@ class API {
         body: jsonEncode(map));
     log(res.body.toString());
     return res.body;
+  }
+
+  companySignUp(Map<String, String> map) async {
+    final res = await http.post(
+        Uri.parse("${server}rest/company-controller/signUpAuth"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+    log(res.body.toString());
+    return res.body;
+  }
+
+  createAccountCompany(Map<String, String> map) async {
+    final res = await http.post(Uri.parse("${server}rest/company-controller"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+  }
+
+  bookTrip(Map<String, String> map) async {
+    final res = await http.post(
+        Uri.parse("${server}rest/public-trip-controller/BookTrip"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+    return res.body.toString();
   }
 }

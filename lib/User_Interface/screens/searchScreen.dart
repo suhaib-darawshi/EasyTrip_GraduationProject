@@ -16,28 +16,48 @@ class SearchScreen extends StatelessWidget {
       backgroundColor: Provider.of<AppProvider>(context).isDark
           ? Colors.black
           : Colors.grey.shade200,
-      body: Center(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
-                  padding: const EdgeInsets.all(10),
-                  itemBuilder: (context, index) {
-                    return CustomTripWidget(
-                        Provider.of<AppProvider>(context, listen: false)
-                            .defaultTrips[index]);
-                  },
-                  separatorBuilder: ((context, index) {
-                    return SizedBox(
-                      height: 10.h,
-                    );
-                  }),
-                  itemCount:
-                      Provider.of<AppProvider>(context).defaultTrips.length),
-            )
-          ],
-        ),
-      ),
+      body: Consumer<AppProvider>(builder: (context, provider, c) {
+        return Center(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text('Filter by category'.tr()),
+                  DropdownButton<String>(
+                    hint: Text('choose'.tr()),
+                    value: provider.chosenCategory,
+                    icon: Icon(Icons.keyboard_arrow_down_outlined),
+                    items:
+                        provider.categoriesMenu.map<DropdownMenuItem<String>>((e) {
+                      return DropdownMenuItem<String>(value: e, child: Text(e));
+                    }).toList(),
+                    onChanged: (value) {
+                      provider.ChangeCategory(value);
+                    },
+                  ),
+                ],
+              ),
+              Expanded(
+                child: ListView.separated(
+                    padding: const EdgeInsets.all(10),
+                    itemBuilder: (context, index) {
+                      return CustomTripWidget(
+                          Provider.of<AppProvider>(context, listen: false)
+                              .filteredByCategory[index]);
+                    },
+                    separatorBuilder: ((context, index) {
+                      return SizedBox(
+                        height: 10.h,
+                      );
+                    }),
+                    itemCount: Provider.of<AppProvider>(context)
+                        .filteredByCategory
+                        .length),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }

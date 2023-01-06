@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:demo/provider/app_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +46,9 @@ class DetailPage extends StatelessWidget {
                               },
                               child: Icon(Icons.arrow_back_ios,
                                   size: 35.w,
-                                  color:
-                                      (Provider.of<AppProvider>(context).isDark
-                                          ? Colors.black
-                                          : Colors.white))),
+                                  color: (provider.isDark
+                                      ? Colors.black
+                                      : Colors.white))),
                         ],
                       ),
                     ),
@@ -113,38 +114,47 @@ class DetailPage extends StatelessWidget {
                     Row(
                       children: [
                         InkWell(
-                          child: (Provider.of<AppProvider>(context)
-                                  .currentTrip
-                                  .isLiked)
+                          child: (provider.currentTrip.isLiked)
                               ? Icon(Icons.favorite,
                                   size: 50.h, color: Colors.red)
                               : Icon(Icons.favorite_border,
                                   size: 50.h,
-                                  color:
-                                      (Provider.of<AppProvider>(context).isDark
-                                          ? Colors.white
-                                          : Colors.black)),
+                                  color: (provider.isDark
+                                      ? Colors.white
+                                      : Colors.black)),
                           onTap: () {
-                            Provider.of<AppProvider>(context, listen: false)
-                                .likeTrip(trip);
+                            provider.likeTrip(trip);
                           },
                         ),
-                        Text(Provider.of<AppProvider>(context)
-                            .currentTrip
-                            .liked_count
-                            .toString())
+                        Text(provider.currentTrip.liked_count.toString())
                       ],
                     ),
-                    InkWell(
-                      child: Icon(
-                        Icons.bookmark_border,
-                        size: 50.h,
-                        color: Provider.of<AppProvider>(context).isDark
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      onTap: () {},
-                    )
+                    provider.currentTrip.available
+                        ? InkWell(
+                            child: provider.currentTrip.isBooked
+                                ? Icon(
+                                    Icons.bookmark,
+                                    size: 50.h,
+                                    color: provider.isDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  )
+                                : Icon(
+                                    Icons.bookmark_border,
+                                    size: 50.h,
+                                    color: provider.isDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                            onTap: () async {
+                              await provider.bookTrip();
+                            },
+                          )
+                        : Icon(
+                            Icons.lock,
+                            size: 50.w,
+                            color: Colors.red,
+                          )
                   ],
                 ),
               ),
@@ -534,6 +544,101 @@ class DetailPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Divider(
+                        color: provider.isDark ? Colors.white : Colors.black,
+                        height: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Rate this Trip".tr(),
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    provider.changeRate(1);
+                                  },
+                                  child: Icon(
+                                    Icons.star,
+                                    color: provider.rate > 0
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    provider.changeRate(2);
+                                  },
+                                  child: Icon(
+                                    Icons.star,
+                                    color: provider.rate > 1
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    provider.changeRate(3);
+                                  },
+                                  child: Icon(
+                                    Icons.star,
+                                    color: provider.rate > 2
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    provider.changeRate(4);
+                                  },
+                                  child: Icon(
+                                    Icons.star,
+                                    color: provider.rate > 3
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    provider.changeRate(5);
+                                  },
+                                  child: Icon(
+                                    Icons.star,
+                                    color: provider.rate > 4
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 24.0),
+                            child: ElevatedButton(
+                                onPressed: () async {
+                                  await provider.rateTrip();
+                                },
+                                child: Text("submit".tr())),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      )
                     ],
                   ),
                 ),

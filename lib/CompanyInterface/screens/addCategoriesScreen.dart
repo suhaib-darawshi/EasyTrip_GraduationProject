@@ -149,7 +149,8 @@ class AddCategoriesScreen extends StatelessWidget {
             ElevatedButton(
                 onPressed: () async {
                   await provider.addTrip();
-                  AppRouter.router.pushReplace('companyHomePage');
+                  await provider.getRelatedTrips();
+                  AppRouter.router.popUntil('companyHomePage');
                 },
                 child: Text('Finish ...')),
             SizedBox(

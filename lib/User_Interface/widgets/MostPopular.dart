@@ -14,10 +14,10 @@ class MostPopular extends StatelessWidget {
     return ListView.separated(
       padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.h),
       scrollDirection: Axis.horizontal,
-      itemCount: Provider.of<AppProvider>(context).advancedTrip.length,
+      itemCount: Provider.of<AppProvider>(context).mostPopular.length,
       itemBuilder: (context, index) {
-        Trip t = Provider.of<AppProvider>(context, listen: false)
-            .advancedTrip[index];
+        Trip t =
+            Provider.of<AppProvider>(context, listen: false).mostPopular[index];
         return InkWell(
           onTap: () async {
             await Provider.of<AppProvider>(context, listen: false)

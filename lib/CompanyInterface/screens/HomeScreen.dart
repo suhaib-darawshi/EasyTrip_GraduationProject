@@ -46,6 +46,23 @@ class CHomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 15.h,
                 ),
+                ListTile(
+                  onTap: () {
+                    AppRouter.router.push("CPersonalPage");
+                  },
+                  leading: Icon(
+                    Icons.person,
+                    color: Colors.blue,
+                  ),
+                  title: Text("Personal Page".tr()),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: provider.isDark ? Colors.white : Colors.black,
+                  ),
+                ),
+                Divider(
+                  color: provider.isDark ? Colors.white : Colors.black,
+                ),
                 SizedBox(
                   width: 155.w,
                   height: 45.h,

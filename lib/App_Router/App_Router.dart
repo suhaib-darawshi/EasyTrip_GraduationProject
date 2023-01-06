@@ -7,7 +7,6 @@ class AppRouter {
   AppRouter._();
   static AppRouter router = AppRouter._();
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  
 
   push(String name) {
     navigatorKey.currentState!.pushNamed(name);
@@ -16,8 +15,12 @@ class AppRouter {
   pushReplace(String name) {
     navigatorKey.currentState!.pushReplacementNamed(name);
   }
-  
+
   pop() {
     navigatorKey.currentState!.pop();
+  }
+
+  popUntil(String name) {
+    navigatorKey.currentState!.popUntil(ModalRoute.withName(name));
   }
 }

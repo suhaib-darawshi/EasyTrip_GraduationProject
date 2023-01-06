@@ -25,6 +25,7 @@ class AppProvider extends ChangeNotifier {
       'role': "role",
       'liked_trips': ["liked_trips"],
       'image': "image",
+      'chat': []
     });
   }
   String server = "http://10.0.2.2:8083/";
@@ -34,11 +35,16 @@ class AppProvider extends ChangeNotifier {
   TextEditingController lastnameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController authKeyController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
   List<Trip> defaultTrips = [];
   List<Trip> advancedTrip = [];
+  List<Trip> mostPopular = [];
   List<Trip> likedTrips = [];
   List<Trip> history = [];
+  List<Trip> filteredByCategory = [];
+  List<Trip> bookedTrips = [];
   late Trip currentTrip;
+  int rate = 0;
   late User user;
   bool isLogged = false;
   bool isDark = false;
@@ -50,6 +56,70 @@ class AppProvider extends ChangeNotifier {
   GlobalKey<FormState> signupKey = GlobalKey();
   GlobalKey<FormState> confirmPageKey = GlobalKey();
   int? confirmKey;
+
+  Map<Category, bool> defaultCategories = {
+    Category.ancient: false,
+    Category.beach: false,
+    Category.cheap: false,
+    Category.desert: false,
+    Category.developedCity: false,
+    Category.expensive: false,
+    Category.greenLand: false,
+    Category.mountant: false,
+    Category.religous: false,
+    Category.scientific: false,
+  };
+
+  List<String> hotelRanks = ['3-Stars', '5-Stars', '7-Stars'];
+  List<String> categoriesMenu = [
+    'all',
+    'ancient',
+    'beach',
+    'cheap',
+    'desert',
+    'developedCity',
+    'expensive',
+    'nature',
+    'mountant',
+    'religous',
+    'scientific'
+  ];
+  List<Category> c = [
+    Category.ancient,
+    Category.beach,
+    Category.cheap,
+    Category.desert,
+    Category.developedCity,
+    Category.expensive,
+    Category.greenLand,
+    Category.mountant,
+    Category.religous,
+    Category.scientific
+  ];
+  String chosenCategory = 'all';
+
+  changeRate(int value) {
+    rate = value;
+    notifyListeners();
+  }
+
+  ChangeCategory(value) {
+    chosenCategory = value;
+    filter();
+    notifyListeners();
+  }
+
+  filter() {
+    if (chosenCategory == 'all') {
+      filteredByCategory = defaultTrips;
+    } else {
+      Category ind = c[(categoriesMenu.indexOf(chosenCategory)) - 1];
+      filteredByCategory = defaultTrips
+          .where((element) => element.categories!.contains(ind))
+          .toList();
+    }
+    notifyListeners();
+  }
 
   Locale getLocale() {
     return languages[local];
@@ -68,6 +138,7 @@ class AppProvider extends ChangeNotifier {
   setCurrentTrip(Trip t) async {
     await SQL.sql.insert(t, user.id!);
     currentTrip = t;
+    rate = 0;
     notifyListeners();
   }
 
@@ -115,13 +186,49 @@ class AppProvider extends ChangeNotifier {
       return 'should be a 6-digit Number';
     }
     if (key != confirmKey.toString()) {
-      log(confirmKey.toString());
       return 'Invalid key';
     }
   }
 
   Trip getCurrentTrip() {
     return currentTrip;
+  }
+
+  rateTrip() async {
+    final res = await API.apiHandler.rateTrip(<String, dynamic>{
+      'userid': user.id,
+      'tripid': currentTrip.id,
+      'rate': rate
+    });
+    log(res);
+  }
+
+  bookTrip() async {
+    final res;
+    if (currentTrip.isBooked) {
+      //unbook
+      currentTrip.isBooked = false;
+      user.booked_trips!.remove(currentTrip.id);
+      res = await API.apiHandler.bookTrip(<String, String>{
+        "userid": user.id!,
+        "tripid": currentTrip.id,
+        "method": "unbook"
+      });
+    } else {
+      //book
+      currentTrip.isBooked = true;
+
+      user.booked_trips!.add(currentTrip.id);
+      res = await API.apiHandler.bookTrip(<String, String>{
+        "userid": user.id!,
+        "tripid": currentTrip.id,
+        "method": "book"
+      });
+    }
+    await getTrips();
+    notifyListeners();
+    log(res);
+    return res;
   }
 
   likeTrip(Trip t) async {
@@ -213,7 +320,6 @@ class AppProvider extends ChangeNotifier {
           "phoneNumber": phoneNumberController.text
         }));
     getUserInformation();
-    log(user.toString());
   }
 
   getLikedTrips() {
@@ -235,6 +341,7 @@ class AppProvider extends ChangeNotifier {
     emailController.text = user.email!;
     phoneNumberController.text = user.phoneNumber!;
     passwordController.text = user.password!;
+    notifyListeners();
   }
 
   clearTextFields() {
@@ -346,9 +453,18 @@ class AppProvider extends ChangeNotifier {
     for (var element in defaultTrips) {
       element.isLiked = user.liked_trips!.contains(element.id);
       element.categories = element.getCategories(element.categories ?? []);
+      element.isBooked = user.booked_trips!.contains(element.id);
     }
     advancedTrip = defaultTrips;
+    mostPopular = defaultTrips.toList();
+    mostPopular.sort((a, b) => b.liked_count);
+    bookedTrips = defaultTrips
+        .where(
+          (element) => element.isBooked,
+        )
+        .toList();
     getLikedTrips();
+    filteredByCategory = defaultTrips;
     await getHistory();
     notifyListeners();
   }
@@ -359,23 +475,22 @@ class AppProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
-      await upload(imageFile!);
+      await API.apiHandler.uploadUserPicture(imageFile!, user.id!);
     }
     await getUserInformation();
     notifyListeners();
   }
 
-  upload(File file) async {
-    var stream = new http.ByteStream(DelegatingStream.typed(file.openRead()));
-    // get file length
-    var length = await file.length();
-    var uri =
-        Uri.parse("http://10.0.2.2:8083/rest/public-user-controller/file");
-    var req = http.MultipartRequest("POST", uri);
-    var multipartFile = http.MultipartFile('file', stream, length,
-        filename: basename(file.path));
-    req.files.add(multipartFile);
-    req.fields.addAll({'id': user.id!});
-    var resp = await req.send();
+  sendMessage() async {
+    if (messageController.text.isEmpty) return;
+
+    await API.apiHandler.contactUs(<String, dynamic>{
+      'userid': user.id,
+      'text': messageController.text,
+      'isSender': false
+    });
+    messageController.clear();
+    await getUserInformation();
+    notifyListeners();
   }
 }

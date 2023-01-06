@@ -50,11 +50,11 @@ class CustomTripWidget extends StatelessWidget {
                         ),
                         trip.isLiked
                             ? InkWell(
-                                onTap: () {
-                                  Provider.of<AppProvider>(context,
+                                onTap: () async {
+                                  await Provider.of<AppProvider>(context,
                                           listen: false)
                                       .setCurrentTrip(trip);
-                                  Provider.of<AppProvider>(context,
+                                  await Provider.of<AppProvider>(context,
                                           listen: false)
                                       .likeTrip(trip);
                                 },

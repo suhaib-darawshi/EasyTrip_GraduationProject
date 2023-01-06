@@ -29,10 +29,10 @@ class SQL {
   final String tripIsBookedMarked = 'isBookedMarked';
   initDatabase() async {
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = '${directory.path}/${usersTableName}3';
+    String path = '${directory.path}/${usersTableName}4';
     databse = await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onCreate: (db, version) async {
         await db.execute('''
         CREATE TABLE $usersTableName (
@@ -101,7 +101,7 @@ class SQL {
     );
   }
 
-  Future<List<Map<String,Object?>>> getAllTrips(String id) async {
+  Future<List<Map<String, Object?>>> getAllTrips(String id) async {
     return await databse
         .query(tripsTableName, where: 'user_id=?', whereArgs: [id]);
   }

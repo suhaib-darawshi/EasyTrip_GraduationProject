@@ -21,6 +21,12 @@ class PersonalScreen extends StatelessWidget {
         children: [
           AvatarWidget(),
           SizedBox(height: 20.h),
+          Divider(
+            color: Provider.of<AppProvider>(context).isDark
+                ? Colors.white
+                : Colors.black,
+            height: 1,
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -94,6 +100,9 @@ class PersonalScreen extends StatelessWidget {
                       size: 30.h,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      AppRouter.router.push('BookedMarkedScreen');
+                    },
                   ),
                   Container(
                     color: Provider.of<AppProvider>(context).isDark
@@ -182,6 +191,31 @@ class PersonalScreen extends StatelessWidget {
                     ),
                     leading: Icon(
                       Icons.history,
+                      color: Provider.of<AppProvider>(context).isDark
+                          ? Colors.white
+                          : Colors.black,
+                      size: 30.h,
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                  ),
+                  Opacity(
+                    opacity: Provider.of<AppProvider>(context).isDark ? 1 : 0.2,
+                    child: Divider(
+                      color: Provider.of<AppProvider>(context).isDark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      AppRouter.router.push("ContactUs");
+                    },
+                    title: Text(
+                      "Contact Us".tr(),
+                      style: TextStyle(fontSize: 18.h),
+                    ),
+                    leading: Icon(
+                      Icons.contact_mail,
                       color: Provider.of<AppProvider>(context).isDark
                           ? Colors.white
                           : Colors.black,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:demo/date_repo/enum.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -45,6 +46,7 @@ class Trip {
         res.add(c[x]);
       }
     }
+
     return res;
   }
 
