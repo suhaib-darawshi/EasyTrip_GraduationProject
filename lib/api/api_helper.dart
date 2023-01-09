@@ -194,4 +194,7 @@ class API {
         body: jsonEncode(map));
     return res.body.toString();
   }
+  adminSignUp(Map<String,String>map){
+    
+  }
 }

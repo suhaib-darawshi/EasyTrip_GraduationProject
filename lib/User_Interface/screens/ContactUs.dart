@@ -38,6 +38,26 @@ class ContactUs extends StatelessWidget {
           color: provider.isDark ? Colors.black : Colors.white38,
           child: Column(
             children: [
+              Container(
+                height: 40.h,
+                width: MediaQuery.of(context).size.width / 1.5,
+                decoration: BoxDecoration(
+                    color: Colors.blue.shade200,
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Center(
+                  child: Text(
+                    "   " + "Technical support".tr() + '   ',
+                    style: TextStyle(fontSize: 25.w, color: Colors.black87),
+                  ),
+                ),
+              ),
+              Divider(
+                height: 5.h,
+                color: Colors.black,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
               Expanded(
                   child: ListView.separated(
                 itemCount: provider.user.chat.length,

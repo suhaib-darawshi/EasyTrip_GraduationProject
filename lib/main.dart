@@ -1,5 +1,6 @@
 import 'package:demo/App_Router/App_Router.dart';
 import 'package:demo/User_Interface/screens/DetailPage.dart';
+import 'package:demo/provider/AdminProvider.dart';
 import 'package:demo/provider/CompanyProvider.dart';
 import 'package:demo/provider/app_provider.dart';
 import 'package:demo/User_Interface/screens/HomeScreen.dart';
@@ -29,6 +30,8 @@ import 'User_Interface/screens/FilteredTripPage.dart';
 import 'User_Interface/screens/History.dart';
 import 'User_Interface/screens/account_information.dart';
 import 'User_Interface/screens/welcomeScreen.dart';
+import 'adminInterface/screens/homescreen.dart';
+import 'adminInterface/screens/signInScreen.dart';
 import 'date_repo/database_handler.dart';
 
 void main(List<String> args) async {
@@ -53,6 +56,7 @@ class Material extends StatelessWidget {
               return AppProvider();
             },
           ),
+          ChangeNotifierProvider(create: ((context) => AdminProvider())),
           ChangeNotifierProvider(
             create: (context) => CompanyProvider(),
           )
@@ -101,11 +105,22 @@ class Builded extends StatelessWidget {
             "CPersonalPage": (context) => CPersonalPage(),
             "CompanyEditInformationScreen": (context) =>
                 CompanyEditInformationScreen(),
-            "ContactUs": (context) => ContactUs()
+            "ContactUs": (context) => ContactUs(),
+            "AdminSignIn": (context) => AdminSignIn(),
+            "AdminHomeScreen": (context) => AdminHomeScreen()
           },
           home: WelcomeScreen(),
         );
       },
     );
+  }
+}
+
+class test extends StatelessWidget {
+  const test({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

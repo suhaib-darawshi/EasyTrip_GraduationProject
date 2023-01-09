@@ -44,8 +44,8 @@ class AppProvider extends ChangeNotifier {
   List<Trip> filteredByCategory = [];
   List<Trip> bookedTrips = [];
   late Trip currentTrip;
-  int rate = 0;
   late User user;
+  int rate = 0;
   bool isLogged = false;
   bool isDark = false;
   bool asCompany = false;
@@ -200,6 +200,7 @@ class AppProvider extends ChangeNotifier {
       'tripid': currentTrip.id,
       'rate': rate
     });
+    await getTrips();
     log(res);
   }
 
@@ -457,7 +458,7 @@ class AppProvider extends ChangeNotifier {
     }
     advancedTrip = defaultTrips;
     mostPopular = defaultTrips.toList();
-    mostPopular.sort((a, b) => b.liked_count);
+    mostPopular.sort((a, b) => a.rate > b.rate ? 0 : 1);
     bookedTrips = defaultTrips
         .where(
           (element) => element.isBooked,

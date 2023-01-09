@@ -63,6 +63,7 @@ class AddTripScreen2 extends StatelessWidget {
                               // border: Border.all(width: 1),
                               shape: BoxShape.rectangle),
                           child: DropdownButton<String>(
+                            
                             hint: Text('choose'.tr()),
                             value: provider.hotelRank,
                             icon: Icon(Icons.keyboard_arrow_down_outlined),

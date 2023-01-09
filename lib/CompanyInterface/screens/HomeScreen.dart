@@ -120,26 +120,40 @@ class CHomeScreen extends StatelessWidget {
               );
             }),
             bottom: TabBar(tabs: [
-              Text(
-                'All Trips'.tr(),
-                style: TextStyle(
-                    color: Provider.of<CompanyProvider>(context).isDark
-                        ? Colors.white
-                        : Colors.black),
+              Container(
+                height: 30.h,
+                child: Center(
+                  child: Text(
+                    'All Trips'.tr(),
+                    style: TextStyle(
+                        color: Provider.of<CompanyProvider>(context).isDark
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                ),
               ),
-              Text(
-                'Active Trips'.tr(),
-                style: TextStyle(
-                    color: Provider.of<CompanyProvider>(context).isDark
-                        ? Colors.white
-                        : Colors.black),
+              Container(
+                height: 30.h,
+                child: Center(
+                  child: Text(
+                    'Active Trips'.tr(),
+                    style: TextStyle(
+                        color: Provider.of<CompanyProvider>(context).isDark
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                ),
               ),
-              Text(
-                'non-active Trips'.tr(),
-                style: TextStyle(
-                    color: Provider.of<CompanyProvider>(context).isDark
-                        ? Colors.white
-                        : Colors.black),
+              Container(
+                child: Center(
+                  child: Text(
+                    'non-active Trips'.tr(),
+                    style: TextStyle(
+                        color: Provider.of<CompanyProvider>(context).isDark
+                            ? Colors.white
+                            : Colors.black),
+                  ),
+                ),
               )
             ]),
           ),

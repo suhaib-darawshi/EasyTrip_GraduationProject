@@ -26,6 +26,7 @@ class Trip {
   DateTime? begin;
   DateTime? end;
   int duration;
+  num rate;
   List? categories = [];
   getCategories(List l) {
     List<Category> c = [
@@ -70,7 +71,8 @@ class Trip {
       this.begin,
       this.end,
       this.duration = 3,
-      this.categories});
+      this.categories,
+      this.rate = 0});
 
   Map<String, dynamic> toMap() {
     return {
@@ -93,7 +95,8 @@ class Trip {
       'begin': begin,
       'end': end,
       'duration': duration,
-      'categories': categories
+      'categories': categories,
+      'rate': rate
     };
   }
 
@@ -113,28 +116,28 @@ class Trip {
 
   factory Trip.fromMap(Map<String, dynamic> map) {
     return Trip(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
-      location: map['location'] ?? '',
-      url: "http://10.0.2.2:8083/" + map['url'],
-      description: map['description'] ?? '',
-      companyid: Company.fromMap(map['company']),
-      isLiked: map['isLiked'] ?? false,
-      liked_count: int.parse(map['liked_count'].toString()),
-      isBooked: map['isBooked'] ?? false,
-      available: map['available'] ?? true,
-      hotel: map['hotel'] ?? 'not provided',
-      hotelRank:
-          map['hotelRank'].toString().isEmpty ? "0" : map['hotelRank'] ?? '0',
-      flight: map['flight'] ?? 'not provided',
-      price: map['price'] ?? 'not provided',
-      carProvided: map['carProvided'] ?? false,
-      foodDeserved: map['foodDeserved'] ?? false,
-      duration: map['duration'],
-      categories: map['categories'],
-      begin: map['begin'] != null ? DateTime.parse(map['begin']) : null,
-      end: map['end'] != null ? DateTime.parse(map['end']) : null,
-    );
+        id: map['id'] ?? '',
+        name: map['name'] ?? '',
+        location: map['location'] ?? '',
+        url: "http://10.0.2.2:8083/" + map['url'],
+        description: map['description'] ?? '',
+        companyid: Company.fromMap(map['company']),
+        isLiked: map['isLiked'] ?? false,
+        liked_count: int.parse(map['liked_count'].toString()),
+        isBooked: map['isBooked'] ?? false,
+        available: map['available'] ?? true,
+        hotel: map['hotel'] ?? 'not provided',
+        hotelRank:
+            map['hotelRank'].toString().isEmpty ? "0" : map['hotelRank'] ?? '0',
+        flight: map['flight'] ?? 'not provided',
+        price: map['price'] ?? 'not provided',
+        carProvided: map['carProvided'] ?? false,
+        foodDeserved: map['foodDeserved'] ?? false,
+        duration: map['duration'],
+        categories: map['categories'],
+        begin: map['begin'] != null ? DateTime.parse(map['begin']) : null,
+        end: map['end'] != null ? DateTime.parse(map['end']) : null,
+        rate: map['rate'] ?? 0);
   }
 
   factory Trip.fromDBMap(Map<String, dynamic> map) {

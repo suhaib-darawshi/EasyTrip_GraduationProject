@@ -81,6 +81,24 @@ class TravelBlog extends StatelessWidget {
                 ),
               ),
               Positioned(
+                  left: 15.w,
+                  top: 25.h,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepOrange,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    width: 30.w,
+                    child: Center(
+                      child: Text(
+                        t.rate.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 30.h),
+                      ),
+                    ),
+                  )),
+              Positioned(
                 bottom: 0,
                 right: 30.w,
                 child: Container(

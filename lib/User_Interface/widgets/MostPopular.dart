@@ -36,6 +36,24 @@ class MostPopular extends StatelessWidget {
                 ),
               ),
               Positioned(
+                  left: 7.w,
+                  top: 11.h,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.deepOrange,
+                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                    width: 20.w,
+                    child: Center(
+                      child: Text(
+                        t.rate.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 20.h),
+                      ),
+                    ),
+                  )),
+              Positioned(
                 bottom: 20.h,
                 left: 15.w,
                 child: Column(
