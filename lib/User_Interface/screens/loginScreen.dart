@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:rive/rive.dart';
 
@@ -140,8 +141,14 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text('Animated Login')),
+      backgroundColor: Colors.blue.shade100,
+      appBar: AppBar(
+        title: const Text(
+          ' Login page',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.blue.shade100,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -160,54 +167,80 @@ class _LoginScreenState extends State<LoginScreen> {
                 key: formKey,
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: "Email",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                    Container(
+                      width: 700.w,
+                      height: 100.h,
+                      child: Expanded(
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            filled: true,
+                            fillColor: Colors.blue.shade300,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(
+                                  width: 2, color: Colors.blue.shade300),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          validator: (value) =>
+                              value != testEmail ? "Wrong email" : null,
+                          onChanged: (value) {
+                            if (value.isNotEmpty &&
+                                value.length < 16 &&
+                                !isLookingLeft) {
+                              addLookLeftController();
+                            } else if (value.isNotEmpty &&
+                                value.length > 16 &&
+                                !isLookingRight) {
+                              addLookRightController();
+                            }
+                          },
                         ),
                       ),
-                      validator: (value) =>
-                          value != testEmail ? "Wrong email" : null,
-                      onChanged: (value) {
-                        if (value.isNotEmpty &&
-                            value.length < 16 &&
-                            !isLookingLeft) {
-                          addLookLeftController();
-                        } else if (value.isNotEmpty &&
-                            value.length > 16 &&
-                            !isLookingRight) {
-                          addLookRightController();
-                        }
-                      },
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 25,
                     ),
-                    TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: "Password",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
+                    Container(
+                      width: 700.w,
+                      height: 100.h,
+                      child: Expanded(
+                        child: TextFormField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            filled: true,
+                            fillColor: Colors.blue.shade300,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25),
+                              borderSide: BorderSide(
+                                  width: 2, color: Colors.blue.shade300),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+                          focusNode: passwordFocusNode,
+                          validator: (value) =>
+                              value != testPassword ? "Wrong password" : null,
                         ),
                       ),
-                      focusNode: passwordFocusNode,
-                      validator: (value) =>
-                          value != testPassword ? "Wrong password" : null,
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 18,
                     ),
                     Container(
-                      width: double.infinity,
+                      width: 700.w,
                       padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width / 8,
                       ),
                       child: TextButton(
                         style: TextButton.styleFrom(
                           shape: const StadiumBorder(),
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Colors.blue.shade300,
                           padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
                         onPressed: () {
@@ -215,9 +248,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           validateEmailAndPassword();
                         },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: Text(
+                            'Login',
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                          ),
                         ),
                       ),
                     ),

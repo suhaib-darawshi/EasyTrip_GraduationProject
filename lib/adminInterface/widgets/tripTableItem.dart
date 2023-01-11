@@ -14,7 +14,7 @@ class TripItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
       return Container(
-        height: 100.h,
+        width: MediaQuery.of(context).size.width*0.8,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -113,7 +113,7 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () async {
                         if (!provider.asCompany) {
                           String resp = await provider.logIn();
-                          if (resp == "ACCESSED") {
+                          if (resp.length > 35) {
                             AppRouter.router.pushReplace("HomeScreen");
                           } else {
                             provider.clearTextFields();
@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                               .signIn();
                           if (resp == "ACCESSED") {
                             AppRouter.router.pushReplace("companyHomePage");
-                          } else if(resp!=null){
+                          } else if (resp != null) {
                             provider.clearTextFields();
                             showDialog(
                                 context: context,

@@ -47,6 +47,7 @@ class AppProvider extends ChangeNotifier {
   late User user;
   int rate = 0;
   bool isLogged = false;
+  String auth = 'auth';
   bool isDark = false;
   bool asCompany = false;
   int homeScreenIndex = 0;
@@ -228,7 +229,6 @@ class AppProvider extends ChangeNotifier {
     }
     await getTrips();
     notifyListeners();
-    log(res);
     return res;
   }
 
@@ -364,13 +364,15 @@ class AppProvider extends ChangeNotifier {
           },
           body: jsonEncode(<String, String>{'email': em, 'password': pass}));
 
-      if (res.body == "ACCESSED") {
+      if (res.body.length > 30) {
         isLogged = true;
+
         await getUserInformation();
         await getTrips();
 
         // await getHistory();
       }
+      auth = res.body;
       return res.body;
     }
   }
@@ -488,7 +490,7 @@ class AppProvider extends ChangeNotifier {
     await API.apiHandler.contactUs(<String, dynamic>{
       'userid': user.id,
       'text': messageController.text,
-      'isSender': false
+      'isSender': true
     });
     messageController.clear();
     await getUserInformation();

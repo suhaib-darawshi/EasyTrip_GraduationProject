@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'App_Router/App_Router.dart';
+import 'User_Interface/screens/loginScreen.dart';
+import 'adminInterface/screens/AdminChat.dart';
 import 'adminInterface/screens/homescreen.dart';
 import 'adminInterface/screens/signInScreen.dart';
 
@@ -54,7 +56,8 @@ class Build extends StatelessWidget {
           navigatorKey: AppRouter.router.navigatorKey,
           routes: {
             "AdminSignIn": (context) => const AdminSignIn(),
-            "AdminHomeScreen": (context) =>  AdminHomeScreen()
+            "AdminHomeScreen": (context) => AdminHomeScreen(),
+            "AdminChatScreen": (context) => AdminChatScreen()
           },
           home: const AdminSignIn(),
         );

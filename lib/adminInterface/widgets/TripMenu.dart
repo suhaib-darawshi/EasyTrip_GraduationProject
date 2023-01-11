@@ -1,7 +1,11 @@
+import 'package:demo/adminInterface/widgets/ButtonCell.dart';
+import 'package:demo/adminInterface/widgets/CellWidget.dart';
 import 'package:demo/adminInterface/widgets/tripTableItem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../App_Router/App_Router.dart';
 import '../../provider/AdminProvider.dart';
 
 class TripMenu extends StatelessWidget {
@@ -11,32 +15,77 @@ class TripMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
       return Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Column(
+        width: MediaQuery.of(context).size.width * 0.55,
+        child: Table(
+          border: TableBorder.all(
+            width: 1,
+          ),
+          
           children: [
-            Row(
-              children: [
-                Expanded(child: Text('id')),
-                Expanded(child: Text('name')),
-                Expanded(child: Text('location')),
-                Expanded(child: Text('price')),
-                Expanded(child: Text('company')),
-                Expanded(child: Text('rate')),
-                Expanded(child: Center())
-              ],
-            ),
-            Expanded(
-                child: ListView.separated(
-                    itemBuilder: ((context, index) {
-                      return TripItem(trip: index);
-                    }),
-                    separatorBuilder: ((context, index) {
-                      return Divider(
-                        color: provider.isDark ? Colors.white : Colors.black,
-                      );
-                    }),
-                    itemCount: provider.trips.length))
+            TableRow(children: [
+              CellWidget(
+                text: 'name',
+                height: 100,
+              ),
+              CellWidget(text: 'location', height: 100),
+              CellWidget(text: 'price', height: 100),
+              CellWidget(text: 'company', height: 100),
+              CellWidget(text: 'rate', height: 100),
+              CellWidget(text: 'Active', height: 100),
+              CellWidget(text: 'Approved', height: 100),
+              CellWidget(text: 'Remove', height: 100),
+            ]),
+            ...provider.trips.map((e) {
+              return TableRow(children: [
+                CellWidget(text: e.name),
+                CellWidget(text: e.location),
+                CellWidget(text: e.price),
+                CellWidget(text: e.companyid.name),
+                CellWidget(text: e.rate.toString()),
+                ButtonCell(
+                  function: () async {
+                    await provider.lockTrip(provider.trips.indexOf(e));
+                  },
+                  text: e.available ? 'Active' : 'Not Active',
+                  color: e.available ? Colors.blue : Colors.red,
+                ),
+                ButtonCell(
+                  function: () async {
+                    await provider.approveTrip(provider.trips.indexOf(e));
+                  },
+                  text: e.approved ? 'Approved' : 'Not Approved',
+                  color: e.approved ? Colors.blue : Colors.red,
+                ),
+                ButtonCell(
+                  function: () async {
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          title: Text("WARNING"),
+                          content: Text("Are you sure you want to delete it ?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  AppRouter.router.pop();
+                                },
+                                child: Text("no")),
+                            TextButton(
+                                onPressed: () async {
+                                  await provider.deleteTrip(
+                                      e);
+                                  AppRouter.router.pop();
+                                },
+                                child: Text("yes")),
+                          ],
+                        );
+                      }));
+                  },
+                  text:  'Remove',
+                  color:  Colors.red,
+                ),
+              ]);
+            })
           ],
         ),
       );

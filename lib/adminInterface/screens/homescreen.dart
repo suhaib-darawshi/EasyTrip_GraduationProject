@@ -5,13 +5,20 @@ import 'package:demo/adminInterface/widgets/usersTable.dart';
 import 'package:demo/provider/AdminProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/AdminStatistices.dart';
 import '../widgets/ListMenu.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   AdminHomeScreen({super.key});
-  List<Widget> pages = [TripMenu(),UsersTable(),CompanyTable()];
+  List<Widget> pages = [
+    TripMenu(),
+    UsersTable(),
+    CompanyTable(),
+    AdminStatistics()
+  ];
   @override
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
@@ -27,22 +34,30 @@ class AdminHomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text("Easy Trip : Admin page"),
+        ),
         body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: MediaQuery.of(context).size.width / 6,
-              height: MediaQuery.of(context).size.height * 0.8,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: provider.isDark ? Colors.white : Colors.black)),
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(color: Colors.black
+                  // border: Border.all(
+                  //     color: provider.isDark ? Colors.white : Colors.black)
+                  ),
               child: Column(
                 children: [
                   Expanded(
                     child: ListView.separated(
                         itemBuilder: ((context, index) {
                           return ListMenuIrem(
-                              name: provider.homePages[index], page: index);
+                            name: provider.homePages[index],
+                            page: index,
+                            icon: provider.icons[index],
+                          );
                         }),
                         separatorBuilder: ((context, index) {
                           return Divider(
@@ -55,7 +70,25 @@ class AdminHomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            pages[provider.homePageIndex]
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 270.h,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 100.w,
+                        ),
+                        pages[provider.homePageIndex],
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       );

@@ -5,6 +5,10 @@ import 'package:demo/provider/AdminProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../App_Router/App_Router.dart';
+import 'ButtonCell.dart';
+import 'CellWidget.dart';
+
 class UsersTable extends StatelessWidget {
   const UsersTable({super.key});
 
@@ -12,34 +16,83 @@ class UsersTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
       return Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Column(
+        width: MediaQuery.of(context).size.width * 0.55,
+        child: Table(
+          border: TableBorder.all(
+            width: 1,
+          ),
           children: [
-            Row(
-              children: [
-                Expanded(child: Text('id')),
-                Expanded(child: Text('name')),
-                Expanded(child: Text('email')),
-                Expanded(child: Text('role')),
-                Expanded(child: Text('phone number')),
-                Expanded(child: Text('booked trips')),
-                Expanded(
-                  child: Center(),
-                )
-              ],
-            ),
-            Expanded(
-                child: ListView.separated(
-                    itemBuilder: ((context, index) {
-                      return UserWidget(user: index);
-                    }),
-                    separatorBuilder: ((context, index) {
-                      return Divider(
-                        color: provider.isDark ? Colors.white : Colors.black,
-                      );
-                    }),
-                    itemCount: provider.users.length)),
+            TableRow(children: [
+              CellWidget(
+                text: 'name',
+                height: 100,
+              ),
+              CellWidget(text: 'email', height: 100),
+              CellWidget(text: 'phone', height: 100),
+              CellWidget(text: 'booked trips', height: 100),
+              CellWidget(text: 'role', height: 100),
+              CellWidget(text: 'Actions', height: 100),
+              CellWidget(text: 'Remove', height: 100),
+            ]),
+            ...provider.users.map((e) {
+              return TableRow(children: [
+                CellWidget(text: e.first_name!),
+                CellWidget(text: e.email!),
+                CellWidget(text: e.phoneNumber!),
+                CellWidget(text: e.booked_trips!.length.toString()),
+                DropdownButton<String>(
+                  items: [
+                    DropdownMenuItem(
+                      child: Text('Super Admin'),
+                      value: 'Super Admin',
+                    ),
+                    DropdownMenuItem(
+                      child: Text('standard'),
+                      value: 'standard',
+                    )
+                  ],
+                  value: provider.users[provider.users.indexOf(e)].role,
+                  onChanged: (value) {
+                    provider.users[provider.users.indexOf(e)].role = value;
+                    log(provider.users[provider.users.indexOf(e)].role!);
+                    provider.not();
+                  },
+                ),
+                ButtonCell(
+                    function: () async {
+                      await provider.updateUser(
+                          provider.users[provider.users.indexOf(e)]);
+                    },
+                    text: 'Update'),
+                ButtonCell(
+                    function: () async {
+                      showDialog(
+                          context: context,
+                          builder: ((context) {
+                            return AlertDialog(
+                              title: Text("WARNING"),
+                              content:
+                                  Text("Are you sure you want to delete it ?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      AppRouter.router.pop();
+                                    },
+                                    child: Text("no")),
+                                TextButton(
+                                    onPressed: () async {
+                                      await provider.deleteUser(e);
+                                      AppRouter.router.pop();
+                                    },
+                                    child: Text("yes")),
+                              ],
+                            );
+                          }));
+                    },
+                    color: Colors.red,
+                    text: 'Update')
+              ]);
+            })
           ],
         ),
       );

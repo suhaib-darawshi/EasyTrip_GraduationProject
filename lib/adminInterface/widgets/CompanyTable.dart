@@ -2,7 +2,10 @@ import 'package:demo/adminInterface/widgets/CompanyWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../App_Router/App_Router.dart';
 import '../../provider/AdminProvider.dart';
+import 'ButtonCell.dart';
+import 'CellWidget.dart';
 
 class CompanyTable extends StatelessWidget {
   const CompanyTable({super.key});
@@ -11,34 +14,59 @@ class CompanyTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
       return Container(
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: MediaQuery.of(context).size.height * 0.8,
-        child: Column(
+        width: MediaQuery.of(context).size.width * 0.55,
+        child: Table(
+          border: TableBorder.all(
+            width: 1,
+          ),
           children: [
-            Row(
-              children: [
-                Expanded(child: Text('id')),
-                Expanded(child: Text('name')),
-                Expanded(child: Text('email')),
-                Expanded(child: Text('address')),
-                Expanded(child: Text('phone number')),
-                Expanded(child: Text('rank')),
-                Expanded(
-                  child: Center())
-              ],
-
-            ),
-            Expanded(
-                child: ListView.separated(
-                    itemBuilder: ((context, index) {
-                      return CompanyWidget(company: index);
-                    }),
-                    separatorBuilder: ((context, index) {
-                      return Divider(
-                        color: provider.isDark ? Colors.white : Colors.black,
-                      );
-                    }),
-                    itemCount: provider.companies.length))
+            TableRow(children: [
+              CellWidget(
+                text: 'name',
+                height: 100,
+              ),
+              CellWidget(text: 'email', height: 100),
+              CellWidget(text: 'address', height: 100),
+              CellWidget(text: 'phone', height: 100),
+              CellWidget(text: 'rank', height: 100),
+              CellWidget(text: 'Remove', height: 100),
+            ]),
+            ...provider.companies.map((e) {
+              return TableRow(children: [
+                CellWidget(text: e.name),
+                CellWidget(text: e.email),
+                CellWidget(text: e.address),
+                CellWidget(text: e.phone),
+                CellWidget(text: e.rank.toString()),
+                ButtonCell(
+                    function: () async {
+                      showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          title: Text("WARNING"),
+                          content: Text("Are you sure you want to delete it ?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  AppRouter.router.pop();
+                                },
+                                child: Text("no")),
+                            TextButton(
+                                onPressed: () async {
+                                  await provider.deleteCompany(
+                                      provider.companies[provider.companies.indexOf(e)]);
+                                  AppRouter.router.pop();
+                                },
+                                child: Text("yes")),
+                          ],
+                        );
+                      }));
+                    },
+                    color: Colors.red,
+                    text: 'Remove')
+              ]);
+            })
           ],
         ),
       );

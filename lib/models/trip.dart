@@ -28,6 +28,7 @@ class Trip {
   int duration;
   num rate;
   List? categories = [];
+  bool approved;
   getCategories(List l) {
     List<Category> c = [
       Category.ancient,
@@ -72,7 +73,9 @@ class Trip {
       this.end,
       this.duration = 3,
       this.categories,
-      this.rate = 0});
+      this.rate = 0,
+      this.approved=true
+      });
 
   Map<String, dynamic> toMap() {
     return {
@@ -96,7 +99,8 @@ class Trip {
       'end': end,
       'duration': duration,
       'categories': categories,
-      'rate': rate
+      'rate': rate,
+      'approved':approved
     };
   }
 
@@ -137,7 +141,9 @@ class Trip {
         categories: map['categories'],
         begin: map['begin'] != null ? DateTime.parse(map['begin']) : null,
         end: map['end'] != null ? DateTime.parse(map['end']) : null,
-        rate: map['rate'] ?? 0);
+        rate: map['rate'] ?? 0,
+        approved:map['approved']??true
+        );
   }
 
   factory Trip.fromDBMap(Map<String, dynamic> map) {

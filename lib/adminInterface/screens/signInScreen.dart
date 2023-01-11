@@ -14,57 +14,55 @@ class AdminSignIn extends StatelessWidget {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
       return Scaffold(
         appBar: AppBar(),
+        
         body: Center(
           child: Form(
             key: provider.signinKey,
-            child: Column(children: [
-              Row(
-                children: [
-                  Container(
-                    width: 700.w,
-                    child: CustomTextField(
-                      validation: provider.emailValidation,
-                      label: "Email".tr(),
-                      controller: provider.emailController,
-                      icon: Icon(
-                        Icons.email,
-                        color: Colors.blue,
-                      ),
-                    ),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                width: 700.w,
+                child: CustomTextField(
+                  validation: provider.emailValidation,
+                  label: "Email".tr(),
+                  controller: provider.emailController,
+                  icon: Icon(
+                    Icons.email,
+                    color: Colors.blue,
                   ),
-                  Container(
-                    width: 700.w,
-                    child: CustomTextField(
-                      validation: provider.passwordValidation,
-                      label: "Password".tr(),
-                      controller: provider.passwordController,
-                      isPassword: true,
-                      icon: Icon(
-                        Icons.password,
-                        color: Colors.blue,
-                      ),
-                    ),
+                ),
+              ),
+              Container(
+                width: 700.w,
+                child: CustomTextField(
+                  validation: provider.passwordValidation,
+                  label: "Password".tr(),
+                  controller: provider.passwordController,
+                  isPassword: true,
+                  icon: Icon(
+                    Icons.password,
+                    color: Colors.blue,
                   ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      String res = await provider.login();
-                      if (res == 'ACCESSED') {
-                        AppRouter.router.pushReplace('AdminHomeScreen');
-                      } else if (res.isNotEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Wrong Information'.tr()),
-                              content: Text(res),
-                            );
-                          },
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  String res = await provider.login();
+                  if (res.length > 25) {
+                    AppRouter.router.pushReplace('AdminHomeScreen');
+                  } else if (res.isNotEmpty) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Wrong Information'.tr()),
+                          content: Text(res),
                         );
-                      }
-                    },
-                    child: Text("Sign_in".tr()),
-                  )
-                ],
+                      },
+                    );
+                  }
+                },
+                child: Text("Sign_in".tr()),
               ),
             ]),
           ),

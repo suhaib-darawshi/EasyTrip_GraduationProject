@@ -290,7 +290,7 @@ class CompanyProvider extends ChangeNotifier {
         'url': ''
       };
       final res = await API.apiHandler.addTrip(imageFile!, map);
-      log(res);
+      
     }
   }
 

@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:demo/api/api_helper.dart';
 import 'package:demo/models/message.dart';
 import 'package:flutter/foundation.dart';
+
+import '../api/adminApi.dart';
 
 class User {
   String? id;
@@ -14,7 +17,7 @@ class User {
   List? liked_trips;
   List? booked_trips;
   String? image;
-  List chat;
+  List<Message> chat;
   User(
       {this.id,
       this.first_name,
@@ -91,7 +94,7 @@ class User {
         phoneNumber: map['phoneNumber'],
         role: map['role'],
         liked_trips: map['liked_trips'] ?? [],
-        image: "http://10.0.2.2:8083/" + map['image'],
+        image: API.apiHandler.server + map['image'],
         booked_trips: map['booked_trips'] ?? [],
         chat: (map['chat'] as List).map((e) => Message.fromMap(e)).toList());
   }

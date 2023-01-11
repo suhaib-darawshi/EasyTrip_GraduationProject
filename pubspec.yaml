@@ -50,10 +50,15 @@ dependencies:
   sqflite: ^2.2.2
   syncfusion_flutter_datepicker: ^20.4.38
   google_fonts:
+  flutter_launcher_icons: ^0.11.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/imgs/1024.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -63,7 +68,8 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+launcher:
+    image: assets/imgs/demologo.PNG
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -79,7 +85,7 @@ flutter:
     - assets/languages/
     - assets/animation/
   #   - images/a_dot_ham.jpeg
-
+  
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
