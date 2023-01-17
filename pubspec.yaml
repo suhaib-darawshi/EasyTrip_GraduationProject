@@ -51,6 +51,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.4.38
   google_fonts:
   flutter_launcher_icons: ^0.11.0
+  pay: ^1.0.11
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -84,6 +85,7 @@ flutter:
     - assets/imgs/demologodark.PNG
     - assets/languages/
     - assets/animation/
+    - assets/json/
   #   - images/a_dot_ham.jpeg
   
   # An image asset can refer to one or more resolution-specific "variants", see

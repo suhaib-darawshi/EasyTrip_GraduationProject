@@ -1,3 +1,4 @@
+import 'package:demo/App_Router/App_Router.dart';
 import 'package:demo/models/trip.dart';
 import 'package:demo/provider/CompanyProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -42,8 +43,8 @@ class CEditTripScreen extends StatelessWidget {
                               },
                               child: Icon(Icons.arrow_back_ios,
                                   color: (provider.isDark
-                                      ? Colors.black
-                                      : Colors.white))),
+                                      ? Colors.white
+                                      : Colors.black))),
                         ],
                       ),
                     ),
@@ -57,18 +58,18 @@ class CEditTripScreen extends StatelessWidget {
                             fontSize: 30.h,
                             fontWeight: FontWeight.bold,
                             color:
-                                provider.isDark ? Colors.black : Colors.white),
+                                provider.isDark ? Colors.white : Colors.black),
                       )),
                   Positioned(
                       bottom: 5,
                       left: 20,
                       child: Text(
-                        '${trip.duration.toString()} days',
+                        '${trip.duration.toString()} ' + 'days'.tr(),
                         style: TextStyle(
                             fontSize: 30.h,
                             fontWeight: FontWeight.bold,
                             color:
-                                provider.isDark ? Colors.black : Colors.white),
+                                provider.isDark ? Colors.white : Colors.black),
                       )),
                   Positioned(
                       bottom: 5,
@@ -81,14 +82,14 @@ class CEditTripScreen extends StatelessWidget {
                                 fontSize: 30.h,
                                 fontWeight: FontWeight.bold,
                                 color: provider.isDark
-                                    ? Colors.black
-                                    : Colors.white),
+                                    ? Colors.white
+                                    : Colors.black),
                           ),
                           Icon(
                             Icons.attach_money,
                             size: 30.w,
                             color:
-                                provider.isDark ? Colors.black : Colors.white,
+                                provider.isDark ? Colors.white : Colors.black,
                           )
                         ],
                       )),
@@ -107,17 +108,29 @@ class CEditTripScreen extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        InkWell(
-                          child: (provider.currentTrip.available)
-                              ? Icon(Icons.lock_open_sharp,
-                                  size: 40.h, color: (Colors.black))
-                              : Icon(Icons.lock_outline_sharp,
-                                  size: 40.h, color: Colors.red),
-                          onTap: () async{
-                            await provider.lockTrip();
-                          },
-                        ),
-                        Text(provider.currentTrip.liked_count.toString())
+                        !provider.currentTrip.approved
+                            ? Icon(Icons.lock_outline_sharp,
+                                size: 40.h, color: Colors.red)
+                            : InkWell(
+                                child: (provider.currentTrip.available)
+                                    ? Icon(Icons.lock_open_sharp,
+                                        size: 40.h,
+                                        color: (provider.isDark
+                                            ? Colors.white
+                                            : Colors.black))
+                                    : Icon(Icons.lock_outline_sharp,
+                                        size: 40.h, color: Colors.red),
+                                onTap: () async {
+                                  await provider.lockTrip();
+                                },
+                              ),
+                        Text(
+                          provider.currentTrip.liked_count.toString(),
+                          style: TextStyle(
+                              color: provider.isDark
+                                  ? Colors.white
+                                  : Colors.black),
+                        )
                       ],
                     ),
                     InkWell(
@@ -126,7 +139,10 @@ class CEditTripScreen extends StatelessWidget {
                         size: 40.h,
                         color: provider.isDark ? Colors.white : Colors.black,
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        provider.fillForEdit();
+                        AppRouter.router.push('EditTripScreen');
+                      },
                     )
                   ],
                 ),
@@ -146,11 +162,19 @@ class CEditTripScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
                                 "Information".tr(),
-                                style: TextStyle(fontSize: 18.w),
+                                style: TextStyle(
+                                    fontSize: 18.w,
+                                    color: provider.isDark
+                                        ? Colors.white
+                                        : Colors.black),
                               ),
                             )
                           ],
                         ),
+                      ),
+                      Divider(
+                        color: provider.isDark ? Colors.white : Colors.black,
+                        height: 1,
                       ),
                       SizedBox(
                         height: 30.h,
@@ -168,8 +192,10 @@ class CEditTripScreen extends StatelessWidget {
                                     child: Text(
                                       "E-mail :".tr(),
                                       style: TextStyle(
-                                        fontSize: 18.w,
-                                      ),
+                                          fontSize: 18.w,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -179,7 +205,10 @@ class CEditTripScreen extends StatelessWidget {
                                       trip.companyid.email,
                                       style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ))
                               ],
                             ),
@@ -195,8 +224,10 @@ class CEditTripScreen extends StatelessWidget {
                                     child: Text(
                                       "Phone :".tr(),
                                       style: TextStyle(
-                                        fontSize: 18,
-                                      ),
+                                          fontSize: 18,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -206,7 +237,10 @@ class CEditTripScreen extends StatelessWidget {
                                       trip.companyid.phone,
                                       style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ))
                               ],
                             ),
@@ -222,8 +256,10 @@ class CEditTripScreen extends StatelessWidget {
                                     child: Text(
                                       "Company Location :".tr(),
                                       style: TextStyle(
-                                        fontSize: 18,
-                                      ),
+                                          fontSize: 18,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -233,7 +269,10 @@ class CEditTripScreen extends StatelessWidget {
                                       trip.companyid.name,
                                       style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ))
                               ],
                             ),
@@ -288,7 +327,11 @@ class CEditTripScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
                                 "Trip Information".tr(),
-                                style: TextStyle(fontSize: 18.w),
+                                style: TextStyle(
+                                    fontSize: 18.w,
+                                    color: provider.isDark
+                                        ? Colors.white
+                                        : Colors.black),
                               ),
                             ),
                           ],
@@ -310,8 +353,10 @@ class CEditTripScreen extends StatelessWidget {
                                     child: Text(
                                       "Hotel :".tr(),
                                       style: TextStyle(
-                                        fontSize: 18.w,
-                                      ),
+                                          fontSize: 18.w,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -324,6 +369,9 @@ class CEditTripScreen extends StatelessWidget {
                                         Text(
                                           trip.hotel,
                                           style: TextStyle(
+                                              color: provider.isDark
+                                                  ? Colors.white
+                                                  : Colors.black,
                                               fontSize: 20.w,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -337,7 +385,10 @@ class CEditTripScreen extends StatelessWidget {
                                               trip.hotelRank[0],
                                               style: TextStyle(
                                                   fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: provider.isDark
+                                                      ? Colors.white
+                                                      : Colors.black),
                                             ),
                                             Icon(
                                               Icons.star,
@@ -362,8 +413,10 @@ class CEditTripScreen extends StatelessWidget {
                                     child: Text(
                                       "Flight Company:",
                                       style: TextStyle(
-                                        fontSize: 18,
-                                      ),
+                                          fontSize: 18,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -373,7 +426,10 @@ class CEditTripScreen extends StatelessWidget {
                                       trip.flight,
                                       style: TextStyle(
                                           fontSize: 20,
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ))
                               ],
                             ),
@@ -387,15 +443,24 @@ class CEditTripScreen extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "From ->",
+                                      "From :".tr(),
                                       style: TextStyle(
-                                        fontSize: 18.w,
-                                      ),
+                                          fontSize: 18.w,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
                                 Expanded(
-                                    flex: 3, child: Text(trip.begin.toString()))
+                                    flex: 3,
+                                    child: Text(
+                                      trip.begin.toString(),
+                                      style: TextStyle(
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ))
                               ],
                             ),
                             SizedBox(height: 15.h),
@@ -406,15 +471,24 @@ class CEditTripScreen extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Until ->",
+                                      "Until :",
                                       style: TextStyle(
-                                        fontSize: 18.w,
-                                      ),
+                                          fontSize: 18.w,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
                                 Expanded(
-                                    flex: 3, child: Text(trip.end.toString()))
+                                    flex: 3,
+                                    child: Text(
+                                      trip.end.toString(),
+                                      style: TextStyle(
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ))
                               ],
                             ),
                             SizedBox(height: 15.h),
@@ -425,10 +499,12 @@ class CEditTripScreen extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Food Reserved:",
+                                      "Food Reserved:".tr(),
                                       style: TextStyle(
-                                        fontSize: 18.w,
-                                      ),
+                                          fontSize: 18.w,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -460,10 +536,12 @@ class CEditTripScreen extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Car Provided:",
+                                      "Car Provided:".tr(),
                                       style: TextStyle(
-                                        fontSize: 18.w,
-                                      ),
+                                          fontSize: 18.w,
+                                          color: provider.isDark
+                                              ? Colors.white
+                                              : Colors.black),
                                     ),
                                   ),
                                 ),
@@ -502,7 +580,11 @@ class CEditTripScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
                                 "Description".tr(),
-                                style: TextStyle(fontSize: 18.w),
+                                style: TextStyle(
+                                    fontSize: 18.w,
+                                    color: provider.isDark
+                                        ? Colors.white
+                                        : Colors.black),
                               ),
                             )
                           ],
@@ -513,8 +595,10 @@ class CEditTripScreen extends StatelessWidget {
                         child: Text(
                           trip.description,
                           style: TextStyle(
-                            fontSize: 18,
-                          ),
+                              fontSize: 18,
+                              color: provider.isDark
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                       ),
                     ],

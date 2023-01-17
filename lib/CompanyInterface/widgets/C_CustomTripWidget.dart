@@ -45,13 +45,17 @@ class CompanyViewTripWidget extends StatelessWidget {
                         Text(
                           trip.name,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20.w,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.w,
+                              color: provider.isDark
+                                  ? Colors.white
+                                  : Colors.black),
                           textAlign: TextAlign.left,
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () async{
+                            
+                          },
                           child: Icon(
                             Icons.delete_outline,
                             color: Colors.red,
@@ -63,7 +67,9 @@ class CompanyViewTripWidget extends StatelessWidget {
                   ),
                   Text(
                     "By: ${trip.companyid.name}",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: provider.isDark ? Colors.white : Colors.black),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -73,21 +79,28 @@ class CompanyViewTripWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                           color: Colors.blue.shade700,
                         ),
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.all(4.0),
                           child: Text(
-                            "8.9",
+                            trip.rate.toString(),
                             style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: provider.isDark
+                                    ? Colors.white
+                                    : Colors.black),
                           ),
                         ),
                       ),
                       SizedBox(
                         width: 5.w,
                       ),
-                      const Text(
-                        "Fabulous",
-                        style: TextStyle(fontSize: 18),
+                      Text(
+                        "Rate".tr(),
+                        style: TextStyle(
+                            fontSize: 18,
+                            color:
+                                provider.isDark ? Colors.white : Colors.black),
                       )
                     ],
                   ),
@@ -98,11 +111,20 @@ class CompanyViewTripWidget extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.location_on_outlined),
+                            Icon(Icons.location_on_outlined,
+                                color: provider.isDark
+                                    ? Colors.white
+                                    : Colors.black),
                             SizedBox(
                               width: 5.w,
                             ),
-                            Text(trip.location)
+                            Text(
+                              trip.location,
+                              style: TextStyle(
+                                  color: provider.isDark
+                                      ? Colors.white
+                                      : Colors.black),
+                            )
                           ],
                         ),
                         InkWell(

@@ -93,7 +93,7 @@ class CompanyEditInformationScreen extends StatelessWidget {
               ),
               CustomTextField(
                 validation: provider.phoneValidation,
-                label: "password".tr(),
+                label: "Password".tr(),
                 controller: provider.CompanyPasswordController,
                 isPassword: true,
                 icon: Icon(
@@ -118,6 +118,7 @@ class CompanyEditInformationScreen extends StatelessWidget {
                   },
                   child: Text("Update".tr()))
             ])),
+            
       );
     });
   }

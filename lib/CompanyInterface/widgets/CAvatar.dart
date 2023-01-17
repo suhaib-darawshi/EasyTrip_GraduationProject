@@ -43,13 +43,18 @@ class CompanyAvatar extends StatelessWidget {
               ),
               Text(
                 provider.user.name,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    color: provider.isDark ? Colors.white : Colors.black),
               ),
               Opacity(
                 opacity: 0.7,
                 child: Text(
                   provider.user.email,
-                  style: TextStyle(fontSize: 18.w),
+                  style: TextStyle(
+                      fontSize: 18.w,
+                      color: provider.isDark ? Colors.white : Colors.black),
                 ),
               ),
               SizedBox(

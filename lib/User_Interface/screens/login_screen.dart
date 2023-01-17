@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                     child: CustomTextField(
                         icon: const Icon(Icons.email),
                         validation: provider.emailValidation,
-                        label: 'Email',
+                        label: 'Email'.tr(),
                         controller: provider.asCompany
                             ? Provider.of<CompanyProvider>(context)
                                 .CompanyEmailController
@@ -84,14 +84,14 @@ class LoginScreen extends StatelessWidget {
                         validation: provider.passwordValidation,
                         textInputType: TextInputType.emailAddress,
                         isPassword: true,
-                        label: 'password',
+                        label: 'Password'.tr(),
                         controller: provider.asCompany
                             ? Provider.of<CompanyProvider>(context)
                                 .CompanyPasswordController
                             : provider.passwordController),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: MediaQuery.of(context).size.width * 0.6,
                     padding: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 8,
                     ),

@@ -1,18 +1,15 @@
-import 'dart:developer';
-
-import 'package:demo/App_Router/App_Router.dart';
-import 'package:demo/User_Interface/widgets/CustomFormField.dart';
-import 'package:demo/provider/CompanyProvider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:string_validator/string_validator.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class AddTripScreen2 extends StatelessWidget {
-  const AddTripScreen2({super.key});
+import '../../App_Router/App_Router.dart';
+import '../../User_Interface/widgets/CustomFormField.dart';
+import '../../provider/CompanyProvider.dart';
+
+class EditTripScreen2 extends StatelessWidget {
+  const EditTripScreen2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +35,7 @@ class AddTripScreen2 extends StatelessWidget {
                     color: provider.isDark ? Colors.white : Colors.black),
               ),
             ),
+            backgroundColor: provider.isDark ? Colors.black : Colors.white,
             body: SingleChildScrollView(
               child: Form(
                 key: provider.addTripKey2,
@@ -63,7 +61,7 @@ class AddTripScreen2 extends StatelessWidget {
                               // border: Border.all(width: 1),
                               shape: BoxShape.rectangle),
                           child: DropdownButton<String>(
-                            hint: Text('choose'.tr()),
+                            hint: Text(provider.currentTrip.hotelRank),
                             value: provider.hotelRank,
                             icon: Icon(Icons.keyboard_arrow_down_outlined),
                             items: provider.hotelRanks
@@ -135,8 +133,6 @@ class AddTripScreen2 extends StatelessWidget {
                                     horizontal: 20.0),
                                 child: InkWell(
                                   onTap: () async {
-                                    DateTime t = DateTime.now();
-                                    
                                     provider.begin = await showDatePicker(
                                         context: context,
                                         initialDate: DateTime.now(),
@@ -240,8 +236,8 @@ class AddTripScreen2 extends StatelessWidget {
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              if (provider.toCategoryPage()) {
-                                AppRouter.router.push('AddCategoriesScreen');
+                              if (provider.toEditCategoryPage()) {
+                                AppRouter.router.push('EditTripScreen3');
                               } else {
                                 showDialog(
                                   context: context,

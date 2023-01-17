@@ -257,6 +257,7 @@ class PersonalScreen extends StatelessWidget {
           ),
         ],
       ),
+      
     );
   }
 }

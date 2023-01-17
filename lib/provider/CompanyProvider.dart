@@ -177,6 +177,71 @@ class CompanyProvider extends ChangeNotifier {
     return false;
   }
 
+  bool nextEditPage() {
+    if (addTripKey.currentState!.validate()) {
+      return true;
+    }
+    return false;
+  }
+
+  bool toEditCategoryPage() {
+    if (addTripKey2.currentState!.validate() && duration > 0 && begin != null) {
+      return true;
+    }
+    return false;
+  }
+
+  updateTrip() async {
+    if (addTripKey2.currentState!.validate()) {
+      Map<String, dynamic> map = {
+        'id': currentTrip.id,
+        'name': tripNameContrller.text,
+        'location': tripLocationController.text,
+        'description': tripDescriptionController.text,
+        'company': user.toMap(),
+        'hotel': tripHotelController.text.isEmpty
+            ? 'not provided'
+            : tripHotelController.text,
+        'hotelRank': tripHotelController.text.isEmpty ? '' : hotelRank ?? '',
+        'flight': tripFlightController.text,
+        'begin': begin.toString(),
+        'BookLimit': tripLimitController.text,
+        'duration': duration.toString(),
+        'price': tripPriceController.text,
+        'categories': getSelectedCategories(),
+        'carProvided': carRented.toString(),
+        'foodDeserved': foodReserved.toString(),
+        'end': begin!.add(Duration(days: duration)).toString(),
+        'url': ''
+      };
+
+      final res = await API.apiHandler.updateTrip(imageFile, map);
+    }
+  }
+
+  fillForEdit() {
+    tripNameContrller.text = currentTrip.name;
+    tripLocationController.text = currentTrip.location;
+    tripDescriptionController.text = currentTrip.description;
+    tripPriceController.text = currentTrip.price;
+    // currentTrip.categories = currentTrip.getCategories(currentTrip.categories!);
+    int x = 0;
+    initCategories.forEach((key, value) {
+      initCategories[key] = currentTrip.categories![x];
+      x++;
+      // log(value.toString());
+    });
+    // log(initCategories.toString());
+    imageFile = null;
+    tripHotelController.text = currentTrip.hotel;
+    tripFlightController.text = currentTrip.flight;
+    tripLimitController.text = '0';
+    begin = currentTrip.begin;
+    duration = currentTrip.duration;
+    foodReserved = currentTrip.foodDeserved;
+    carRented = currentTrip.carProvided;
+  }
+
   toggleCategory(Category c) {
     initCategories[c] = !initCategories[c]!;
     notifyListeners();
@@ -267,7 +332,7 @@ class CompanyProvider extends ChangeNotifier {
 
   addTrip() async {
     // if (addTripKey.currentState!.validate()) {}
-    log(user.toString());
+
     if (addTripKey2.currentState!.validate()) {
       Map<String, dynamic> map = {
         'name': tripNameContrller.text,
@@ -290,7 +355,6 @@ class CompanyProvider extends ChangeNotifier {
         'url': ''
       };
       final res = await API.apiHandler.addTrip(imageFile!, map);
-      
     }
   }
 

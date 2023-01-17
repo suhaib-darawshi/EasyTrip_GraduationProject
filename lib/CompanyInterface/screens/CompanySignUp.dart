@@ -191,7 +191,7 @@ class CompanySignUp extends StatelessWidget {
           ),
         );
       }),
-      backgroundColor: Provider.of<AppProvider>(context).isDark
+      backgroundColor: Provider.of<CompanyProvider>(context).isDark
           ? Colors.black
           : Colors.white,
     );

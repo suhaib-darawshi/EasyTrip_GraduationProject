@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:demo/api/api_helper.dart';
 import 'package:demo/date_repo/database_handler.dart';
 import 'package:demo/models/trip.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -51,6 +52,7 @@ class AppProvider extends ChangeNotifier {
   bool isDark = false;
   bool asCompany = false;
   int homeScreenIndex = 0;
+  int pageIndexIntro = 0;
   final List<Locale> languages = [const Locale('en'), const Locale('ar')];
   int local = 0;
   GlobalKey<FormState> signinKey = GlobalKey();
@@ -71,19 +73,19 @@ class AppProvider extends ChangeNotifier {
     Category.scientific: false,
   };
 
-  List<String> hotelRanks = ['3-Stars', '5-Stars', '7-Stars'];
+  List<String> hotelRanks = ['3-Stars'.tr(), '5-Stars'.tr(), '7-Stars'.tr()];
   List<String> categoriesMenu = [
-    'all',
-    'ancient',
-    'beach',
-    'cheap',
-    'desert',
-    'developedCity',
-    'expensive',
-    'nature',
-    'mountant',
-    'religous',
-    'scientific'
+    'all'.tr(),
+    'ancient'.tr(),
+    'beach'.tr(),
+    'cheap'.tr(),
+    'desert'.tr(),
+    'developedCity'.tr(),
+    'expensive'.tr(),
+    'nature'.tr(),
+    'mountant'.tr(),
+    'religous'.tr(),
+    'scientific'.tr()
   ];
   List<Category> c = [
     Category.ancient,
@@ -97,7 +99,11 @@ class AppProvider extends ChangeNotifier {
     Category.religous,
     Category.scientific
   ];
-  String chosenCategory = 'all';
+  String chosenCategory = 'all'.tr();
+  changePage(int value) {
+    pageIndexIntro = value;
+    notifyListeners();
+  }
 
   changeRate(int value) {
     rate = value;
@@ -111,7 +117,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   filter() {
-    if (chosenCategory == 'all') {
+    if (chosenCategory == 'all'.tr()) {
       filteredByCategory = defaultTrips;
     } else {
       Category ind = c[(categoriesMenu.indexOf(chosenCategory)) - 1];
@@ -150,21 +156,21 @@ class AppProvider extends ChangeNotifier {
 
   String? passwordValidation(String password) {
     if (password == null || password.isEmpty) {
-      return "Required field";
+      return "Required field".tr();
     } else if (password.length <= 6) {
-      return 'Error, the password must be larger than 6 letters';
+      return 'Error, the password must be larger than 6 letters'.tr();
     }
   }
 
   String? requiredValidation(String content) {
     if (content == null || content.isEmpty) {
-      return "Required field";
+      return "Required field".tr();
     }
   }
 
   String? phoneValidation(String? content) {
     if (content == null || content.isEmpty) {
-      return 'required';
+      return 'Required field'.tr();
     }
     if (!isNumeric(content)) {
       return "InCorrect phone number syntax";
@@ -173,21 +179,21 @@ class AppProvider extends ChangeNotifier {
 
   String? emailValidation(String? email) {
     if (email == null || email.isEmpty) {
-      return 'RequiredField';
+      return 'Required field'.tr();
     } else if (!isEmail(email)) {
-      return 'Enter A valid Email';
+      return 'Enter A valid Email'.tr();
     }
   }
 
   String? verifValidation(String? key) {
     if (key == null || key.isEmpty) {
-      return 'required field';
+      return 'Required field'.tr();
     }
     if (!isNumeric(key) || key.length != 6) {
-      return 'should be a 6-digit Number';
+      return 'should be a 6-digit Number'.tr();
     }
     if (key != confirmKey.toString()) {
-      return 'Invalid key';
+      return 'Invalid key'.tr();
     }
   }
 
@@ -232,6 +238,24 @@ class AppProvider extends ChangeNotifier {
     return res;
   }
 
+  like(Trip t) async {
+    if (user.liked_trips!.contains(t.id)) {
+      currentTrip.isLiked = false;
+      currentTrip.liked_count--;
+      user.liked_trips!.remove(t.id);
+    } else {
+      currentTrip.isLiked = true;
+      currentTrip.liked_count++;
+      user.liked_trips!.add(t.id);
+    }
+    final res = await API.apiHandler.likeTrip(<String, String>{
+      "userid": user.id!,
+      "tripid": t.id,
+      "method": currentTrip.isLiked ? 'like' : "dislike"
+    });
+    notifyListeners();
+  }
+
   likeTrip(Trip t) async {
     if (user.liked_trips!.contains(t.id)) {
       currentTrip.isLiked = false;
@@ -267,7 +291,7 @@ class AppProvider extends ChangeNotifier {
       currentTrip.isLiked = true;
       currentTrip.liked_count++;
       final res = await http.put(
-          Uri.parse("${server}rest/public-user-controller"),
+          Uri.parse("${server}rest/public-user-controller/like-trip"),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8'
           },
@@ -320,7 +344,7 @@ class AppProvider extends ChangeNotifier {
           "password": passwordController.text,
           "phoneNumber": phoneNumberController.text
         }));
-    getUserInformation();
+    await getUserInformation();
   }
 
   getLikedTrips() {
@@ -333,7 +357,8 @@ class AppProvider extends ChangeNotifier {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{'email': emailController.text}));
+        body: jsonEncode(
+            <String, String>{'email': emailController.text.toLowerCase()}));
 
     user = User.fromMap(jsonDecode(res.body));
 

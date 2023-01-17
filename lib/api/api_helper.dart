@@ -106,6 +106,16 @@ class API {
         body: jsonEncode(map));
   }
 
+  likeTrip(Map<String, String> map) async {
+    final res = await http.put(
+        Uri.parse("${server}rest/public-trip-controller/like-trip"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
+    return res.body;
+  }
+
   companyUpdateInfo(Map<String, String> map) async {
     final res = await http.put(
         Uri.parse("http://10.0.2.2:8083/rest/company-controller"),
@@ -141,6 +151,22 @@ class API {
         },
         body: jsonEncode(map));
     log(res.body.toString());
+    return res.body;
+  }
+
+  updateTrip(File? file, Map<String, dynamic> map) async {
+    if (file != null) {
+      final String url = await upload(file);
+      map['url'] = url;
+    } else {
+      map.remove('url');
+    }
+    final res = await http.put(
+        Uri.parse("http://10.0.2.2:8083/rest/public-trip-controller"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(map));
     return res.body;
   }
 
@@ -194,7 +220,6 @@ class API {
         body: jsonEncode(map));
     return res.body.toString();
   }
-  adminSignUp(Map<String,String>map){
-    
-  }
+
+  adminSignUp(Map<String, String> map) {}
 }

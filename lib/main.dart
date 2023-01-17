@@ -18,6 +18,9 @@ import 'CompanyInterface/screens/CConfirmSignUpScreen.dart';
 import 'CompanyInterface/screens/CeditInfo.dart';
 import 'CompanyInterface/screens/CompanyPersonalPage.dart';
 import 'CompanyInterface/screens/CompanySignUp.dart';
+import 'CompanyInterface/screens/EditTripScreen.dart';
+import 'CompanyInterface/screens/EditTripScreen2.dart';
+import 'CompanyInterface/screens/EditTripScreen3.dart';
 import 'CompanyInterface/screens/HomeScreen.dart';
 import 'CompanyInterface/screens/addCategoriesScreen.dart';
 import 'CompanyInterface/screens/addTripScreen.dart';
@@ -29,6 +32,7 @@ import 'User_Interface/screens/ContactUs.dart';
 import 'User_Interface/screens/FilteredTripPage.dart';
 import 'User_Interface/screens/History.dart';
 import 'User_Interface/screens/account_information.dart';
+import 'User_Interface/screens/introScreen.dart';
 import 'User_Interface/screens/welcomeScreen.dart';
 import 'adminInterface/screens/homescreen.dart';
 import 'adminInterface/screens/signInScreen.dart';
@@ -96,7 +100,10 @@ class Builded extends StatelessWidget {
             'companyHomePage': (context) => CHomeScreen(),
             "AddTrip": (context) => AddTrip(),
             "CEditTripScreen": (context) => CEditTripScreen(),
+            "EditTripScreen":(context) => EditTripScreen(),
+            "EditTripScreen2":(context) => EditTripScreen2(),
             'AddTripScreen2': (context) => AddTripScreen2(),
+            "EditTripScreen3":(context) => EditTripScreen3(),
             "AddCategoriesScreen": (context) => AddCategoriesScreen(),
             "WelcomeScreen": (context) => WelcomeScreen(),
             "ConfirmSignUpScreen": (context) => ConfirmSignUpScreen(),
@@ -109,7 +116,7 @@ class Builded extends StatelessWidget {
             "AdminSignIn": (context) => AdminSignIn(),
             "AdminHomeScreen": (context) => AdminHomeScreen()
           },
-          home: WelcomeScreen(),
+          home: IntroScreen(),
         );
       },
     );

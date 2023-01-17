@@ -74,8 +74,7 @@ class Trip {
       this.duration = 3,
       this.categories,
       this.rate = 0,
-      this.approved=true
-      });
+      this.approved = true});
 
   Map<String, dynamic> toMap() {
     return {
@@ -100,7 +99,7 @@ class Trip {
       'duration': duration,
       'categories': categories,
       'rate': rate,
-      'approved':approved
+      'approved': approved
     };
   }
 
@@ -142,8 +141,7 @@ class Trip {
         begin: map['begin'] != null ? DateTime.parse(map['begin']) : null,
         end: map['end'] != null ? DateTime.parse(map['end']) : null,
         rate: map['rate'] ?? 0,
-        approved:map['approved']??true
-        );
+        approved: map['approved'] ?? true);
   }
 
   factory Trip.fromDBMap(Map<String, dynamic> map) {

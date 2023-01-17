@@ -74,14 +74,10 @@ class AdminHomeScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 270.h,
-                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: 100.w,
-                        ),
                         pages[provider.homePageIndex],
                       ],
                     ),

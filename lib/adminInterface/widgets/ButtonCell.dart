@@ -19,12 +19,12 @@ class ButtonCell extends StatelessWidget {
         child: Center(
             child: ElevatedButton(
           style: TextButton.styleFrom(
-              backgroundColor: color, alignment: Alignment.center),
+              backgroundColor: Colors.white, alignment: Alignment.center),
           child: Center(
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 23.w, color: Colors.white),
+              style: TextStyle(fontSize: 23.w, color: color),
             ),
           ),
           onPressed: () async {

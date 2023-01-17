@@ -94,6 +94,7 @@ class AdminProvider extends ChangeNotifier {
     await getAllUsers();
     notifyListeners();
   }
+
   deleteUser(User user) async {
     final res =
         await AdminApi.adminApi.deleteUser(<String, String>{"id": user.id!});

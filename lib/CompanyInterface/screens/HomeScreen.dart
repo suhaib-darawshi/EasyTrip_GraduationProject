@@ -2,6 +2,7 @@ import 'package:demo/CompanyInterface/widgets/AllTripScreen.dart';
 import 'package:demo/CompanyInterface/widgets/CActiveScreen.dart';
 import 'package:demo/CompanyInterface/widgets/CNonActiveScreen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,9 @@ class CHomeScreen extends StatelessWidget {
       length: 3,
       child: Consumer<CompanyProvider>(builder: (context, provider, c) {
         return Scaffold(
+          backgroundColor: provider.isDark ? Colors.black : Colors.white,
           drawer: Drawer(
+            backgroundColor: provider.isDark ? Colors.black : Colors.white,
             child: Column(
               children: [
                 Container(
@@ -52,9 +55,13 @@ class CHomeScreen extends StatelessWidget {
                   },
                   leading: Icon(
                     Icons.person,
-                    color: Colors.blue,
+                    color: provider.isDark ? Colors.white : Colors.black,
                   ),
-                  title: Text("Personal Page".tr()),
+                  title: Text(
+                    "Personal Page".tr(),
+                    style: TextStyle(
+                        color: provider.isDark ? Colors.white : Colors.black),
+                  ),
                   trailing: Icon(
                     Icons.arrow_forward_ios,
                     color: provider.isDark ? Colors.white : Colors.black,
@@ -62,6 +69,54 @@ class CHomeScreen extends StatelessWidget {
                 ),
                 Divider(
                   color: provider.isDark ? Colors.white : Colors.black,
+                ),
+                ListTile(
+                  title: Text(
+                    "Language".tr(),
+                    style: TextStyle(
+                        fontSize: 18.h,
+                        color: provider.isDark ? Colors.white : Colors.black),
+                  ),
+                  leading: Icon(
+                    Icons.language,
+                    color: provider.isDark ? Colors.white : Colors.black,
+                    size: 30.h,
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios,
+                      color: provider.isDark ? Colors.white : Colors.black),
+                  onTap: () {
+                    if (context.locale == const Locale('en')) {
+                      context.setLocale(const Locale('ar'));
+                    } else {
+                      context.setLocale(const Locale('en'));
+                    }
+                  },
+                ),
+                Opacity(
+                  opacity: provider.isDark ? 1 : 0.2,
+                  child: Divider(
+                    color: provider.isDark ? Colors.white : Colors.black,
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "DarkMode".tr(),
+                    style: TextStyle(
+                        fontSize: 18.h,
+                        color: provider.isDark ? Colors.white : Colors.black),
+                  ),
+                  leading: Icon(
+                    Icons.dark_mode_outlined,
+                    color: provider.isDark ? Colors.white : Colors.black,
+                    size: 30.h,
+                  ),
+                  trailing: CupertinoSwitch(
+                    value: provider.isDark,
+                    onChanged: (value) {
+                      provider.setDarkMode();
+                    },
+                    activeColor: Colors.blue,
+                  ),
                 ),
                 SizedBox(
                   width: 155.w,
@@ -94,7 +149,7 @@ class CHomeScreen extends StatelessWidget {
             ),
           ),
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: provider.isDark ? Colors.black : Colors.white,
             elevation: 0,
             actions: [
               IconButton(
@@ -107,14 +162,14 @@ class CHomeScreen extends StatelessWidget {
                   },
                   icon: Icon(
                     Icons.language,
-                    color: Colors.black,
+                    color: provider.isDark ? Colors.white : Colors.black,
                   ))
             ],
             leading: Builder(builder: (context) {
               return IconButton(
                 icon: Icon(
                   Icons.menu,
-                  color: Colors.black,
+                  color: provider.isDark ? Colors.white : Colors.black,
                 ),
                 onPressed: () => Scaffold.of(context).openDrawer(),
               );

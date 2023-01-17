@@ -1,5 +1,8 @@
+import 'package:demo/provider/CompanyProvider.dart';
+import 'package:demo/provider/app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class CustomTextField extends StatelessWidget {
   final Function validation;
@@ -33,6 +36,14 @@ class CustomTextField extends StatelessWidget {
             validator: (v) => validation(v),
             controller: controller,
             obscureText: isPassword,
+            style: TextStyle(
+                color: Provider.of<AppProvider>(context).asCompany
+                    ? (Provider.of<CompanyProvider>(context).isDark
+                        ? Colors.white
+                        : Colors.black)
+                    : (Provider.of<AppProvider>(context).isDark
+                        ? Colors.white
+                        : Colors.black)),
             decoration: InputDecoration(
               icon: icon,
               label: Text(

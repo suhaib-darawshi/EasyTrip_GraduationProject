@@ -1,5 +1,7 @@
+import 'package:demo/api/api_helper.dart';
 import 'package:demo/provider/AdminProvider.dart';
 import 'package:demo/provider/CompanyProvider.dart';
+import 'package:demo/provider/app_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +16,7 @@ import 'adminInterface/screens/signInScreen.dart';
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  API.apiHandler.server = 'http://localhost:8083/';
   runApp(Mat());
 }
 
@@ -31,6 +34,9 @@ class Mat extends StatelessWidget {
           ChangeNotifierProvider(create: ((context) => AdminProvider())),
           ChangeNotifierProvider(
             create: (context) => CompanyProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => AppProvider(),
           )
         ],
         child: Build(),

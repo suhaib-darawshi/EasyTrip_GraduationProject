@@ -43,11 +43,11 @@ class UserWidget extends StatelessWidget {
                         Text(
                           '${user.first_name!} ${user.last_name!}',
                           style: TextStyle(
-                              fontSize: 30.w, fontWeight: FontWeight.bold),
+                              fontSize: 25.w, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           user.chat.isEmpty ? '' : user.chat.last.text,
-                          style: TextStyle(fontSize: 20.w),
+                          style: TextStyle(fontSize: 17.w),
                         )
                       ],
                     ),

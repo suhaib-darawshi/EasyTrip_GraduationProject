@@ -4,6 +4,7 @@ import 'package:demo/provider/app_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/trip.dart';
@@ -68,7 +69,7 @@ class DetailPage extends StatelessWidget {
                       bottom: 5,
                       left: 20,
                       child: Text(
-                        '${trip.duration.toString()} days',
+                        '${trip.duration.toString()} ' + 'days'.tr(),
                         style: TextStyle(
                             fontSize: 30.h,
                             fontWeight: FontWeight.bold,
@@ -108,53 +109,77 @@ class DetailPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          child: (provider.currentTrip.isLiked)
-                              ? Icon(Icons.favorite,
-                                  size: 50.h, color: Colors.red)
-                              : Icon(Icons.favorite_border,
-                                  size: 50.h,
-                                  color: (provider.isDark
-                                      ? Colors.white
-                                      : Colors.black)),
-                          onTap: () {
-                            provider.likeTrip(trip);
-                          },
+                        Row(
+                          children: [
+                            InkWell(
+                              child: (provider.currentTrip.isLiked)
+                                  ? Icon(Icons.favorite,
+                                      size: 50.h, color: Colors.red)
+                                  : Icon(Icons.favorite_border,
+                                      size: 50.h,
+                                      color: (provider.isDark
+                                          ? Colors.white
+                                          : Colors.black)),
+                              onTap: () {
+                                provider.like(trip);
+                              },
+                            ),
+                            Text(provider.currentTrip.liked_count.toString())
+                          ],
                         ),
-                        Text(provider.currentTrip.liked_count.toString())
+                        GooglePayButton(
+                          paymentConfigurationAsset:
+                              'json/default_payment_profile_google_pay.json',
+                          paymentItems: [
+                            PaymentItem(
+                              label: 'Total',
+                              amount: provider.currentTrip.price,
+                              status: PaymentItemStatus.final_price,
+                            )
+                          ],
+                          type: GooglePayButtonType.book,
+                          margin: const EdgeInsets.only(top: 15.0),
+                          onPaymentResult: (result) {},
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                        provider.currentTrip.available
+                            ? InkWell(
+                                child: provider.currentTrip.isBooked
+                                    ? Icon(
+                                        Icons.bookmark,
+                                        size: 50.h,
+                                        color: provider.isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      )
+                                    : Icon(
+                                        Icons.bookmark_border,
+                                        size: 50.h,
+                                        color: provider.isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                onTap: () async {
+                                  await provider.bookTrip();
+                                },
+                              )
+                            : Icon(
+                                Icons.lock,
+                                size: 50.w,
+                                color: Colors.red,
+                              )
                       ],
                     ),
-                    provider.currentTrip.available
-                        ? InkWell(
-                            child: provider.currentTrip.isBooked
-                                ? Icon(
-                                    Icons.bookmark,
-                                    size: 50.h,
-                                    color: provider.isDark
-                                        ? Colors.white
-                                        : Colors.black,
-                                  )
-                                : Icon(
-                                    Icons.bookmark_border,
-                                    size: 50.h,
-                                    color: provider.isDark
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                            onTap: () async {
-                              await provider.bookTrip();
-                            },
-                          )
-                        : Icon(
-                            Icons.lock,
-                            size: 50.w,
-                            color: Colors.red,
-                          )
+                    SizedBox(
+                      height: 10.h,
+                    )
                   ],
                 ),
               ),
@@ -387,7 +412,7 @@ class DetailPage extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Flight Company:",
+                                      "Flight Company:".tr(),
                                       style: TextStyle(
                                         fontSize: 18,
                                       ),
@@ -414,7 +439,7 @@ class DetailPage extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "From ->",
+                                      "From :".tr(),
                                       style: TextStyle(
                                         fontSize: 18.w,
                                       ),
@@ -433,7 +458,7 @@ class DetailPage extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Until ->",
+                                      "Until :".tr(),
                                       style: TextStyle(
                                         fontSize: 18.w,
                                       ),
@@ -452,7 +477,7 @@ class DetailPage extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Food Reserved:",
+                                      "Food Reserved:".tr(),
                                       style: TextStyle(
                                         fontSize: 18.w,
                                       ),
@@ -487,7 +512,7 @@ class DetailPage extends StatelessWidget {
                                   child: Opacity(
                                     opacity: 0.7,
                                     child: Text(
-                                      "Car Provided:",
+                                      "Car Provided:".tr(),
                                       style: TextStyle(
                                         fontSize: 18.w,
                                       ),

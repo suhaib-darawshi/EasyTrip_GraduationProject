@@ -21,7 +21,11 @@ class AdminStatistics extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 100.h,
+              ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     "Welcome to Admin Panel",
@@ -33,14 +37,21 @@ class AdminStatistics extends StatelessWidget {
                   SizedBox(
                     width: 10.w,
                   ),
-                  Text(
-                    'Suhaib',
-                    style: TextStyle(fontSize: 30),
-                  )
+                  Column(
+                    children: [
+                      Text(
+                        'Suhaib',
+                        style: TextStyle(fontSize: 25),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      )
+                    ],
+                  ),
                 ],
               ),
               SizedBox(
-                height: 33.h,
+                height: 133.h,
               ),
               Container(
                 height: 224.h,

@@ -15,77 +15,87 @@ class TripMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
       return Container(
-        width: MediaQuery.of(context).size.width * 0.55,
-        child: Table(
-          border: TableBorder.all(
-            width: 1,
-          ),
-          
+        width: MediaQuery.of(context).size.width * 0.7,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TableRow(children: [
-              CellWidget(
-                text: 'name',
-                height: 100,
+            SizedBox(height: 100.h),
+            Text(
+              'Trips in use',
+              style: TextStyle(fontSize: 55.w, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 100.h),
+            Table(
+              border: TableBorder.all(
+                width: 1,
               ),
-              CellWidget(text: 'location', height: 100),
-              CellWidget(text: 'price', height: 100),
-              CellWidget(text: 'company', height: 100),
-              CellWidget(text: 'rate', height: 100),
-              CellWidget(text: 'Active', height: 100),
-              CellWidget(text: 'Approved', height: 100),
-              CellWidget(text: 'Remove', height: 100),
-            ]),
-            ...provider.trips.map((e) {
-              return TableRow(children: [
-                CellWidget(text: e.name),
-                CellWidget(text: e.location),
-                CellWidget(text: e.price),
-                CellWidget(text: e.companyid.name),
-                CellWidget(text: e.rate.toString()),
-                ButtonCell(
-                  function: () async {
-                    await provider.lockTrip(provider.trips.indexOf(e));
-                  },
-                  text: e.available ? 'Active' : 'Not Active',
-                  color: e.available ? Colors.blue : Colors.red,
-                ),
-                ButtonCell(
-                  function: () async {
-                    await provider.approveTrip(provider.trips.indexOf(e));
-                  },
-                  text: e.approved ? 'Approved' : 'Not Approved',
-                  color: e.approved ? Colors.blue : Colors.red,
-                ),
-                ButtonCell(
-                  function: () async {
-                    showDialog(
-                      context: context,
-                      builder: ((context) {
-                        return AlertDialog(
-                          title: Text("WARNING"),
-                          content: Text("Are you sure you want to delete it ?"),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  AppRouter.router.pop();
-                                },
-                                child: Text("no")),
-                            TextButton(
-                                onPressed: () async {
-                                  await provider.deleteTrip(
-                                      e);
-                                  AppRouter.router.pop();
-                                },
-                                child: Text("yes")),
-                          ],
-                        );
-                      }));
-                  },
-                  text:  'Remove',
-                  color:  Colors.red,
-                ),
-              ]);
-            })
+              children: [
+                TableRow(children: [
+                  CellWidget(
+                    text: 'name',
+                    height: 100,
+                  ),
+                  CellWidget(text: 'location', height: 100),
+                  CellWidget(text: 'price', height: 100),
+                  CellWidget(text: 'company', height: 100),
+                  CellWidget(text: 'rate', height: 100),
+                  CellWidget(text: 'Active', height: 100),
+                  CellWidget(text: 'Approved', height: 100),
+                  CellWidget(text: 'Remove', height: 100),
+                ]),
+                ...provider.trips.map((e) {
+                  return TableRow(children: [
+                    CellWidget(text: e.name),
+                    CellWidget(text: e.location),
+                    CellWidget(text: e.price),
+                    CellWidget(text: e.companyid.name),
+                    CellWidget(text: e.rate.toString()),
+                    ButtonCell(
+                      function: () async {
+                        await provider.lockTrip(provider.trips.indexOf(e));
+                      },
+                      text: e.available ? 'Active' : 'Not Active',
+                      color: e.available ? Colors.green : Colors.red,
+                    ),
+                    ButtonCell(
+                      function: () async {
+                        await provider.approveTrip(provider.trips.indexOf(e));
+                      },
+                      text: e.approved ? 'Approved' : 'Not Approved',
+                      color: e.approved ? Colors.green : Colors.red,
+                    ),
+                    ButtonCell(
+                      function: () async {
+                        showDialog(
+                            context: context,
+                            builder: ((context) {
+                              return AlertDialog(
+                                title: Text("WARNING"),
+                                content: Text(
+                                    "Are you sure you want to delete it ?"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        AppRouter.router.pop();
+                                      },
+                                      child: Text("no")),
+                                  TextButton(
+                                      onPressed: () async {
+                                        await provider.deleteTrip(e);
+                                        AppRouter.router.pop();
+                                      },
+                                      child: Text("yes")),
+                                ],
+                              );
+                            }));
+                      },
+                      text: 'Remove',
+                      color: Colors.red,
+                    ),
+                  ]);
+                })
+              ],
+            ),
           ],
         ),
       );

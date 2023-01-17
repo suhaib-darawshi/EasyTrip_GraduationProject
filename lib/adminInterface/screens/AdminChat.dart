@@ -15,6 +15,8 @@ class AdminChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AdminProvider>(builder: (context, provider, x) {
+      provider.getAllUsers();
+      provider.getUserInformation();
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -34,16 +36,47 @@ class AdminChatScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 5,
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 5)),
+                border: Border.symmetric(
+                    vertical: BorderSide(color: Colors.black, width: 4.w)),
+              ),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 25.h,
+                  ),
+                  Container(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Chats",
+                          style: TextStyle(
+                              fontSize: 35.w, fontWeight: FontWeight.bold),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          child: Divider(
+                            color: Colors.black,
+                            height: 3.h,
+                            thickness: 2,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        )
+                      ],
+                    ),
+                  ),
                   Expanded(
                       child: ListView.separated(
                     itemCount: provider.users.length,
                     separatorBuilder: (context, index) {
-                      return Divider(
-                        color: Colors.black,
-                        height: 3.h,
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Divider(
+                          color: Colors.black,
+                          height: 3.h,
+                          thickness: 2,
+                        ),
                       );
                     },
                     itemBuilder: (context, index) {
@@ -58,15 +91,20 @@ class AdminChatScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 1.3,
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
                   Container(
-                    height: 40.h,
-                    width: MediaQuery.of(context).size.width / 1.5,
+                    height: 60.h,
+                    width: MediaQuery.of(context).size.width / 2.5,
                     decoration: BoxDecoration(
                         color: Colors.blue.shade200,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Center(
                       child: Text(
-                        provider.users[provider.selectedUser].first_name!,
+                        provider.users[provider.selectedUser].first_name! +
+                            " " +
+                            provider.users[provider.selectedUser].last_name!,
                         style: TextStyle(fontSize: 25.w, color: Colors.black87),
                       ),
                     ),
