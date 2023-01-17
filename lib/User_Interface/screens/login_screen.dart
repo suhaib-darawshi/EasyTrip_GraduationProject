@@ -124,11 +124,11 @@ class LoginScreen extends StatelessWidget {
                                 });
                           }
                         } else {
-                          String? resp = await Provider.of<CompanyProvider>(
+                          String resp = await Provider.of<CompanyProvider>(
                                   context,
                                   listen: false)
                               .signIn();
-                          if (resp == "ACCESSED") {
+                          if (resp.length > 35) {
                             AppRouter.router.pushReplace("companyHomePage");
                           } else if (resp != null) {
                             provider.clearTextFields();

@@ -12,7 +12,7 @@ class AvatarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height / 3.7,
+      height: MediaQuery.of(context).size.height / 3.4,
       color: Provider.of<AppProvider>(context).isDark
           ? Colors.black87
           : Colors.white,
@@ -23,8 +23,8 @@ class AvatarWidget extends StatelessWidget {
               height: 20.h,
             ),
             Container(
-              width: 100.w,
-              height: 100.h,
+              width: 120.w,
+              height: 120.h,
 
               decoration: BoxDecoration(
                 image: DecorationImage(

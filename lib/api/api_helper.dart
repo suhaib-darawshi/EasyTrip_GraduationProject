@@ -13,6 +13,50 @@ class API {
   API._();
   static API apiHandler = API._();
   String server = "http://10.0.2.2:8083/";
+  String auth = '';
+  updateInfo(Map<String, String> map) async {
+    final res = await http.put(
+        Uri.parse("${server}rest/public-user-controller"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
+        },
+        body: jsonEncode(map));
+  }
+
+  getAllTrips() async {
+    final res = await http.get(
+      Uri.parse("${server}rest/public-trip-controller"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': auth
+      },
+    );
+    return res;
+  }
+
+  getUserInformation(Map<String, String> map) async {
+    final res = await http.post(
+        Uri.parse('${server}rest/public-user-controller/get-info'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
+        },
+        body: jsonEncode(map));
+    return res;
+  }
+
+  userLogin(Map<String, String> map) async {
+    final res =
+        await http.post(Uri.parse("${server}rest/public-user-controller/login"),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(map));
+    auth = res.body;
+    return res;
+  }
+
   SignInCompany(String email, String password) async {
     final res = await http.post(
         Uri.parse('${server}rest/company-controller/login'),
@@ -20,7 +64,7 @@ class API {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode({'email': email, 'password': password}));
-
+    auth = res.body;
     return res.body;
   }
 
@@ -28,7 +72,8 @@ class API {
     final res = await http.post(
         Uri.parse("${server}rest/public-trip-controller/RateTrip"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body.toString();
@@ -41,7 +86,7 @@ class API {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(map));
-    log(res.body.toString());
+    auth = res.body;
     return res.body;
   }
 
@@ -49,10 +94,10 @@ class API {
     final res = await http.post(
         Uri.parse("${server}rest/company-controller/getCompanyInfo"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode({'email': email}));
-
     return res.body;
   }
 
@@ -60,7 +105,8 @@ class API {
     final res = await http.post(
         Uri.parse("${server}rest/company-controller/getSpecific"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode({'id': id}));
 
@@ -101,7 +147,8 @@ class API {
     final res = await http.post(
         Uri.parse('${server}rest/public-user-controller/contact'),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
   }
@@ -110,7 +157,8 @@ class API {
     final res = await http.put(
         Uri.parse("${server}rest/public-trip-controller/like-trip"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;
@@ -120,7 +168,8 @@ class API {
     final res = await http.put(
         Uri.parse("http://10.0.2.2:8083/rest/company-controller"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;
@@ -147,10 +196,11 @@ class API {
     final res = await http.post(
         Uri.parse("http://10.0.2.2:8083/rest/company-controller/createTrip"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
-    log(res.body.toString());
+
     return res.body;
   }
 
@@ -164,7 +214,8 @@ class API {
     final res = await http.put(
         Uri.parse("http://10.0.2.2:8083/rest/public-trip-controller"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;
@@ -174,7 +225,8 @@ class API {
     final res = await http.post(
         Uri.parse("http://10.0.2.2:8083/rest/company-controller/lockTrip"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(
             <String, dynamic>{'id': t.id, 'available': t.available}));
@@ -188,7 +240,7 @@ class API {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(map));
-    log(res.body.toString());
+
     return res.body;
   }
 
@@ -199,7 +251,7 @@ class API {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(map));
-    log(res.body.toString());
+    
     return res.body;
   }
 
@@ -209,17 +261,17 @@ class API {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(map));
+    auth = res.body;
   }
 
   bookTrip(Map<String, String> map) async {
     final res = await http.post(
         Uri.parse("${server}rest/public-trip-controller/BookTrip"),
         headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body.toString();
   }
-
-  adminSignUp(Map<String, String> map) {}
 }

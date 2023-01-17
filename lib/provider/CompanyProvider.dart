@@ -361,10 +361,10 @@ class CompanyProvider extends ChangeNotifier {
   signIn() async {
     if (signinKey.currentState!.validate()) {
       log("message");
-      final res = await API.apiHandler.SignInCompany(
+      String res = await API.apiHandler.SignInCompany(
           CompanyEmailController.text.toLowerCase(),
           CompanyPasswordController.text);
-      if (res == 'ACCESSED') {
+      if (res.length > 35) {
         await getInfo();
       }
       return res;
@@ -379,6 +379,7 @@ class CompanyProvider extends ChangeNotifier {
   }
 
   getRelatedTrips() async {
+    log(user.toString());
     final tr = await API.apiHandler.getCompanyTrips(user.id!);
 
     List maps = jsonDecode(tr);

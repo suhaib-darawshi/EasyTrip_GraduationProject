@@ -25,20 +25,20 @@ class AdminApi {
 
   sendMessage(Map<String, dynamic> map) async {
     final res = await http.post(
-        Uri.parse('${server}rest/public-user-controller/contact'),
+        Uri.parse('${server}rest/admin-controller/contact'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(map));
   }
 
   updateUser(Map<String, dynamic> map) async {
     final res = await http.put(
-        Uri.parse("${server}rest/public-user-controller"),
+        Uri.parse("${server}rest/admin-controller/updateUser"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;
@@ -46,43 +46,43 @@ class AdminApi {
 
   deleteUser(Map<String, String> map) async {
     final res = await http.delete(
-        Uri.parse("${server}rest/public-user-controller"),
+        Uri.parse("${server}rest/admin-controller/deleteUser"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(map));
   }
 
   deleteTrip(Map<String, dynamic> map) async {
     final res = await http.delete(
-        Uri.parse("${server}rest/public-trip-controller"),
+        Uri.parse("${server}rest/admin-controller/deleteTrip"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;
   }
 
   deleteCompany(Map<String, dynamic> map) async {
-    final res = await http.delete(Uri.parse("${server}rest/company-controller"),
+    final res = await http.delete(Uri.parse("${server}rest/admin-controller/deleteCompany"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;
   }
 
   String auth =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzOGYyOTRlZTEzM2I4MWM1YjUyYWJhMiIsImlhdCI6MTY3MzI0NjUyNiwiZXhwIjoxNjczMjUwMTI2fQ.OB9dYF4Z1_hvo2Of3wtiGJ7-mvjRmvSNpFYa9wCxGpo';
+      '';
   getAllUsersInfo() async {
     final res = await http.get(
-        Uri.parse('${server}rest/public-user-controller'),
+        Uri.parse('${server}rest/admin-controller/getUsers'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         });
     log(res.body);
     return res.body;
@@ -90,10 +90,10 @@ class AdminApi {
 
   getAllCompanies() async {
     final res = await http.get(
-        Uri.parse('${server}rest/company-controller/getAll'),
+        Uri.parse('${server}rest/admin-controller/getAllCompanies'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         });
     return res.body;
   }
@@ -103,7 +103,7 @@ class AdminApi {
         Uri.parse("${server}rest/admin-controller/approve"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(
             <String, dynamic>{'id': trip.id, 'approved': trip.approved}));
@@ -113,10 +113,10 @@ class AdminApi {
 
   lockTrip(Trip t) async {
     final res = await http.post(
-        Uri.parse("${server}rest/company-controller/lockTrip"),
+        Uri.parse("${server}rest/admin-controller/lockTrip"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(
             <String, dynamic>{'id': t.id, 'available': t.available}));
@@ -128,7 +128,7 @@ class AdminApi {
       Uri.parse("${server}rest/admin-controller/getAllTrips"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': auth
+        'authorization': auth
       },
     );
     return res.body;
@@ -136,10 +136,10 @@ class AdminApi {
 
   getUserInfo(Map<String, String> map) async {
     final res = await http.post(
-        Uri.parse('${server}rest/public-user-controller/get-info'),
+        Uri.parse('${server}rest/admin-controller/get-info'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': auth
+          'authorization': auth
         },
         body: jsonEncode(map));
     return res.body;

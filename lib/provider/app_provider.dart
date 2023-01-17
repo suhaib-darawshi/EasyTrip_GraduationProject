@@ -205,10 +205,10 @@ class AppProvider extends ChangeNotifier {
     final res = await API.apiHandler.rateTrip(<String, dynamic>{
       'userid': user.id,
       'tripid': currentTrip.id,
+      'companyid': currentTrip.companyid.id,
       'rate': rate
     });
     await getTrips();
-    log(res);
   }
 
   bookTrip() async {
@@ -331,19 +331,14 @@ class AppProvider extends ChangeNotifier {
   }
 
   updateInfo() async {
-    final res = await http.put(
-        Uri.parse("${server}rest/public-user-controller"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(<String, dynamic>{
-          "id": user.id!,
-          "first_name": firstnameController.text,
-          "last_name": lastnameController.text,
-          "email": emailController.text.toLowerCase(),
-          "password": passwordController.text,
-          "phoneNumber": phoneNumberController.text
-        }));
+    final res = await API.apiHandler.updateInfo(<String, String>{
+      "id": user.id!,
+      "first_name": firstnameController.text,
+      "last_name": lastnameController.text,
+      "email": emailController.text.toLowerCase(),
+      "password": passwordController.text,
+      "phoneNumber": phoneNumberController.text
+    });
     await getUserInformation();
   }
 
@@ -352,13 +347,8 @@ class AppProvider extends ChangeNotifier {
   }
 
   getUserInformation() async {
-    final res = await http.post(
-        Uri.parse('${server}rest/public-user-controller/get-info'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(
-            <String, String>{'email': emailController.text.toLowerCase()}));
+    final res = await API.apiHandler.getUserInformation(
+        <String, String>{'email': emailController.text.toLowerCase()});
 
     user = User.fromMap(jsonDecode(res.body));
 
@@ -382,12 +372,8 @@ class AppProvider extends ChangeNotifier {
     if (signinKey.currentState!.validate()) {
       String em = emailController.text.toLowerCase();
       String pass = passwordController.text;
-      final res = await http.post(
-          Uri.parse("${server}rest/public-user-controller/login"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, String>{'email': em, 'password': pass}));
+      final res = await API.apiHandler
+          .userLogin(<String, String>{'email': em, 'password': pass});
 
       if (res.body.length > 30) {
         isLogged = true;
@@ -473,8 +459,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   getTrips() async {
-    final res =
-        await http.get(Uri.parse("${server}rest/public-trip-controller"));
+    final res = await API.apiHandler.getAllTrips();
     List dummy = jsonDecode(res.body);
 
     defaultTrips = dummy.map((e) => Trip.fromMap(e)).toList();
