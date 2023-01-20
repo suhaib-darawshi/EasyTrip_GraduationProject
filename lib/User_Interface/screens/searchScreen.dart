@@ -22,14 +22,18 @@ class SearchScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text('Filter by category'.tr()),
+                  Text(
+                    'Filter by category'.tr(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   DropdownButton<String>(
                     hint: Text('choose'.tr()),
                     value: provider.chosenCategory,
                     icon: Icon(Icons.keyboard_arrow_down_outlined),
-                    items:
-                        provider.categoriesMenu.map<DropdownMenuItem<String>>((e) {
-                      return DropdownMenuItem<String>(value: e, child: Text(e));
+                    items: provider.categoriesMenu
+                        .map<DropdownMenuItem<String>>((e) {
+                      return DropdownMenuItem<String>(
+                          value: e, child: Text(e.tr()));
                     }).toList(),
                     onChanged: (value) {
                       provider.ChangeCategory(value);

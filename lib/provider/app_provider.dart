@@ -73,19 +73,19 @@ class AppProvider extends ChangeNotifier {
     Category.scientific: false,
   };
 
-  List<String> hotelRanks = ['3-Stars'.tr(), '5-Stars'.tr(), '7-Stars'.tr()];
+  List<String> hotelRanks = ['3-Stars', '5-Stars', '7-Stars'];
   List<String> categoriesMenu = [
-    'all'.tr(),
-    'ancient'.tr(),
-    'beach'.tr(),
-    'cheap'.tr(),
-    'desert'.tr(),
-    'developedCity'.tr(),
-    'expensive'.tr(),
-    'nature'.tr(),
-    'mountant'.tr(),
-    'religous'.tr(),
-    'scientific'.tr()
+    'all',
+    'ancient',
+    'beach',
+    'cheap',
+    'desert',
+    'developedCity',
+    'expensive',
+    'nature',
+    'mountant',
+    'religous',
+    'scientific'
   ];
   List<Category> c = [
     Category.ancient,
@@ -99,7 +99,7 @@ class AppProvider extends ChangeNotifier {
     Category.religous,
     Category.scientific
   ];
-  String chosenCategory = 'all'.tr();
+  String chosenCategory = 'all';
   changePage(int value) {
     pageIndexIntro = value;
     notifyListeners();
@@ -117,7 +117,7 @@ class AppProvider extends ChangeNotifier {
   }
 
   filter() {
-    if (chosenCategory == 'all'.tr()) {
+    if (chosenCategory == 'all') {
       filteredByCategory = defaultTrips;
     } else {
       Category ind = c[(categoriesMenu.indexOf(chosenCategory)) - 1];

@@ -49,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                       : 'assets/imgs/demologo.PNG',
                   alignment: Alignment.topCenter,
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 4,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -79,7 +79,10 @@ class WelcomeScreen extends StatelessWidget {
                       provider.asCompany = false;
                       AppRouter.router.pushReplace("LogIn");
                     },
-                    child: Text("Sign In as User")),
+                    child: Text(
+                      "Sign In as User",
+                      style: TextStyle(fontSize: 18.w),
+                    )),
               ),
               SizedBox(
                 height: 20.h,
@@ -93,7 +96,10 @@ class WelcomeScreen extends StatelessWidget {
                       provider.asCompany = true;
                       AppRouter.router.pushReplace("LogIn");
                     },
-                    child: Text("Sign In as Company")),
+                    child: Text(
+                      "Sign In as Company",
+                      style: TextStyle(fontSize: 18.w),
+                    )),
               )
             ],
           ),

@@ -54,7 +54,7 @@ class IntroScreen extends StatelessWidget {
             Container(
               height: 10.h,
               decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(5)),
+                  color: Colors.blue, borderRadius: BorderRadius.circular(5.w)),
               width: Provider.of<AppProvider>(context).pageIndexIntro == 0
                   ? 25.w
                   : 10.w,
@@ -65,7 +65,7 @@ class IntroScreen extends StatelessWidget {
             Container(
               height: 10.h,
               decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(3)),
+                  color: Colors.blue, borderRadius: BorderRadius.circular(3.w)),
               width: Provider.of<AppProvider>(context).pageIndexIntro == 1
                   ? 25.w
                   : 10.w,
@@ -82,6 +82,9 @@ class IntroScreen extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(
+          height: 20.h,
+        ),
         Provider.of<AppProvider>(context).pageIndexIntro == 2
             ? Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -92,7 +95,10 @@ class IntroScreen extends StatelessWidget {
                         onPressed: () {
                           AppRouter.router.pushReplace('WelcomeScreen');
                         },
-                        child: Text("Try it Now ...")),
+                        child: Text(
+                          "Try it Now ...",
+                          style: TextStyle(fontSize: 15.w),
+                        )),
                   ],
                 ),
               )

@@ -87,10 +87,9 @@ class TravelBlog extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.deepOrange,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
-                    width: 30.w,
                     child: Center(
                       child: Text(
-                        t.rate.toString(),
+                        " " + t.rate.toString() + " ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
@@ -105,9 +104,7 @@ class TravelBlog extends StatelessWidget {
                   width: 60.w,
                   height: 60.h,
                   decoration: BoxDecoration(
-                    color: Colors.deepOrange,
-                    borderRadius: BorderRadius.circular(30.h),
-                  ),
+                      color: Colors.deepOrange, shape: BoxShape.circle),
                   child: Icon(
                     Icons.arrow_forward,
                     color: Colors.white,

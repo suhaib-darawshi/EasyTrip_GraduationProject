@@ -69,7 +69,7 @@ class AddTripScreen2 extends StatelessWidget {
                             items: provider.hotelRanks
                                 .map<DropdownMenuItem<String>>((e) {
                               return DropdownMenuItem<String>(
-                                  value: e, child: Text(e));
+                                  value: e, child: Text(e.tr()));
                             }).toList(),
                             onChanged: (value) {
                               provider.ChangeHotelRank(value);

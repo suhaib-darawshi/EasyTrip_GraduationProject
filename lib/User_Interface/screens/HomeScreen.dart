@@ -33,15 +33,15 @@ class HomeScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 Positioned(
-                    bottom: 50,
-                    left: 15,
+                    bottom: 50.h,
+                    left: 15.w,
                     child: Text(
                       Provider.of<AppProvider>(context).user.first_name!,
                       style: TextStyle(fontSize: 18.w),
                     )),
                 Positioned(
-                    bottom: 15,
-                    left: 15,
+                    bottom: 15.h,
+                    left: 15.w,
                     child: Text(
                       Provider.of<AppProvider>(context).user.email!,
                       style: TextStyle(fontSize: 18.w),
@@ -320,6 +320,7 @@ class HomeScreen extends StatelessWidget {
                     : (Provider.of<AppProvider>(context).isDark
                         ? Colors.white
                         : Colors.black),
+                size: 20.w,
               ),
               backgroundColor: Colors.white),
           BottomNavigationBarItem(
@@ -331,6 +332,7 @@ class HomeScreen extends StatelessWidget {
                   : (Provider.of<AppProvider>(context).isDark
                       ? Colors.white
                       : Colors.black),
+              size: 20.w,
             ),
           ),
           BottomNavigationBarItem(
@@ -342,6 +344,7 @@ class HomeScreen extends StatelessWidget {
                   : (Provider.of<AppProvider>(context).isDark
                       ? Colors.white
                       : Colors.black),
+              size: 20.w,
             ),
           ),
         ],

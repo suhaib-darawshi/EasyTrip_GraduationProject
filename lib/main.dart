@@ -42,7 +42,6 @@ void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await SQL.sql.initDatabase();
-
   runApp(Material());
 }
 
@@ -86,6 +85,7 @@ class Builded extends StatelessWidget {
               ? ThemeData.dark()
               : ThemeData.light(),
           navigatorKey: AppRouter.router.navigatorKey,
+          title: 'Easy Trip',
           routes: {
             'Home': (context) => HomeView(),
             'sign_up': (context) => SignUp(),

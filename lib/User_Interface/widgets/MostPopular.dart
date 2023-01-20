@@ -42,10 +42,9 @@ class MostPopular extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.deepOrange,
                         borderRadius: BorderRadius.all(Radius.circular(5))),
-                    width: 20.w,
                     child: Center(
                       child: Text(
-                        t.rate.toString(),
+                        " " + t.rate.toString() + " ",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.white,

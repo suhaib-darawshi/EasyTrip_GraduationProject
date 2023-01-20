@@ -53,6 +53,7 @@ class API {
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(map));
+    log(res.body);
     auth = res.body;
     return res;
   }
@@ -251,7 +252,7 @@ class API {
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode(map));
-    
+
     return res.body;
   }
 
