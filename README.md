@@ -29,3 +29,7 @@ Local storage : for History only , the rest is from the backend
 
 
 The application is connected to a server implemented using TS.ED Frame work , which is a framework built on the top of express.js server using typescript as syntax .
+
+
+The link downthere contains a demo for running the application , also with a report for everything in the app , including screenshots and detailed description for everything in the system 
+https://drive.google.com/drive/u/0/folders/1oLf_iPrns-SRBEdLAOK_HF23EzrJaWlS
